@@ -1,7 +1,5 @@
 //! Static evaluation: material + piece-square tables
-//! (Tomasz Michniewski's "Simplified Evaluation Function"), a king table
-//! tapered between middlegame and endgame by material, and king safety
-//! (pawn shelter, open files, a king stuck in the centre), from the side to
+//! (Tomasz Michniewski's "Simplified Evaluation Function"), from the side to
 //! move's point of view, in centipawns.
 
 use cozy_chess::{Board, Color, Piece, Square};
@@ -120,85 +118,57 @@ fn pst_index(color: Color, sq: Square) -> usize {
     }
 }
 
-fn table(piece: Piece) -> &'static [i32; 64] {
+fn table(piece: Piece, endgame: bool) -> &'static [i32; 64] {
     match piece {
         Piece::Pawn => &PAWN_PST,
         Piece::Knight => &KNIGHT_PST,
         Piece::Bishop => &BISHOP_PST,
         Piece::Rook => &ROOK_PST,
         Piece::Queen => &QUEEN_PST,
-        Piece::King => &KING_MG_PST,
+        Piece::King => {
+            if endgame {
+                &KING_EG_PST
+            } else {
+                &KING_MG_PST
+            }
+        }
     }
 }
 
-/// Game phase from the pieces left: 24 with all pieces on (middlegame),
-/// 0 with only kings and pawns (endgame).
-pub const MAX_PHASE: i32 = 24;
-
-fn phase(board: &Board) -> i32 {
-    let minors = (board.pieces(Piece::Knight) | board.pieces(Piece::Bishop)).len() as i32;
-    let rooks = board.pieces(Piece::Rook).len() as i32;
-    let queens = board.pieces(Piece::Queen).len() as i32;
-    (minors + 2 * rooks + 4 * queens).min(MAX_PHASE)
-}
-
-const SHELTER_ADVANCED: i32 = 10; // shield pawn two ranks in front instead of one
-const SHELTER_MISSING: i32 = 25; // no shield pawn within two ranks in front
-const OPEN_FILE_NEAR_KING: i32 = 15; // no own pawn at all on a file next to the king
-const KING_IN_CENTRE: i32 = 15; // king on files c-f
-const KING_CANNOT_CASTLE: i32 = 25; // ... and no castling rights left
-
-/// Middlegame king danger for `color`, as a positive penalty.
-fn king_danger(board: &Board, color: Color) -> i32 {
-    let king = board.king(color);
-    let kf = king.file() as i32;
-    let kr = king.rank() as i32;
-    let own_pawns = board.pieces(Piece::Pawn) & board.colors(color);
-    let forward = if color == Color::White { 1 } else { -1 };
-    let mut danger = 0;
-    for f in (kf - 1).max(0)..=(kf + 1).min(7) {
-        let file_pawns = own_pawns.0 & (0x0101_0101_0101_0101u64 << f);
-        if file_pawns == 0 {
-            danger += OPEN_FILE_NEAR_KING;
-        }
-        let on = |rank: i32| (0..8).contains(&rank) && file_pawns & (1u64 << (rank * 8 + f)) != 0;
-        if on(kr + forward) {
-        } else if on(kr + 2 * forward) {
-            danger += SHELTER_ADVANCED;
-        } else {
-            danger += SHELTER_MISSING;
+/// Michniewski's endgame rule: no queens, or every side that has a queen has
+/// no rook and at most one minor piece besides it.
+fn is_endgame(board: &Board) -> bool {
+    let queens = board.pieces(Piece::Queen);
+    if queens.is_empty() {
+        return true;
+    }
+    for color in [Color::White, Color::Black] {
+        let side = board.colors(color);
+        if !(queens & side).is_empty() {
+            let rooks = (board.pieces(Piece::Rook) & side).len();
+            let minors = ((board.pieces(Piece::Knight) | board.pieces(Piece::Bishop)) & side).len();
+            if rooks > 0 || minors > 1 {
+                return false;
+            }
         }
     }
-    if (2..=5).contains(&kf) {
-        danger += KING_IN_CENTRE;
-        let rights = board.castle_rights(color);
-        if rights.short.is_none() && rights.long.is_none() {
-            danger += KING_CANNOT_CASTLE;
-        }
-    }
-    danger
+    true
 }
 
 /// Score from the side to move's point of view.
 pub fn evaluate(board: &Board) -> i32 {
-    let phase = phase(board);
+    let endgame = is_endgame(board);
     let mut score = 0;
     for color in [Color::White, Color::Black] {
         let sign = if color == Color::White { 1 } else { -1 };
         let side = board.colors(color);
         for piece in Piece::ALL {
-            let pst = table(piece);
+            let pst = table(piece, endgame);
             let value = piece_value(piece);
             for sq in board.pieces(piece) & side {
                 score += sign * (value + pst[pst_index(color, sq)]);
             }
         }
-        // The king table above is the middlegame one; taper towards the
-        // endgame table and fade king safety out as material comes off.
-        let ksq = pst_index(color, board.king(color));
-        let king_eg = KING_EG_PST[ksq] - KING_MG_PST[ksq];
-        score += sign * (king_eg * (MAX_PHASE - phase) / MAX_PHASE);
-        score -= sign * (king_danger(board, color) * phase / MAX_PHASE);
     }
     if board.side_to_move() == Color::White {
         score
