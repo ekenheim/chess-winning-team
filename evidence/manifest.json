@@ -75,75 +75,78 @@
     "verified": true
   },
   {
-    "branch": "sep25-robin",
-    "commit": "81396e0",
+    "branch": "sep25-erik",
+    "commit": "4c2ece5",
     "kind": "keep",
-    "subject": "[keep] elo=1915\u00b1176 W/D/L=25/1/4 @1600 wins@target=9 \u2014 baseline",
-    "host": "macos-m1pro",
+    "subject": "[keep] elo=1894\u00b193 W/D/L=34/7/19 @1800 wins@target=12 \u2014 search: transposition table 64MB + hash-move ordering + TT PV",
+    "host": "windows-i7-13700H",
     "files": [
-      "sep25-robin/63ccb08/"
+      "sep25-erik/7308d5b/",
+      "sep25-erik/7308d5b-s1/"
     ],
-    "claimed_elo": 1915.0,
-    "claimed_err": 176.0,
-    "recomputed_elo": 1914.6,
-    "recomputed_err": 176.4,
+    "claimed_elo": 1894.0,
+    "claimed_err": 93.0,
+    "recomputed_elo": 1824.5,
+    "recomputed_err": 128.0,
     "wdl": [
-      25,
-      1,
-      4
-    ],
-    "games": 30,
-    "move_time": 0.25,
-    "slowest_move": 0.24,
-    "problems": [],
-    "verified": true
-  },
-  {
-    "branch": "sep25-robin",
-    "commit": "c764cdb",
-    "kind": "keep",
-    "subject": "[keep] elo=2075\u00b1251 W/D/L=27/2/1 @1600 wins@target=8 \u2014 search: move ordering package \u2014 TT kept across moves + killers + history + PVS",
-    "host": "macos-m1pro",
-    "files": [
-      "sep25-robin/97aee56/"
-    ],
-    "claimed_elo": 2075.0,
-    "claimed_err": 251.0,
-    "recomputed_elo": 2074.7,
-    "recomputed_err": 250.8,
-    "wdl": [
-      27,
-      2,
-      1
-    ],
-    "games": 30,
-    "move_time": 0.25,
-    "slowest_move": 0.27,
-    "problems": [],
-    "verified": true
-  },
-  {
-    "branch": "sep25-robin",
-    "commit": "8e592f4",
-    "kind": "keep",
-    "subject": "[keep] elo=2203\u00b1348 W/D/L=28/2/0 @1600 wins@target=9 \u2014 search: null-move pruning + late-move reductions",
-    "host": "macos-m1pro",
-    "files": [
-      "sep25-robin/1a24270/"
-    ],
-    "claimed_elo": 2203.0,
-    "claimed_err": 348.0,
-    "recomputed_elo": 2202.5,
-    "recomputed_err": 347.5,
-    "wdl": [
-      28,
-      2,
-      0
+      14,
+      4,
+      12
     ],
     "games": 30,
     "move_time": 0.25,
     "slowest_move": 0.25,
+    "problems": [
+      "games give elo=1824 W/D/L=14/4/12, commit claims elo=1894 W/D/L=34/7/19"
+    ],
+    "verified": false
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "64e5066",
+    "kind": "keep",
+    "subject": "[keep] elo=1985\u00b1144 W/D/L=21/2/7 @1800 wins@target=6 \u2014 eval: tapered evaluation by non-pawn material phase",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/c3a8a8b/"
+    ],
+    "claimed_elo": 1985.0,
+    "claimed_err": 144.0,
+    "recomputed_elo": 1984.6,
+    "recomputed_err": 143.5,
+    "wdl": [
+      21,
+      2,
+      7
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.29,
     "problems": [],
     "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "b46124c",
+    "kind": "keep",
+    "subject": "[keep] elo=2092\u00b1169 W/D/L=24/2/4 @1800 wins@target=7 \u2014 search: merge main (NMP + LMR + PVS + killers/history + check extension + in-check quiescence) onto tapered eval",
+    "host": "windows-i7-13700H",
+    "files": [],
+    "claimed_elo": 2092.0,
+    "claimed_err": 169.0,
+    "recomputed_elo": 0.0,
+    "recomputed_err": 0.0,
+    "wdl": [
+      0,
+      0,
+      0
+    ],
+    "games": 0,
+    "move_time": null,
+    "slowest_move": null,
+    "problems": [
+      "commit adds no games"
+    ],
+    "verified": false
   }
 ]

@@ -17,6 +17,11 @@ Every `[keep]` and `[FULL]` claim keeps **all** the games of its run, because th
 |---|---|---|---|---|---|---|---|---|---|---|
 | sep25-erik | `cc2d447` | keep | windows-i7-13700H | 0.25 | 1800 ± 146 | 1800 ([498eace](sep25-erik/498eace/)) | 20/5/5 | 30 | 0.24 s | yes |
 | sep25-erik | `39030e4` | FULL | windows-i7-13700H | 5 | 1785 ± 144 | 1785 ([7047219-full](sep25-erik/7047219-full/)) | 21/2/7 | 30 | 4.75 s | yes |
-| sep25-robin | `81396e0` | keep | macos-m1pro | 0.25 | 1915 ± 176 | 1915 ([63ccb08](sep25-robin/63ccb08/)) | 25/1/4 | 30 | 0.24 s | yes |
-| sep25-robin | `c764cdb` | keep | macos-m1pro | 0.25 | 2075 ± 251 | 2075 ([97aee56](sep25-robin/97aee56/)) | 27/2/1 | 30 | 0.27 s | yes |
-| sep25-robin | `8e592f4` | keep | macos-m1pro | 0.25 | 2203 ± 348 | 2202 ([1a24270](sep25-robin/1a24270/)) | 28/2/0 | 30 | 0.25 s | yes |
+| sep25-erik | `4c2ece5` | keep | windows-i7-13700H | 0.25 | 1894 ± 93 | 1824 ([7308d5b](sep25-erik/7308d5b/), [7308d5b-s1](sep25-erik/7308d5b-s1/)) | 14/4/12 | 30 | 0.25 s | **no** |
+| sep25-erik | `64e5066` | keep | windows-i7-13700H | 0.25 | 1985 ± 144 | 1985 ([c3a8a8b](sep25-erik/c3a8a8b/)) | 21/2/7 | 30 | 0.29 s | yes |
+| sep25-erik | `b46124c` | keep | windows-i7-13700H | 0 | 2092 ± 169 | 0 () | 0/0/0 | 0 | 0.00 s | **no** |
+
+## Problems
+
+- sep25-erik `4c2ece5`: games give elo=1824 W/D/L=14/4/12, commit claims elo=1894 W/D/L=34/7/19
+- sep25-erik `b46124c`: commit adds no games
