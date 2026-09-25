@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
+<rect width="1200" height="620" fill="#ffffff"/>
+<text x="80" y="36" font-size="20" font-weight="600" fill="#1d1f23">Elo vs Stockfish 19: no experiments yet</text>
+<line x1="80" x2="1160" y1="550.0" y2="550.0" stroke="#e6e8eb"/>
+<text x="70" y="554.0" font-size="12" text-anchor="end" fill="#6b7078">1000</text>
+<line x1="80" x2="1160" y1="470.0" y2="470.0" stroke="#e6e8eb"/>
+<text x="70" y="474.0" font-size="12" text-anchor="end" fill="#6b7078">1200</text>
+<line x1="80" x2="1160" y1="390.0" y2="390.0" stroke="#e6e8eb"/>
+<text x="70" y="394.0" font-size="12" text-anchor="end" fill="#6b7078">1400</text>
+<line x1="80" x2="1160" y1="310.0" y2="310.0" stroke="#e6e8eb"/>
+<text x="70" y="314.0" font-size="12" text-anchor="end" fill="#6b7078">1600</text>
+<line x1="80" x2="1160" y1="230.0" y2="230.0" stroke="#e6e8eb"/>
+<text x="70" y="234.0" font-size="12" text-anchor="end" fill="#6b7078">1800</text>
+<line x1="80" x2="1160" y1="150.0" y2="150.0" stroke="#e6e8eb"/>
+<text x="70" y="154.0" font-size="12" text-anchor="end" fill="#6b7078">2000</text>
+<line x1="80" x2="1160" y1="70.0" y2="70.0" stroke="#e6e8eb"/>
+<text x="70" y="74.0" font-size="12" text-anchor="end" fill="#6b7078">2200</text>
+<text x="620.0" y="570" font-size="12" text-anchor="middle" fill="#6b7078">1</text>
+<line x1="80" x2="1160" y1="550" y2="550" stroke="#6b7078"/>
+<text x="620.0" y="598" font-size="13" text-anchor="middle" fill="#6b7078">Experiment #</text>
+<text x="22" y="310.0" font-size="13" text-anchor="middle" fill="#6b7078" transform="rotate(-90 22 310.0)">Elo (higher is better)</text>
+<text x="1160" y="598" font-size="11" text-anchor="end" fill="#6b7078">grey = discarded · dot = kept (0.25 s/move) · ◇ = FULL (5 s/move) · line = running best</text>
+</svg>
