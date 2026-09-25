@@ -11,8 +11,7 @@ Two people work on this repo, one on macOS and one on Windows, each on their own
 
 | Run | Host | Experiments | Kept | Best Elo (0.25 s) | Best FULL Elo (5 s) | Target | Wins@target (FULL) | Proofs |
 |---|---|---|---|---|---|---|---|---|
-| `sep25-erik` | windows-i7-13700H | 12 | 8 | **2326** ±486 (search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes)) | 1785 ±144 | 1800 | 8 | 1 |
-| `sep25-robin` | macos-m1pro | 7 | 4 | **2326** ±486 (search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes)) | — | 1600 | 0 | 0 |
+| `sep25-erik` | windows-i7-13700H | 5 | 4 | **2092** ±169 (search: merge main (NMP + LMR + PVS + killers/history + check extension + in-check quiescence) onto tapered eval) | 2197 ±209 | 1800 | 8 | 1 |
 
 Elo is only comparable within one host (the Mac and the Windows PC reach different depths). Rebuilt from the git log by `python tools/progress.py`.
 <!-- progress:end -->
