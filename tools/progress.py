@@ -34,7 +34,7 @@ RESULT_RE = re.compile(
     r"(?:—|-{1,2})\s*(?P<desc>.*)$")
 LADDER_RE = re.compile(r"^\[ladder\]\s+TARGET_ELO\s+\d+\s*(?:->|→)\s*(\d+)\s*"
                        r"(?:—|-{1,2})?\s*(?P<desc>.*)$")
-HOST_RE = re.compile(r"^host:\s*(\S+)", re.MULTILINE)
+HOST_RE = re.compile(r"^host:\s*([^\s,(]+)", re.MULTILINE)
 
 COLORS = ["#2a78d6", "#d9622b", "#1f9e6e", "#9b4dca"]
 GREY = "#c4c7cc"

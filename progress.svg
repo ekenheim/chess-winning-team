@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="1200" height="620" fill="#ffffff"/>
-<text x="80" y="36" font-size="20" font-weight="600" fill="#1d1f23">Elo vs Stockfish 19: 9 experiments, 6 kept</text>
+<text x="80" y="36" font-size="20" font-weight="600" fill="#1d1f23">Elo vs Stockfish 19: 10 experiments, 7 kept</text>
 <line x1="80" x2="1160" y1="550.0" y2="550.0" stroke="#e6e8eb"/>
 <text x="70" y="554.0" font-size="12" text-anchor="end" fill="#6b7078">1400</text>
 <line x1="80" x2="1160" y1="454.0" y2="454.0" stroke="#e6e8eb"/>
@@ -27,11 +27,13 @@
 <text x="84" y="352.0" font-size="12" fill="#1d1f23">TARGET_ELO 1800</text>
 <circle cx="600" cy="31" r="5" fill="#2a78d6"/>
 <text x="610" y="35" font-size="13" fill="#1d1f23">sep25-erik</text>
-<path d="M157.1,358.0 L311.4,358.0 L311.4,312.9 L311.4,312.9" fill="none" stroke="#2a78d6" stroke-width="2"/>
+<path d="M157.1,358.0 L311.4,358.0 L311.4,312.9 L465.7,312.9 L465.7,269.2 L465.7,269.2" fill="none" stroke="#2a78d6" stroke-width="2"/>
 <circle cx="157.1" cy="358.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
 <text x="164.1" y="351.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 164.1 351.0)">baseline</text>
 <circle cx="311.4" cy="312.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
 <text x="318.4" y="305.9" font-size="10.5" fill="#2a78d6" transform="rotate(-28 318.4 305.9)">search: transposition table 64MB + hash-m…</text>
+<circle cx="465.7" cy="269.2" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="472.7" y="262.2" font-size="10.5" fill="#2a78d6" transform="rotate(-28 472.7 262.2)">eval: tapered evaluation by non-pawn mate…</text>
 <path d="M157.1,358.2 L164.1,365.2 L157.1,372.2 L150.1,365.2 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
 <circle cx="710" cy="31" r="5" fill="#d9622b"/>
 <text x="720" y="35" font-size="13" fill="#1d1f23">sep25-robin</text>
