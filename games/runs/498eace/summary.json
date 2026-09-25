@@ -1,0 +1,378 @@
+{
+  "elo": 1800.4,
+  "elo_err95": 146.4,
+  "target_elo": 1600,
+  "wins_at_target": 7,
+  "score": 0.75,
+  "wins": 20,
+  "draws": 5,
+  "losses": 5,
+  "per_level": {
+    "1500": {
+      "wins": 6,
+      "draws": 1,
+      "losses": 3
+    },
+    "1600": {
+      "wins": 7,
+      "draws": 1,
+      "losses": 2
+    },
+    "1700": {
+      "wins": 7,
+      "draws": 3,
+      "losses": 0
+    }
+  },
+  "games": 30,
+  "timeouts": 0,
+  "illegal_moves": 0,
+  "avg_move_seconds": 0.187,
+  "max_move_seconds": 0.239,
+  "avg_depth": 6.0,
+  "avg_nodes_per_sec": 4044545,
+  "peak_ram_mb": 4.5,
+  "total_seconds": 142.8,
+  "move_time_s": 0.25,
+  "opponent": "Stockfish 19 (UCI_LimitStrength)",
+  "games_dir": "games/runs/498eace/",
+  "host": "windows-amd64-Regenr",
+  "seed": 0,
+  "run": "498eace",
+  "terminations": {
+    "checkmate": 25,
+    "threefold repetition": 5
+  },
+  "results": [
+    {
+      "game": 1,
+      "level": 1500,
+      "engine": "white",
+      "opening": "Start position",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 53,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_01.pgn"
+    },
+    {
+      "game": 2,
+      "level": 1500,
+      "engine": "black",
+      "opening": "Start position",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 66,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_02.pgn"
+    },
+    {
+      "game": 3,
+      "level": 1600,
+      "engine": "white",
+      "opening": "Start position",
+      "result": "0-1",
+      "score": 0.0,
+      "plies": 152,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_03.pgn"
+    },
+    {
+      "game": 4,
+      "level": 1600,
+      "engine": "black",
+      "opening": "Start position",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 60,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_04.pgn"
+    },
+    {
+      "game": 5,
+      "level": 1700,
+      "engine": "white",
+      "opening": "Start position",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 77,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_05.pgn"
+    },
+    {
+      "game": 6,
+      "level": 1700,
+      "engine": "black",
+      "opening": "Start position",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 88,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_06.pgn"
+    },
+    {
+      "game": 7,
+      "level": 1500,
+      "engine": "white",
+      "opening": "Italian Game",
+      "result": "0-1",
+      "score": 0.0,
+      "plies": 102,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_07.pgn"
+    },
+    {
+      "game": 8,
+      "level": 1500,
+      "engine": "black",
+      "opening": "Italian Game",
+      "result": "1/2-1/2",
+      "score": 0.5,
+      "plies": 134,
+      "termination": "threefold repetition",
+      "pgn": "games/runs/498eace/game_08.pgn"
+    },
+    {
+      "game": 9,
+      "level": 1600,
+      "engine": "white",
+      "opening": "Italian Game",
+      "result": "0-1",
+      "score": 0.0,
+      "plies": 38,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_09.pgn"
+    },
+    {
+      "game": 10,
+      "level": 1600,
+      "engine": "black",
+      "opening": "Italian Game",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 114,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_10.pgn"
+    },
+    {
+      "game": 11,
+      "level": 1700,
+      "engine": "white",
+      "opening": "Italian Game",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 71,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_11.pgn"
+    },
+    {
+      "game": 12,
+      "level": 1700,
+      "engine": "black",
+      "opening": "Italian Game",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 120,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_12.pgn"
+    },
+    {
+      "game": 13,
+      "level": 1500,
+      "engine": "white",
+      "opening": "Ruy Lopez, Morphy Defence",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 47,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_13.pgn"
+    },
+    {
+      "game": 14,
+      "level": 1500,
+      "engine": "black",
+      "opening": "Ruy Lopez, Morphy Defence",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 76,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_14.pgn"
+    },
+    {
+      "game": 15,
+      "level": 1600,
+      "engine": "white",
+      "opening": "Ruy Lopez, Morphy Defence",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 29,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_15.pgn"
+    },
+    {
+      "game": 16,
+      "level": 1600,
+      "engine": "black",
+      "opening": "Ruy Lopez, Morphy Defence",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 66,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_16.pgn"
+    },
+    {
+      "game": 17,
+      "level": 1700,
+      "engine": "white",
+      "opening": "Ruy Lopez, Morphy Defence",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 57,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_17.pgn"
+    },
+    {
+      "game": 18,
+      "level": 1700,
+      "engine": "black",
+      "opening": "Ruy Lopez, Morphy Defence",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 62,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_18.pgn"
+    },
+    {
+      "game": 19,
+      "level": 1500,
+      "engine": "white",
+      "opening": "Scotch Game",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 108,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_19.pgn"
+    },
+    {
+      "game": 20,
+      "level": 1500,
+      "engine": "black",
+      "opening": "Scotch Game",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 81,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_20.pgn"
+    },
+    {
+      "game": 21,
+      "level": 1600,
+      "engine": "white",
+      "opening": "Scotch Game",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 90,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_21.pgn"
+    },
+    {
+      "game": 22,
+      "level": 1600,
+      "engine": "black",
+      "opening": "Scotch Game",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 73,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_22.pgn"
+    },
+    {
+      "game": 23,
+      "level": 1700,
+      "engine": "white",
+      "opening": "Scotch Game",
+      "result": "1/2-1/2",
+      "score": 0.5,
+      "plies": 112,
+      "termination": "threefold repetition",
+      "pgn": "games/runs/498eace/game_23.pgn"
+    },
+    {
+      "game": 24,
+      "level": 1700,
+      "engine": "black",
+      "opening": "Scotch Game",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 59,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_24.pgn"
+    },
+    {
+      "game": 25,
+      "level": 1500,
+      "engine": "white",
+      "opening": "Petroff Defence",
+      "result": "0-1",
+      "score": 0.0,
+      "plies": 86,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_25.pgn"
+    },
+    {
+      "game": 26,
+      "level": 1500,
+      "engine": "black",
+      "opening": "Petroff Defence",
+      "result": "1-0",
+      "score": 0.0,
+      "plies": 47,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_26.pgn"
+    },
+    {
+      "game": 27,
+      "level": 1600,
+      "engine": "white",
+      "opening": "Petroff Defence",
+      "result": "1/2-1/2",
+      "score": 0.5,
+      "plies": 93,
+      "termination": "threefold repetition",
+      "pgn": "games/runs/498eace/game_27.pgn"
+    },
+    {
+      "game": 28,
+      "level": 1600,
+      "engine": "black",
+      "opening": "Petroff Defence",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 48,
+      "termination": "checkmate",
+      "pgn": "games/runs/498eace/game_28.pgn"
+    },
+    {
+      "game": 29,
+      "level": 1700,
+      "engine": "white",
+      "opening": "Petroff Defence",
+      "result": "1/2-1/2",
+      "score": 0.5,
+      "plies": 69,
+      "termination": "threefold repetition",
+      "pgn": "games/runs/498eace/game_29.pgn"
+    },
+    {
+      "game": 30,
+      "level": 1700,
+      "engine": "black",
+      "opening": "Petroff Defence",
+      "result": "1/2-1/2",
+      "score": 0.5,
+      "plies": 82,
+      "termination": "threefold repetition",
+      "pgn": "games/runs/498eace/game_30.pgn"
+    }
+  ]
+}
