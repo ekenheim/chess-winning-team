@@ -5,7 +5,7 @@
 use cozy_chess::{Board, Move, Piece, Rank, Square};
 use std::time::{Duration, Instant};
 
-use crate::eval;
+use crate::eval::{self, EvalState};
 use crate::tt::{self, Bound, Table};
 
 pub const MATE: i32 = 30_000;
@@ -89,9 +89,10 @@ impl Searcher {
         let mut best_score = 0;
         let mut completed_depth = 0;
 
+        let st = eval::full_state(board);
         for depth in 1..=max_depth {
             self.root_move = None;
-            let score = self.negamax(board, depth as i32, -INF, INF, 0);
+            let score = self.negamax(board, &st, depth as i32, -INF, INF, 0);
             if self.stopped {
                 break;
             }
@@ -174,9 +175,9 @@ impl Searcher {
         self.stack.iter().rev().skip(1).any(|&h| h == hash)
     }
 
-    fn negamax(&mut self, board: &Board, depth: i32, mut alpha: i32, beta: i32, ply: usize) -> i32 {
+    fn negamax(&mut self, board: &Board, st: &EvalState, depth: i32, mut alpha: i32, beta: i32, ply: usize) -> i32 {
         if depth <= 0 {
-            return self.quiescence(board, alpha, beta, ply);
+            return self.quiescence(board, st, alpha, beta, ply);
         }
         self.nodes += 1;
         if self.check_stop() {
@@ -186,7 +187,7 @@ impl Searcher {
             return 0;
         }
         if ply >= MAX_PLY - 1 {
-            return eval::evaluate(board);
+            return eval::score(board.side_to_move(), st);
         }
 
         // Transposition table probe: cutoff on a deep enough bound, and the
@@ -215,10 +216,11 @@ impl Searcher {
         let mut best = -INF;
         let mut best_move = None;
         for (mv, _) in moves {
+            let child_st = eval::state_after(board, *st, mv);
             let mut child = board.clone();
             child.play_unchecked(mv);
             self.stack.push(child.hash());
-            let score = -self.negamax(&child, depth - 1, -beta, -alpha, ply + 1);
+            let score = -self.negamax(&child, &child_st, depth - 1, -beta, -alpha, ply + 1);
             self.stack.pop();
             if self.stopped {
                 return 0;
@@ -248,12 +250,12 @@ impl Searcher {
         best
     }
 
-    fn quiescence(&mut self, board: &Board, mut alpha: i32, beta: i32, ply: usize) -> i32 {
+    fn quiescence(&mut self, board: &Board, st: &EvalState, mut alpha: i32, beta: i32, ply: usize) -> i32 {
         self.nodes += 1;
         if self.check_stop() {
             return 0;
         }
-        let stand_pat = eval::evaluate(board);
+        let stand_pat = eval::score(board.side_to_move(), st);
         if stand_pat >= beta {
             return stand_pat;
         }
@@ -265,9 +267,10 @@ impl Searcher {
         }
         let mut best = stand_pat;
         for (mv, _) in ordered_moves(board, true, None) {
+            let child_st = eval::state_after(board, *st, mv);
             let mut child = board.clone();
             child.play_unchecked(mv);
-            let score = -self.quiescence(&child, -beta, -alpha, ply + 1);
+            let score = -self.quiescence(&child, &child_st, -beta, -alpha, ply + 1);
             if self.stopped {
                 return 0;
             }
