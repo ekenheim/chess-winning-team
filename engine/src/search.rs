@@ -1,11 +1,12 @@
-//! Baseline search: iterative deepening, plain alpha-beta negamax,
-//! MVV-LVA capture ordering, quiescence search, repetition and 50-move
-//! detection, and a simple time manager. Everything smarter is an experiment.
+//! Search: iterative deepening, alpha-beta negamax with a transposition
+//! table (bounds + hash move), MVV-LVA capture ordering, quiescence search,
+//! repetition and 50-move detection, and a simple time manager.
 
 use cozy_chess::{Board, Move, Piece, Rank, Square};
 use std::time::{Duration, Instant};
 
 use crate::eval;
+use crate::tt::{self, Bound, Table};
 
 pub const MATE: i32 = 30_000;
 pub const MAX_PLY: usize = 128;
@@ -41,6 +42,8 @@ pub struct Searcher {
     /// Hashes of the game history followed by the current search path.
     stack: Vec<u64>,
     root_move: Option<Move>,
+    /// Persistent across moves of a game; cleared on `ucinewgame`.
+    tt: Table,
 }
 
 impl Searcher {
@@ -54,7 +57,12 @@ impl Searcher {
             stopped: false,
             stack: Vec::with_capacity(512),
             root_move: None,
+            tt: Table::new(tt::TT_MB),
         }
+    }
+
+    pub fn new_game(&mut self) {
+        self.tt.clear();
     }
 
     pub fn search(&mut self, board: &Board, history: &[u64], limits: &SearchLimits, report: bool) -> SearchResult {
@@ -117,15 +125,27 @@ impl Searcher {
         } else {
             format!("cp {score}")
         };
-        // Only the root move is tracked in the baseline (no triangular PV table).
-        let pv = match self.root_move {
-            Some(mv) => cozy_chess::util::display_uci_move(board, mv).to_string(),
-            None => String::new(),
-        };
         println!(
-            "info depth {depth} score {score_str} nodes {} nps {nps} time {ms} pv {pv}",
-            self.nodes
+            "info depth {depth} score {score_str} nodes {} nps {nps} time {ms} pv {}",
+            self.nodes,
+            self.pv_string(board, depth as usize)
         );
+    }
+
+    /// Principal variation read back from the transposition table.
+    fn pv_string(&self, board: &Board, max_len: usize) -> String {
+        let mut out = Vec::new();
+        let mut b = board.clone();
+        let mut first = self.root_move;
+        for _ in 0..max_len {
+            let mv = match first.take().or_else(|| self.tt.probe(b.hash()).and_then(|e| tt::unpack(e.mv))) {
+                Some(mv) if b.is_legal(mv) => mv,
+                _ => break,
+            };
+            out.push(cozy_chess::util::display_uci_move(&b, mv).to_string());
+            b.play_unchecked(mv);
+        }
+        out.join(" ")
     }
 
     #[inline]
@@ -169,7 +189,25 @@ impl Searcher {
             return eval::evaluate(board);
         }
 
-        let moves = ordered_moves(board, false);
+        // Transposition table probe: cutoff on a deep enough bound, and the
+        // stored best move goes first in the ordering either way.
+        let key = board.hash();
+        let alpha_orig = alpha;
+        let mut tt_move = None;
+        if let Some(e) = self.tt.probe(key) {
+            tt_move = tt::unpack(e.mv);
+            if ply > 0 && e.depth as i32 >= depth {
+                let score = score_from_tt(e.score as i32, ply);
+                match e.bound {
+                    Bound::Exact => return score,
+                    Bound::Lower if score >= beta => return score,
+                    Bound::Upper if score <= alpha => return score,
+                    _ => {}
+                }
+            }
+        }
+
+        let moves = ordered_moves(board, false, tt_move);
         if moves.is_empty() {
             return if board.checkers().is_empty() { 0 } else { -MATE + ply as i32 };
         }
@@ -196,6 +234,14 @@ impl Searcher {
                 }
             }
         }
+        let bound = if best >= beta {
+            Bound::Lower
+        } else if best > alpha_orig {
+            Bound::Exact
+        } else {
+            Bound::Upper
+        };
+        self.tt.store(key, best_move, score_to_tt(best, ply), depth, bound);
         if ply == 0 {
             self.root_move = best_move;
         }
@@ -218,7 +264,7 @@ impl Searcher {
             return stand_pat;
         }
         let mut best = stand_pat;
-        for (mv, _) in ordered_moves(board, true) {
+        for (mv, _) in ordered_moves(board, true, None) {
             let mut child = board.clone();
             child.play_unchecked(mv);
             let score = -self.quiescence(&child, -beta, -alpha, ply + 1);
@@ -243,6 +289,30 @@ pub fn is_mate_score(score: i32) -> bool {
     score.abs() >= MATE - MAX_PLY as i32
 }
 
+/// Mate scores are stored relative to the current node so they stay valid
+/// when the same position is reached at a different ply.
+#[inline]
+fn score_to_tt(score: i32, ply: usize) -> i32 {
+    if score >= MATE - MAX_PLY as i32 {
+        score + ply as i32
+    } else if score <= -MATE + MAX_PLY as i32 {
+        score - ply as i32
+    } else {
+        score
+    }
+}
+
+#[inline]
+fn score_from_tt(score: i32, ply: usize) -> i32 {
+    if score >= MATE - MAX_PLY as i32 {
+        score - ply as i32
+    } else if score <= -MATE + MAX_PLY as i32 {
+        score + ply as i32
+    } else {
+        score
+    }
+}
+
 fn first_legal_move(board: &Board) -> Option<Move> {
     let mut first = None;
     board.generate_moves(|moves| {
@@ -252,10 +322,11 @@ fn first_legal_move(board: &Board) -> Option<Move> {
     first
 }
 
-/// Generate moves with an ordering key: captures by MVV-LVA (most valuable
-/// victim first, cheapest attacker first), queen promotions high, quiet moves
-/// last. With `captures_only`, only captures and queen promotions are kept.
-fn ordered_moves(board: &Board, captures_only: bool) -> Vec<(Move, i32)> {
+/// Generate moves with an ordering key: the hash move first, then captures
+/// by MVV-LVA (most valuable victim first, cheapest attacker first), queen
+/// promotions high, quiet moves last. With `captures_only`, only captures
+/// and queen promotions are kept.
+fn ordered_moves(board: &Board, captures_only: bool, tt_move: Option<Move>) -> Vec<(Move, i32)> {
     let us = board.side_to_move();
     let enemy = board.colors(!us);
     let ep_square = board.en_passant().map(|file| Square::new(file, Rank::Sixth.relative_to(us)));
@@ -275,6 +346,9 @@ fn ordered_moves(board: &Board, captures_only: bool) -> Vec<(Move, i32)> {
                 continue;
             }
             let mut key = 0;
+            if Some(mv) == tt_move {
+                key += 100_000;
+            }
             if let Some(v) = victim {
                 key += 10_000 + 10 * eval::piece_value(v) - eval::piece_value(attacker);
             }
