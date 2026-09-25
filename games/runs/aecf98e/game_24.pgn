@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "darwin-arm64-MacBook-Pro-som-tillhor-Regent.local"]
+[Date "2026.09.25"]
+[Round "24"]
+[White "Stockfish 19"]
+[Black "chess-winning-team aecf98e"]
+[Result "0-1"]
+[FEN "r1bqkbnr/pppp1ppp/2n5/8/3NP3/8/PPP2PPP/RNBQKB1R b KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "1700"]
+[BlackElo "-"]
+[StockfishElo "1700"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "aecf98e"]
+[EngineColor "black"]
+[Opening "Scotch Game"]
+[Termination "checkmate"]
+[PlyCount "33"]
+
+1... Nf6 { [%eval 0.10,9] E d9 0.24s 452k } 2. Nxc6 { [%eval 0.26,11] S d11 0.26s 103k } 2... bxc6 { [%eval 0.20,11] E d11 0.22s 1336k } 3. Nc3 { [%eval 0.00,11] S d11 0.25s 92k } 3... Bb4 { [%eval 0.15,10] E d10 0.12s 670k } 4. Bd3 { [%eval 0.05,12] S d12 0.25s 95k } 4... Qe7 { [%eval -0.15,9] E d9 0.24s 545k } 5. Qe2 { [%eval 0.22,12] S d12 0.25s 103k } 5... d5 { [%eval -0.20,11] E d11 0.16s 908k } 6. Bd2 { [%eval 0.18,11] S d11 0.25s 103k } 6... d4 { [%eval -0.45,10] E d10 0.13s 710k } 7. Nd1 { [%eval -0.66,11] S d11 0.25s 96k } 7... Bxd2+ { [%eval -0.50,9] E d9 0.13s 798k } 8. Qxd2 { [%eval -0.96,12] S d12 0.25s 67k } 8... Nxe4 { [%eval -1.40,11] E d11 0.12s 705k } 9. Qf4 { [%eval -5.70,12] S d12 0.25s 92k } 9... Ng3+ { [%eval -3.75,9] E d9 0.11s 542k } 10. Ne3 { [%eval -5.31,14] S d14 0.25s 80k } 10... Nxh1 { [%eval -3.55,9] E d9 0.24s 217k } 11. Qe4 { [%eval -6.87,13] S d13 0.25s 87k } 11... Qxe4 { [%eval -5.95,11] E d11 0.15s 833k } 12. O-O-O { [%eval -10.42,13] S d13 0.25s 83k } 12... Qe5 { [%eval -15.75,12] E d12 0.21s 1101k } 13. Nf5 { [%eval -12.10,12] S d12 0.25s 78k } 13... Nxf2 { [%eval -19.95,10] E d10 0.24s 413k } 14. Kb1 { [%eval 0.00,11] S d11 0.25s 85k } 14... Nxd1 { [%eval -23.90,10] E d10 0.24s 607k } 15. Nxg7+ { [%eval -14.10,13] S d13 0.25s 102k } 15... Kf8 { [%eval -24.50,9] E d9 0.24s 141k } 16. Bf5 { [%eval 0.00,12] S d12 0.25s 95k } 16... Nc3+ { [%eval #-3,6] E d6 0.00s 19k } 17. Kc1 { [%eval #-2,245] S d245 0.02s 18k } 17... Qe1# { [%eval #-1,2] E d2 0.00s 0k } 0-1
+

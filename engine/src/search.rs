@@ -1,8 +1,9 @@
 //! Search: iterative deepening, principal-variation search with a
 //! transposition table (kept across moves), null-move pruning, late-move
-//! reductions, move ordering by hash move, MVV-LVA captures, killer moves and
-//! a history heuristic, quiescence search, repetition and 50-move detection,
-//! and a simple time manager.
+//! reductions, check extensions, move ordering by hash move, MVV-LVA
+//! captures, killer moves and a history heuristic, quiescence search (all
+//! evasions when in check), repetition and 50-move detection, and a simple
+//! time manager.
 
 use cozy_chess::{Board, Move, Piece, Rank, Square};
 use std::time::{Duration, Instant};
@@ -14,6 +15,8 @@ pub const MAX_PLY: usize = 128;
 const INF: i32 = 100_000;
 /// Check the clock every this many nodes.
 const NODE_CHECK_MASK: u64 = 1023;
+/// Pushed on the repetition stack before a null move's position.
+const NULL_BARRIER: u64 = 0;
 /// Null move: reduce by NULL_BASE_REDUCTION + depth / NULL_DEPTH_DIVISOR,
 /// only at depth >= NULL_MIN_DEPTH.
 const NULL_MIN_DEPTH: i32 = 3;
@@ -182,7 +185,8 @@ impl Searcher {
             if report {
                 self.report(board, depth, score);
             }
-            if is_mate_score(score) && depth >= 2 {
+            // Stop early only on a mate for us that this depth already proves.
+            if score > 0 && is_mate_score(score) && MATE - score < depth as i32 {
                 break;
             }
             if let Some(soft) = self.soft_limit {
@@ -238,10 +242,18 @@ impl Searcher {
     fn is_repetition(&self, hash: u64) -> bool {
         // A single earlier occurrence already scores the line as a draw:
         // that is what the opponent can force, and it keeps the search cheap.
-        self.stack.iter().rev().skip(1).any(|&h| h == hash)
+        // A null move pushes NULL_BARRIER: positions before it are not
+        // reachable repetitions of positions after it.
+        self.stack.iter().rev().skip(1).take_while(|&&h| h != NULL_BARRIER).any(|&h| h == hash)
     }
 
-    fn negamax(&mut self, board: &Board, depth: i32, mut alpha: i32, beta: i32, ply: usize, null_ok: bool) -> i32 {
+    fn negamax(&mut self, board: &Board, mut depth: i32, mut alpha: i32, beta: i32, ply: usize, null_ok: bool) -> i32 {
+        let in_check = !board.checkers().is_empty();
+        // Check extension: never drop into quiescence (or reduce the last
+        // ply) while in check.
+        if in_check {
+            depth += 1;
+        }
         if depth <= 0 {
             return self.quiescence(board, alpha, beta, ply);
         }
@@ -270,7 +282,6 @@ impl Searcher {
         }
         let hash_move = if hit { entry.mv } else { None };
 
-        let in_check = !board.checkers().is_empty();
         let pv_node = beta - alpha > 1;
         let us = board.side_to_move();
 
@@ -281,8 +292,10 @@ impl Searcher {
             if eval::evaluate(board) >= beta {
                 if let Some(child) = board.null_move() {
                     let r = NULL_BASE_REDUCTION + depth / NULL_DEPTH_DIVISOR;
+                    self.stack.push(NULL_BARRIER);
                     self.stack.push(child.hash());
                     let score = -self.negamax(&child, depth - 1 - r, -beta, -beta + 1, ply + 1, false);
+                    self.stack.pop();
                     self.stack.pop();
                     if self.stopped {
                         return 0;
@@ -387,7 +400,10 @@ impl Searcher {
         if self.check_stop() {
             return 0;
         }
-        let stand_pat = eval::evaluate(board);
+        // In check there is no standing pat: every evasion is searched, and
+        // having none is mate.
+        let in_check = !board.checkers().is_empty();
+        let stand_pat = if in_check { -MATE + ply as i32 } else { eval::evaluate(board) };
         if stand_pat >= beta {
             return stand_pat;
         }
@@ -395,10 +411,10 @@ impl Searcher {
             alpha = stand_pat;
         }
         if ply >= MAX_PLY - 1 {
-            return stand_pat;
+            return if in_check { eval::evaluate(board) } else { stand_pat };
         }
         let mut best = stand_pat;
-        for (mv, _) in ordered_moves(board, true, None, [None; 2], &EMPTY_HISTORY) {
+        for (mv, _) in ordered_moves(board, !in_check, None, [None; 2], &EMPTY_HISTORY) {
             let mut child = board.clone();
             child.play_unchecked(mv);
             let score = -self.quiescence(&child, -beta, -alpha, ply + 1);
