@@ -3,16 +3,18 @@
 <text x="80" y="36" font-size="20" font-weight="600" fill="#1d1f23">Elo vs Stockfish 19: 6 experiments, 5 kept</text>
 <line x1="80" x2="1160" y1="550.0" y2="550.0" stroke="#e6e8eb"/>
 <text x="70" y="554.0" font-size="12" text-anchor="end" fill="#6b7078">1400</text>
-<line x1="80" x2="1160" y1="454.0" y2="454.0" stroke="#e6e8eb"/>
-<text x="70" y="458.0" font-size="12" text-anchor="end" fill="#6b7078">1600</text>
-<line x1="80" x2="1160" y1="358.0" y2="358.0" stroke="#e6e8eb"/>
-<text x="70" y="362.0" font-size="12" text-anchor="end" fill="#6b7078">1800</text>
-<line x1="80" x2="1160" y1="262.0" y2="262.0" stroke="#e6e8eb"/>
-<text x="70" y="266.0" font-size="12" text-anchor="end" fill="#6b7078">2000</text>
-<line x1="80" x2="1160" y1="166.0" y2="166.0" stroke="#e6e8eb"/>
-<text x="70" y="170.0" font-size="12" text-anchor="end" fill="#6b7078">2200</text>
+<line x1="80" x2="1160" y1="470.0" y2="470.0" stroke="#e6e8eb"/>
+<text x="70" y="474.0" font-size="12" text-anchor="end" fill="#6b7078">1600</text>
+<line x1="80" x2="1160" y1="390.0" y2="390.0" stroke="#e6e8eb"/>
+<text x="70" y="394.0" font-size="12" text-anchor="end" fill="#6b7078">1800</text>
+<line x1="80" x2="1160" y1="310.0" y2="310.0" stroke="#e6e8eb"/>
+<text x="70" y="314.0" font-size="12" text-anchor="end" fill="#6b7078">2000</text>
+<line x1="80" x2="1160" y1="230.0" y2="230.0" stroke="#e6e8eb"/>
+<text x="70" y="234.0" font-size="12" text-anchor="end" fill="#6b7078">2200</text>
+<line x1="80" x2="1160" y1="150.0" y2="150.0" stroke="#e6e8eb"/>
+<text x="70" y="154.0" font-size="12" text-anchor="end" fill="#6b7078">2400</text>
 <line x1="80" x2="1160" y1="70.0" y2="70.0" stroke="#e6e8eb"/>
-<text x="70" y="74.0" font-size="12" text-anchor="end" fill="#6b7078">2400</text>
+<text x="70" y="74.0" font-size="12" text-anchor="end" fill="#6b7078">2600</text>
 <text x="170.0" y="570" font-size="12" text-anchor="middle" fill="#6b7078">1</text>
 <text x="350.0" y="570" font-size="12" text-anchor="middle" fill="#6b7078">2</text>
 <text x="530.0" y="570" font-size="12" text-anchor="middle" fill="#6b7078">3</text>
@@ -22,23 +24,24 @@
 <line x1="80" x2="1160" y1="550" y2="550" stroke="#6b7078"/>
 <text x="620.0" y="598" font-size="13" text-anchor="middle" fill="#6b7078">Experiment #</text>
 <text x="22" y="310.0" font-size="13" text-anchor="middle" fill="#6b7078" transform="rotate(-90 22 310.0)">Elo (higher is better)</text>
-<line x1="80" x2="1160" y1="262.0" y2="262.0" stroke="#1d1f23" stroke-dasharray="6 5" opacity="0.6"/>
-<text x="84" y="256.0" font-size="12" fill="#1d1f23">TARGET_ELO 2000</text>
+<line x1="80" x2="1160" y1="310.0" y2="310.0" stroke="#1d1f23" stroke-dasharray="6 5" opacity="0.6"/>
+<text x="84" y="304.0" font-size="12" fill="#1d1f23">TARGET_ELO 2000</text>
 <circle cx="600" cy="31" r="5" fill="#2a78d6"/>
 <text x="610" y="35" font-size="13" fill="#1d1f23">sep25-erik</text>
-<circle cx="710.0" cy="300.4" r="3.5" fill="#c4c7cc"/>
-<path d="M170.0,358.0 L350.0,358.0 L350.0,312.9 L530.0,312.9 L530.0,269.2 L890.0,269.2 L890.0,217.8 L1070.0,217.8 L1070.0,149.7 L1070.0,149.7" fill="none" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="170.0" cy="358.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<text x="177.0" y="351.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 177.0 351.0)">baseline</text>
-<circle cx="350.0" cy="312.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<text x="357.0" y="305.9" font-size="10.5" fill="#2a78d6" transform="rotate(-28 357.0 305.9)">search: transposition table 64MB + hash-m…</text>
-<circle cx="530.0" cy="269.2" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<text x="537.0" y="262.2" font-size="10.5" fill="#2a78d6" transform="rotate(-28 537.0 262.2)">eval: tapered evaluation by non-pawn mate…</text>
-<circle cx="890.0" cy="217.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<text x="897.0" y="210.8" font-size="10.5" fill="#2a78d6" transform="rotate(-28 897.0 210.8)">search: merge main (NMP + LMR + PVS + kil…</text>
-<circle cx="1070.0" cy="149.7" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<text x="1077.0" y="142.7" font-size="10.5" fill="#2a78d6" transform="rotate(-28 1077.0 142.7)">eval: king safety (pawn shield + king-zon…</text>
-<path d="M170.0,358.2 L177.0,365.2 L170.0,372.2 L163.0,365.2 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M890.0,160.4 L897.0,167.4 L890.0,174.4 L883.0,167.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="710.0" cy="342.0" r="3.5" fill="#c4c7cc"/>
+<path d="M170.0,390.0 L350.0,390.0 L350.0,352.4 L530.0,352.4 L530.0,316.0 L890.0,316.0 L890.0,273.2 L1070.0,273.2 L1070.0,216.4 L1070.0,216.4" fill="none" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="170.0" cy="390.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="177.0" y="383.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 177.0 383.0)">baseline</text>
+<circle cx="350.0" cy="352.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="357.0" y="345.4" font-size="10.5" fill="#2a78d6" transform="rotate(-28 357.0 345.4)">search: transposition table 64MB + hash-m…</text>
+<circle cx="530.0" cy="316.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="537.0" y="309.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 537.0 309.0)">eval: tapered evaluation by non-pawn mate…</text>
+<circle cx="890.0" cy="273.2" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="897.0" y="266.2" font-size="10.5" fill="#2a78d6" transform="rotate(-28 897.0 266.2)">search: merge main (NMP + LMR + PVS + kil…</text>
+<circle cx="1070.0" cy="216.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="1077.0" y="209.4" font-size="10.5" fill="#2a78d6" transform="rotate(-28 1077.0 209.4)">eval: king safety (pawn shield + king-zon…</text>
+<path d="M170.0,389.0 L177.0,396.0 L170.0,403.0 L163.0,396.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M890.0,224.2 L897.0,231.2 L890.0,238.2 L883.0,231.2 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M1070.0,144.2 L1077.0,151.2 L1070.0,158.2 L1063.0,151.2 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
 <text x="1160" y="598" font-size="11" text-anchor="end" fill="#6b7078">grey = discarded · dot = kept (0.25 s/move) · ◇ = FULL (5 s/move) · line = running best</text>
 </svg>
