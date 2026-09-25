@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "windows-amd64-Regenr"]
+[Date "2026.09.25"]
+[Round "10"]
+[White "Stockfish 19"]
+[Black "chess-winning-team c9cb33a"]
+[Result "0-1"]
+[FEN "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "2200"]
+[BlackElo "-"]
+[StockfishElo "2200"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "c9cb33a"]
+[EngineColor "black"]
+[Opening "Italian Game"]
+[Termination "checkmate"]
+[PlyCount "36"]
+
+1. d3 { [%eval 0.11,13] S d13 0.26s 196k } 1... Nf6 { [%eval 0.08,9] E d9 0.20s 672k } 2. c3 { [%eval 0.14,16] S d16 0.25s 227k } 2... Bb6 { [%eval -0.30,8] E d8 0.16s 625k } 3. O-O { [%eval 0.24,16] S d16 0.25s 230k } 3... O-O { [%eval -0.27,9] E d9 0.18s 738k } 4. Nbd2 { [%eval 0.18,16] S d16 0.25s 244k } 4... d5 { [%eval -0.20,10] E d10 0.19s 796k } 5. Bb3 { [%eval 0.04,13] S d13 0.25s 233k } 5... Bg4 { [%eval -0.42,9] E d9 0.20s 807k } 6. h3 { [%eval 0.37,14] S d14 0.25s 227k } 6... Be6 { [%eval -0.36,9] E d9 0.18s 778k } 7. exd5 { [%eval 0.00,13] S d13 0.25s 225k } 7... Bxd5 { [%eval -0.39,9] E d9 0.24s 370k } 8. Bc2 { [%eval 0.00,15] S d15 0.25s 207k } 8... Qe7 { [%eval -0.60,8] E d8 0.24s 479k } 9. a3 { [%eval 0.15,12] S d12 0.25s 172k } 9... Rad8 { [%eval -0.65,8] E d8 0.24s 570k } 10. b4 { [%eval 0.05,13] S d13 0.25s 163k } 10... e4 { [%eval -0.54,8] E d8 0.18s 785k } 11. Re1 { [%eval 0.05,13] S d13 0.25s 144k } 11... e3 { [%eval -0.33,8] E d8 0.23s 1012k } 12. d4 { [%eval -2.71,13] S d13 0.25s 162k } 12... exd2 { [%eval -1.55,8] E d8 0.20s 920k } 13. Nxd2 { [%eval -2.85,13] S d13 0.25s 183k } 13... Qd6 { [%eval -2.53,8] E d8 0.24s 411k } 14. a4 { [%eval -4.23,13] S d13 0.25s 196k } 14... Nxd4 { [%eval -3.36,9] E d9 0.20s 872k } 15. Bb1 { [%eval -7.22,14] S d14 0.25s 174k } 15... Nb3 { [%eval -7.66,7] E d7 0.16s 593k } 16. Nxb3 { [%eval 0.00,13] S d13 0.25s 151k } 16... Qg3 { [%eval #-6,10] E d10 0.16s 673k } 17. Qf3 { [%eval 0.00,14] S d14 0.25s 213k } 17... Bxf3 { [%eval #-3,6] E d6 0.01s 20k } 18. a5 { [%eval #-2,245] S d245 0.02s 55k } 18... Qxg2# { [%eval #-1,2] E d2 0.00s 1k } 0-1
+
