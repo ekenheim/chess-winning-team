@@ -272,5 +272,29 @@
       }
     ],
     "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "555bcaf",
+    "kind": "keep",
+    "subject": "[keep] elo=2400\u00b1146 W/D/L=21/3/6 @2200 wins@target=8 \u2014 time: soft limit 60%, keep best root move of an aborted iteration, reserve capped at 50ms",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/c9cb33a/"
+    ],
+    "claimed_elo": 2400.0,
+    "claimed_err": 146.0,
+    "recomputed_elo": 2400.4,
+    "recomputed_err": 146.4,
+    "wdl": [
+      21,
+      3,
+      6
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.24,
+    "problems": [],
+    "verified": true
   }
 ]
