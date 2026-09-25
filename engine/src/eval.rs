@@ -3,7 +3,7 @@
 //! and an endgame score by the non-pawn material left on the board. From the
 //! side to move's point of view, in centipawns.
 
-use cozy_chess::{Board, Color, Piece, Square};
+use cozy_chess::{get_bishop_moves, get_king_moves, get_knight_moves, get_rook_moves, Board, Color, Piece, Square};
 
 pub const PAWN: i32 = 100;
 pub const KNIGHT: i32 = 320;
@@ -93,7 +93,7 @@ const KING_MG_PST: [i32; 64] = [
     -20,-30,-30,-40,-40,-30,-30,-20,
     -10,-20,-20,-20,-20,-20,-20,-10,
      20, 20,  0,  0,  0,  0, 20, 20,
-     20, 30, 10,  0,  0, 10, 30, 20,
+     30, 30, 10,  0,  0, 10, 30, 30,
 ];
 
 #[rustfmt::skip]
@@ -158,6 +158,70 @@ pub fn phase(board: &Board) -> i32 {
     (minors + 2 * rooks + 4 * queens).min(PHASE_MAX)
 }
 
+/// King safety (middlegame only, and only while the opponent still has a
+/// queen): a penalty per missing pawn in the shield in front of the king,
+/// and a convex penalty for enemy pieces attacking the king zone once at
+/// least two of them do. Every review of our games found the losses here.
+const SHIELD_MISSING: i32 = 18;
+const DANGER: [i32; 16] = [0, 0, 10, 22, 38, 58, 82, 110, 142, 178, 218, 262, 310, 360, 410, 460];
+
+fn king_danger(board: &Board, color: Color) -> i32 {
+    let them = !color;
+    let enemy = board.colors(them);
+    if (board.pieces(Piece::Queen) & enemy).is_empty() {
+        return 0;
+    }
+    let ksq = board.king(color);
+    let dir: i8 = if color == Color::White { 1 } else { -1 };
+
+    let our_pawns = board.pieces(Piece::Pawn) & board.colors(color);
+    let mut missing = 0;
+    for df in -1..=1 {
+        let mut found = false;
+        for dr in 1..=2 {
+            if let Some(sq) = ksq.try_offset(df, dr * dir) {
+                if our_pawns.has(sq) {
+                    found = true;
+                }
+            }
+        }
+        if !found {
+            missing += 1;
+        }
+    }
+
+    let zone = get_king_moves(ksq) | ksq.bitboard();
+    let occ = board.occupied();
+    let mut weight = 0;
+    let mut attackers = 0;
+    for sq in board.pieces(Piece::Knight) & enemy {
+        if !(get_knight_moves(sq) & zone).is_empty() {
+            weight += 2;
+            attackers += 1;
+        }
+    }
+    for sq in board.pieces(Piece::Bishop) & enemy {
+        if !(get_bishop_moves(sq, occ) & zone).is_empty() {
+            weight += 2;
+            attackers += 1;
+        }
+    }
+    for sq in board.pieces(Piece::Rook) & enemy {
+        if !(get_rook_moves(sq, occ) & zone).is_empty() {
+            weight += 3;
+            attackers += 1;
+        }
+    }
+    for sq in board.pieces(Piece::Queen) & enemy {
+        if !((get_rook_moves(sq, occ) | get_bishop_moves(sq, occ)) & zone).is_empty() {
+            weight += 5;
+            attackers += 1;
+        }
+    }
+    let danger = if attackers >= 2 { DANGER[(weight as usize).min(15)] } else { 0 };
+    missing * SHIELD_MISSING + danger
+}
+
 /// Score from the side to move's point of view (tapered evaluation).
 pub fn evaluate(board: &Board) -> i32 {
     let mut mg = 0;
@@ -174,6 +238,7 @@ pub fn evaluate(board: &Board) -> i32 {
                 eg += sign * (value + eg_pst[i]);
             }
         }
+        mg -= sign * king_danger(board, color);
     }
     let p = phase(board);
     let score = (mg * p + eg * (PHASE_MAX - p)) / PHASE_MAX;
