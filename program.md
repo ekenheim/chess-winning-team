@@ -127,7 +127,7 @@ LOOP FOREVER:
 
 1. Look at the git state: the current branch/commit we're on, and `git fetch origin && git log --oneline --all -20` to see what both branches have tried.
 2. Tune `engine/` with an experimental idea by directly hacking the code. `make engine` must succeed.
-3. git commit (provisional message `[exp] — <description>`; it is rewritten in step 8/9)
+3. git commit (provisional message `[exp] — <description>`; it is rewritten in step 8/9) with a short body giving the hypothesis and the evidence behind it (which report, game or statistic), and **push it right away** (`git push`) so the other machine sees what is being tested before the result is in and does not start the same idea. `[exp]` commits are ignored by `tools/progress.py`; only the final result line counts
 4. Run the experiment: `make bench > run.log 2>&1` (redirect everything — do NOT use tee or let output flood your context)
 5. Read out the results: `grep "^elo:\|^elo_err95:\|^wins_at_target:\|^score:\|^wins/draws/losses:\|^per_level:\|^timeouts:\|^avg_depth:\|^max_move_seconds:" run.log`
 6. If the grep output is empty, the run crashed. Run `tail -n 50 run.log` to read the stack trace / engine stderr and attempt a fix. If you can't get things to work after more than a few attempts, give up.
