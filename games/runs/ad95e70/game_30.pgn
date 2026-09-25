@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "darwin-arm64-MacBook-Pro-som-tillhor-Regent.local"]
+[Date "2026.09.25"]
+[Round "30"]
+[White "Stockfish 19"]
+[Black "chess-winning-team ad95e70"]
+[Result "0-1"]
+[FEN "rnbqkb1r/ppp2ppp/3p4/8/4n3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "1700"]
+[BlackElo "-"]
+[StockfishElo "1700"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "ad95e70"]
+[EngineColor "black"]
+[Opening "Petroff Defence"]
+[Termination "checkmate"]
+[PlyCount "40"]
+
+1. Qe2 { [%eval 0.20,11] S d11 0.26s 100k } 1... Qe7 { [%eval 0.00,7] E d7 0.15s 910k } 2. d4 { [%eval 0.10,11] S d11 0.25s 92k } 2... d5 { [%eval 0.05,6] E d6 0.24s 526k } 3. Qe3 { [%eval 0.00,11] S d11 0.25s 99k } 3... Nc6 { [%eval 0.00,6] E d6 0.24s 578k } 4. Bb5 { [%eval -0.07,12] S d12 0.25s 90k } 4... Bd7 { [%eval -0.05,6] E d6 0.24s 418k } 5. O-O { [%eval -0.09,11] S d11 0.25s 99k } 5... Nd6 { [%eval 0.00,7] E d7 0.15s 1131k } 6. Qd3 { [%eval 0.00,10] S d10 0.25s 104k } 6... Nxb5 { [%eval -0.80,7] E d7 0.24s 712k } 7. Qxb5 { [%eval -1.73,11] S d11 0.25s 96k } 7... Nb4 { [%eval -0.50,7] E d7 0.11s 944k } 8. Qa5 { [%eval -1.53,12] S d12 0.25s 97k } 8... b6 { [%eval -3.85,7] E d7 0.12s 1219k } 9. Re1 { [%eval 0.00,12] S d12 0.25s 94k } 9... bxa5 { [%eval -5.60,8] E d8 0.14s 767k } 10. Bd2 { [%eval -9.02,11] S d11 0.25s 91k } 10... Nxc2 { [%eval -9.00,8] E d8 0.24s 739k } 11. Rxe7+ { [%eval -8.62,12] S d12 0.25s 96k } 11... Kxe7 { [%eval -9.25,9] E d9 0.16s 1513k } 12. Bxa5 { [%eval -8.57,13] S d13 0.25s 100k } 12... Nxa1 { [%eval -9.20,8] E d8 0.22s 1635k } 13. Nc3 { [%eval -8.85,12] S d12 0.25s 103k } 13... c6 { [%eval -9.80,8] E d8 0.13s 1018k } 14. Ne5 { [%eval 0.00,11] S d11 0.25s 104k } 14... Rb8 { [%eval -10.10,7] E d7 0.11s 860k } 15. Nd1 { [%eval 0.00,11] S d11 0.25s 96k } 15... Nc2 { [%eval -10.10,7] E d7 0.24s 532k } 16. Nf3 { [%eval -8.60,11] S d11 0.25s 95k } 16... Bg4 { [%eval -10.55,6] E d6 0.24s 519k } 17. Ne3 { [%eval -8.95,12] S d12 0.25s 107k } 17... Rxb2 { [%eval -11.85,8] E d8 0.17s 1345k } 18. Bc3 { [%eval 0.00,12] S d12 0.25s 112k } 18... Rb1+ { [%eval -12.90,8] E d8 0.13s 1073k } 19. Be1 { [%eval -11.99,13] S d13 0.25s 105k } 19... Nxe1 { [%eval -17.95,8] E d8 0.18s 1720k } 20. Ng5 { [%eval 0.00,13] S d13 0.25s 119k } 20... Nf3# { [%eval #-1,2] E d2 0.00s 0k } 0-1
+

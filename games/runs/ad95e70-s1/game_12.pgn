@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "darwin-arm64-MacBook-Pro-som-tillhor-Regent.local"]
+[Date "2026.09.25"]
+[Round "12"]
+[White "Stockfish 19"]
+[Black "chess-winning-team ad95e70"]
+[Result "1/2-1/2"]
+[FEN "r1bqkb1r/pp1p1ppp/2n2n2/4p3/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "1700"]
+[BlackElo "-"]
+[StockfishElo "1700"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "ad95e70"]
+[EngineColor "black"]
+[Opening "Sicilian, Sveshnikov"]
+[Termination "threefold repetition"]
+[PlyCount "78"]
+
+1. Nb3 { [%eval -0.07,11] S d11 0.26s 93k } 1... Bb4 { [%eval -0.15,7] E d7 0.17s 1383k } 2. Qf3 { [%eval -0.53,10] S d10 0.25s 97k } 2... Bxc3+ { [%eval -0.50,7] E d7 0.18s 1556k } 3. bxc3 { [%eval -0.11,14] S d14 0.25s 89k } 3... d5 { [%eval -0.35,7] E d7 0.12s 944k } 4. Ba3 { [%eval 0.00,11] S d11 0.25s 103k } 4... dxe4 { [%eval -1.45,6] E d6 0.24s 417k } 5. Qg3 { [%eval 0.31,12] S d12 0.25s 98k } 5... Nh5 { [%eval -1.25,7] E d7 0.24s 796k } 6. Qe3 { [%eval 0.29,14] S d14 0.25s 104k } 6... Bf5 { [%eval -1.35,7] E d7 0.23s 1675k } 7. Rd1 { [%eval 0.33,9] S d9 0.25s 102k } 7... Qc8 { [%eval -1.15,6] E d6 0.24s 222k } 8. Nd2 { [%eval 2.95,12] S d12 0.25s 92k } 8... Qc7 { [%eval -0.75,6] E d6 0.24s 315k } 9. Nc4 { [%eval 5.18,13] S d13 0.25s 88k } 9... Rd8 { [%eval 1.90,8] E d8 0.22s 1580k } 10. Rxd8+ { [%eval 5.61,14] S d14 0.25s 87k } 10... Kxd8 { [%eval 1.90,6] E d6 0.24s 1k } 11. Qg5+ { [%eval 5.52,14] S d14 0.25s 90k } 11... Ne7 { [%eval 2.90,8] E d8 0.12s 1082k } 12. Bd6 { [%eval 5.57,13] S d13 0.25s 77k } 12... Qd7 { [%eval 2.90,8] E d8 0.13s 1149k } 13. Bxe7+ { [%eval 5.18,14] S d14 0.25s 91k } 13... Qxe7 { [%eval 2.95,8] E d8 0.24s 572k } 14. Qxf5 { [%eval 5.69,15] S d15 0.25s 105k } 14... Nf6 { [%eval 3.15,8] E d8 0.22s 1608k } 15. Be2 { [%eval 5.99,14] S d14 0.26s 89k } 15... Re8 { [%eval 2.05,7] E d7 0.22s 1616k } 16. Qg5 { [%eval 5.89,14] S d14 0.25s 87k } 16... Kc7 { [%eval 2.05,6] E d6 0.24s 343k } 17. Qf5 { [%eval 0.00,13] S d13 0.25s 92k } 17... Kd8 { [%eval 0.00,7] E d7 0.24s 805k } 18. Ne3 { [%eval 6.07,12] S d12 0.25s 92k } 18... Qa3 { [%eval 1.30,6] E d6 0.24s 237k } 19. O-O { [%eval 6.82,14] S d14 0.25s 83k } 19... Qxc3 { [%eval 2.15,6] E d6 0.24s 202k } 20. g4 { [%eval 0.00,13] S d13 0.25s 90k } 20... h6 { [%eval 1.25,6] E d6 0.24s 230k } 21. g5 { [%eval 7.41,14] S d14 0.25s 96k } 21... hxg5 { [%eval 2.50,8] E d8 0.23s 1817k } 22. Rd1+ { [%eval 8.18,13] S d13 0.25s 100k } 22... Ke7 { [%eval 2.45,7] E d7 0.11s 663k } 23. Bc4 { [%eval 7.72,14] S d14 0.25s 103k } 23... Kf8 { [%eval 1.30,7] E d7 0.14s 1000k } 24. Kg2 { [%eval 6.48,13] S d13 0.25s 98k } 24... g4 { [%eval 0.80,6] E d6 0.24s 303k } 25. Qg5 { [%eval 6.21,13] S d13 0.25s 96k } 25... a5 { [%eval 0.15,6] E d6 0.24s 507k } 26. Kf1 { [%eval 0.00,13] S d13 0.25s 95k } 26... a4 { [%eval 0.10,6] E d6 0.24s 306k } 27. Kg2 { [%eval 6.25,13] S d13 0.25s 92k } 27... Kg8 { [%eval 0.15,6] E d6 0.24s 297k } 28. Bb5 { [%eval 5.71,12] S d12 0.25s 94k } 28... Ra8 { [%eval 0.70,7] E d7 0.16s 1218k } 29. Be2 { [%eval 5.68,12] S d12 0.25s 95k } 29... Qb2 { [%eval 0.25,6] E d6 0.24s 218k } 30. Bc4 { [%eval 6.50,11] S d11 0.25s 103k } 30... Qc3 { [%eval 0.00,6] E d6 0.24s 300k } 31. Rd6 { [%eval 7.19,13] S d13 0.25s 97k } 31... Kf8 { [%eval 1.45,7] E d7 0.21s 1601k } 32. Rxf6 { [%eval 8.92,14] S d14 0.25s 99k } 32... gxf6 { [%eval 2.70,8] E d8 0.14s 1015k } 33. Qf5 { [%eval 0.00,13] S d13 0.25s 110k } 33... Rd8 { [%eval 0.40,6] E d6 0.24s 146k } 34. Qh7 { [%eval 8.35,14] S d14 0.25s 109k } 34... Ke7 { [%eval 1.90,8] E d8 0.24s 643k } 35. Qxf7+ { [%eval 9.16,15] S d15 0.25s 103k } 35... Kd6 { [%eval 2.95,8] E d8 0.24s 572k } 36. Qxb7 { [%eval 9.17,14] S d14 0.25s 107k } 36... Qa5 { [%eval 5.55,8] E d8 0.24s 933k } 37. Bd5 { [%eval 9.48,14] S d14 0.25s 114k } 37... Qc3 { [%eval 5.95,7] E d7 0.19s 1216k } 38. Bc4 { [%eval 9.60,12] S d12 0.25s 147k } 38... Qa5 { [%eval 0.00,9] E d9 0.24s 605k } 39. Bd5 { [%eval 9.64,13] S d13 0.25s 113k } 39... Qc3 { [%eval 0.00,11] E d11 0.15s 1233k } 1/2-1/2
+

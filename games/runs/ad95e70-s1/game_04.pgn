@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "darwin-arm64-MacBook-Pro-som-tillhor-Regent.local"]
+[Date "2026.09.25"]
+[Round "4"]
+[White "Stockfish 19"]
+[Black "chess-winning-team ad95e70"]
+[Result "1-0"]
+[FEN "rnbqkb1r/pp2pppp/3p1n2/8/3NP3/8/PPP2PPP/RNBQKB1R w KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "1600"]
+[BlackElo "-"]
+[StockfishElo "1600"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "ad95e70"]
+[EngineColor "black"]
+[Opening "Sicilian, Open"]
+[Termination "checkmate"]
+[PlyCount "31"]
+
+1. Nc3 { [%eval 0.36,11] S d11 0.26s 84k } 1... e5 { [%eval 0.35,6] E d6 0.11s 664k } 2. Nf5 { [%eval 0.36,12] S d12 0.25s 104k } 2... Bxf5 { [%eval 0.20,6] E d6 0.24s 537k } 3. exf5 { [%eval 0.28,14] S d14 0.25s 102k } 3... Nc6 { [%eval 0.20,6] E d6 0.24s 596k } 4. g4 { [%eval 1.00,11] S d11 0.25s 92k } 4... Be7 { [%eval 0.00,6] E d6 0.11s 650k } 5. g5 { [%eval 1.55,11] S d11 0.25s 87k } 5... Nd7 { [%eval 0.00,7] E d7 0.15s 1046k } 6. h4 { [%eval 1.21,11] S d11 0.25s 82k } 6... O-O { [%eval -0.15,6] E d6 0.24s 590k } 7. Bh3 { [%eval 2.11,11] S d11 0.25s 85k } 7... Nc5 { [%eval -0.20,6] E d6 0.13s 844k } 8. Be3 { [%eval 3.57,11] S d11 0.25s 83k } 8... Qb6 { [%eval -0.40,6] E d6 0.24s 370k } 9. f6 { [%eval 3.69,13] S d13 0.25s 86k } 9... gxf6 { [%eval -0.15,7] E d7 0.12s 883k } 10. Bf5 { [%eval 5.81,13] S d13 0.25s 89k } 10... Qxb2 { [%eval -1.40,7] E d7 0.13s 832k } 11. Qh5 { [%eval 8.73,13] S d13 0.25s 107k } 11... Qxc3+ { [%eval -4.85,7] E d7 0.11s 1106k } 12. Kf1 { [%eval 10.43,13] S d13 0.25s 127k } 12... h6 { [%eval -4.55,7] E d7 0.20s 1701k } 13. Kg2 { [%eval 7.58,14] S d14 0.25s 105k } 13... fxg5 { [%eval -4.45,6] E d6 0.24s 407k } 14. Qxh6 { [%eval #3,15] S d15 0.25s 98k } 14... Rfb8 { [%eval #2,5] E d5 0.00s 18k } 15. Qh7+ { [%eval #2,30] S d30 0.25s 255k } 15... Kf8 { [%eval #1,2] E d2 0.00s 0k } 16. Qh8# { [%eval #1,12] S d12 0.25s 88k } 1-0
+

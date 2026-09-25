@@ -1,0 +1,21 @@
+=== run summary ===
+elo:                    1914.6
+elo_err95:              176.4
+target_elo:             1600
+wins_at_target:         7
+score:                  0.85
+wins/draws/losses:      24/3/3
+per_level:              1500: 7/1/2  1600: 7/2/1  1700: 10/0/0
+games:                  30
+timeouts:               0
+illegal_moves:          0
+avg_move_seconds:       0.176
+max_move_seconds:       0.263
+avg_depth:              7.5
+avg_nodes_per_sec:      4800787
+peak_ram_mb:            50.8
+total_seconds:          261.1
+move_time_s:            0.25
+opponent:               Stockfish 19 (UCI_LimitStrength)
+games_dir:              games/runs/ad95e70/
+host:                   darwin-arm64-MacBook-Pro-som-tillhor-Regent.local
