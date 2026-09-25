@@ -1,0 +1,20 @@
+[package]
+name = "engine"
+version = "0.1.0"
+edition = "2021"
+description = "chess-winning-team UCI engine"
+
+[dependencies]
+cozy-chess = "0.3.4"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+debug = false
+
+# `cargo build --profile profiling` keeps symbols for perf / samply / VTune.
+[profile.profiling]
+inherits = "release"
+debug = true

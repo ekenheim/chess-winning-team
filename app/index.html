@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chess Winning Team — replay</title>
+<style>
+  :root {
+    --bg: #14161a; --panel: #1d2026; --panel2: #262a32; --text: #e8e6e3; --muted: #9a9da3;
+    --light: #edd6b0; --dark: #b58863; --hl: rgba(255, 220, 60, .55); --check: rgba(255, 60, 60, .6);
+    --win: #4caf50; --loss: #e5533d; --draw: #9a9da3; --accent: #f0b429;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { display: flex; align-items: baseline; gap: 16px; padding: 12px 20px; border-bottom: 1px solid #2c3038; }
+  header h1 { font-size: 18px; margin: 0; letter-spacing: .3px; }
+  header .sub { color: var(--muted); font-size: 13px; }
+  main { display: grid; grid-template-columns: 300px minmax(360px, 1fr) 320px; gap: 16px; padding: 16px 20px; min-height: calc(100vh - 50px); }
+  @media (max-width: 1100px) { main { grid-template-columns: 1fr; } }
+  .panel { background: var(--panel); border-radius: 10px; padding: 12px; overflow: auto; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 4px 0 10px; }
+  select { width: 100%; background: var(--panel2); color: var(--text); border: 1px solid #343944; border-radius: 6px; padding: 8px; font-size: 14px; }
+  .summary { font-size: 13px; color: var(--muted); margin: 8px 0 12px; line-height: 1.5; }
+  .summary b { color: var(--text); }
+  .games { list-style: none; margin: 0; padding: 0; max-height: 60vh; overflow: auto; }
+  .games li { display: grid; grid-template-columns: 26px 1fr auto; gap: 8px; align-items: center; padding: 7px 8px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .games li:hover { background: var(--panel2); }
+  .games li.active { background: #2f3542; outline: 1px solid #3f4656; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot.win { background: var(--win); } .dot.loss { background: var(--loss); } .dot.draw { background: var(--draw); }
+  .games .meta { color: var(--muted); font-size: 12px; }
+  .board-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .board-row { display: flex; gap: 10px; align-items: stretch; }
+  .evalbar { width: 18px; border-radius: 4px; background: #333; position: relative; overflow: hidden; }
+  .evalbar .white { position: absolute; left: 0; right: 0; bottom: 0; background: #f4f4f4; transition: height .25s; }
+  .evalbar .label { position: absolute; left: 0; right: 0; text-align: center; font-size: 10px; font-weight: 600; color: #222; }
+  .board { display: grid; grid-template-columns: repeat(8, 1fr); width: min(72vh, 100%, 640px); aspect-ratio: 1; border-radius: 6px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.5); user-select: none; }
+  .sq { position: relative; display: flex; align-items: center; justify-content: center; font-size: calc(min(72vh, 640px) / 8 * .78); line-height: 1; }
+  .sq.light { background: var(--light); } .sq.dark { background: var(--dark); }
+  .sq.from, .sq.to { box-shadow: inset 0 0 0 100px var(--hl); }
+  .sq.check { box-shadow: inset 0 0 0 100px var(--check); }
+  .sq .coord { position: absolute; font-size: 11px; font-weight: 600; opacity: .7; }
+  .sq .file { right: 3px; bottom: 1px; } .sq .rank { left: 3px; top: 1px; }
+  .sq.light .coord { color: var(--dark); } .sq.dark .coord { color: var(--light); }
+  .piece { transition: transform .18s ease; filter: drop-shadow(0 2px 2px rgba(0,0,0,.35)); font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Apple Symbols", "DejaVu Sans", serif; }
+  .piece.w { color: #fafafa; text-shadow: 0 0 2px #000, 0 0 2px #000; } .piece.b { color: #111; }
+  .controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  button { background: var(--panel2); color: var(--text); border: 1px solid #343944; border-radius: 6px; padding: 7px 12px; font-size: 14px; cursor: pointer; }
+  button:hover { background: #333947; } button.primary { background: var(--accent); color: #111; border-color: transparent; font-weight: 600; }
+  .status { font-size: 13px; color: var(--muted); text-align: center; min-height: 18px; }
+  .players { display: flex; justify-content: space-between; width: min(72vh, 100%, 640px); font-size: 13px; color: var(--muted); }
+  .players b { color: var(--text); }
+  .moves { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; display: grid; grid-template-columns: 34px 1fr 1fr; gap: 2px 6px; max-height: 60vh; overflow: auto; }
+  .moves .n { color: var(--muted); text-align: right; }
+  .moves .m { padding: 2px 6px; border-radius: 4px; cursor: pointer; white-space: nowrap; }
+  .moves .m:hover { background: var(--panel2); } .moves .m.cur { background: var(--accent); color: #111; font-weight: 600; }
+  .moves .m.blunder { color: var(--loss); } .moves .m.mistake { color: #f0a04b; }
+  .comment { font-size: 12px; color: var(--muted); margin-top: 10px; white-space: pre-wrap; font-family: ui-monospace, Consolas, monospace; }
+  .badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .badge.win { background: var(--win); color: #fff; } .badge.loss { background: var(--loss); color: #fff; } .badge.draw { background: #555; color: #fff; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header><h1>♟ Chess Winning Team</h1><span class="sub">every game our engine played against Stockfish, replayable move by move</span></header>
+<main>
+  <section class="panel">
+    <h2>Runs</h2>
+    <select id="runs"></select>
+    <div class="summary" id="run-summary"></div>
+    <h2>Games</h2>
+    <ul class="games" id="games"></ul>
+  </section>
+  <section class="panel board-wrap">
+    <div class="players" id="top-player"></div>
+    <div class="board-row">
+      <div class="evalbar" id="evalbar"><div class="white" style="height:50%"></div><div class="label"></div></div>
+      <div class="board" id="board"></div>
+    </div>
+    <div class="players" id="bottom-player"></div>
+    <div class="controls">
+      <button id="first" title="Home">⏮</button>
+      <button id="prev" title="←">◀</button>
+      <button id="play" class="primary" title="Space">▶ Play</button>
+      <button id="next" title="→">▶</button>
+      <button id="last" title="End">⏭</button>
+      <button id="flip" title="f">⇅ Flip</button>
+      <label style="font-size:13px;color:var(--muted)">speed <input id="speed" type="range" min="150" max="2000" step="50" value="700"></label>
+    </div>
+    <div class="status" id="status">Pick a run and a game.</div>
+  </section>
+  <section class="panel">
+    <h2>Moves</h2>
+    <div class="moves" id="moves"></div>
+    <div class="comment" id="comment"></div>
+  </section>
+</main>
+<script>
+const GLYPH = { K: "♔", Q: "♕", R: "♖", B: "♗", N: "♘", P: "♙", k: "♚", q: "♛", r: "♜", b: "♝", n: "♞", p: "♟" };
+const $ = id => document.getElementById(id);
+let state = { run: null, games: [], game: null, ply: 0, flipped: false, timer: null };
+
+async function api(path) { const r = await fetch(path); if (!r.ok) throw new Error((await r.json()).error || r.statusText); return r.json(); }
+
+function parseFen(fen) {
+  const rows = fen.split(" ")[0].split("/");
+  const board = [];
+  for (const row of rows) { const r = []; for (const ch of row) { if (/\d/.test(ch)) for (let i = 0; i < +ch; i++) r.push(null); else r.push(ch); } board.push(r); }
+  return { board, turn: fen.split(" ")[1] };
+}
+
+function kingInCheck(fenBoard, turn) {
+  // Cheap check detection: is the side to move's king attacked? Only used for the red square.
+  const b = fenBoard, K = turn === "w" ? "K" : "k", enemy = turn === "w" ? "b" : "w";
+  let kr = -1, kf = -1;
+  for (let r = 0; r < 8; r++) for (let f = 0; f < 8; f++) if (b[r][f] === K) { kr = r; kf = f; }
+  if (kr < 0) return null;
+  const isEnemy = p => p && ((enemy === "w") === (p === p.toUpperCase()));
+  const at = (r, f) => (r < 0 || r > 7 || f < 0 || f > 7) ? undefined : b[r][f];
+  const pd = enemy === "w" ? 1 : -1; // white pawns attack upward (towards row 0)
+  for (const df of [-1, 1]) { const p = at(kr + pd, kf + df); if (p && isEnemy(p) && p.toLowerCase() === "p") return [kr, kf]; }
+  for (const [dr, df] of [[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]]) { const p = at(kr + dr, kf + df); if (p && isEnemy(p) && p.toLowerCase() === "n") return [kr, kf]; }
+  for (const [dr, df] of [[1,0],[-1,0],[0,1],[0,-1]]) for (let i = 1; i < 8; i++) { const p = at(kr + dr*i, kf + df*i); if (p === undefined) break; if (p) { if (isEnemy(p) && "rq".includes(p.toLowerCase())) return [kr, kf]; break; } }
+  for (const [dr, df] of [[1,1],[-1,1],[1,-1],[-1,-1]]) for (let i = 1; i < 8; i++) { const p = at(kr + dr*i, kf + df*i); if (p === undefined) break; if (p) { if (isEnemy(p) && "bq".includes(p.toLowerCase())) return [kr, kf]; break; } }
+  for (const [dr, df] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]) { const p = at(kr + dr, kf + df); if (p && isEnemy(p) && p.toLowerCase() === "k") return [kr, kf]; }
+  return null;
+}
+
+function renderBoard() {
+  const g = state.game; const el = $("board"); el.innerHTML = "";
+  const fen = state.ply === 0 ? g.start_fen : g.moves[state.ply - 1].fen;
+  const { board, turn } = parseFen(fen);
+  const last = state.ply > 0 ? g.moves[state.ply - 1].uci : null;
+  const from = last ? last.slice(0, 2) : null, to = last ? last.slice(2, 4) : null;
+  const check = kingInCheck(board, turn);
+  for (let i = 0; i < 64; i++) {
+    const vr = Math.floor(i / 8), vf = i % 8;
+    const r = state.flipped ? 7 - vr : vr, f = state.flipped ? 7 - vf : vf; // r: 0 = rank 8
+    const name = "abcdefgh"[f] + (8 - r);
+    const sq = document.createElement("div");
+    sq.className = "sq " + ((r + f) % 2 === 0 ? "light" : "dark") + (name === from ? " from" : "") + (name === to ? " to" : "") + (check && check[0] === r && check[1] === f ? " check" : "");
+    const p = board[r][f];
+    if (p) { const s = document.createElement("span"); s.className = "piece " + (p === p.toUpperCase() ? "w" : "b"); s.textContent = GLYPH[p]; sq.appendChild(s); }
+    if (vf === 7) { const c = document.createElement("span"); c.className = "coord rank"; c.textContent = 8 - r; sq.appendChild(c); }
+    if (vr === 7) { const c = document.createElement("span"); c.className = "coord file"; c.textContent = "abcdefgh"[f]; sq.appendChild(c); }
+    el.appendChild(sq);
+  }
+  // eval bar (white's point of view): analysis if present, else the players' own reported eval
+  let cp = null, label = "";
+  if (state.ply > 0) { const m = g.moves[state.ply - 1]; if (m.analysis && m.analysis.cp != null) cp = m.analysis.cp; else if (m.eval) cp = m.eval.mate != null ? (m.eval.mate > 0 ? 1000 : -1000) : m.eval.cp; }
+  if (cp != null) { const pct = 100 / (1 + Math.pow(10, -cp / 400)); $("evalbar").firstElementChild.style.height = (state.flipped ? 100 - pct : pct) + "%"; label = (cp > 0 ? "+" : "") + (cp / 100).toFixed(1); }
+  else $("evalbar").firstElementChild.style.height = "50%";
+  const lab = $("evalbar").lastElementChild; lab.textContent = label; lab.style.top = state.flipped ? "4px" : ""; lab.style.bottom = state.flipped ? "" : "4px";
+  // players
+  const h = g.headers; const whiteTop = state.flipped;
+  const w = `<span>⬜ <b>${h.White}</b> ${h.WhiteElo && h.WhiteElo !== "-" ? "(Elo " + h.WhiteElo + ")" : ""}</span>`;
+  const b = `<span>⬛ <b>${h.Black}</b> ${h.BlackElo && h.BlackElo !== "-" ? "(Elo " + h.BlackElo + ")" : ""}</span>`;
+  $("top-player").innerHTML = whiteTop ? w : b; $("bottom-player").innerHTML = whiteTop ? b : w;
+  // moves list highlight + comment
+  document.querySelectorAll(".moves .m").forEach(x => x.classList.toggle("cur", +x.dataset.ply === state.ply));
+  const cur = document.querySelector(".moves .m.cur"); if (cur) cur.scrollIntoView({ block: "nearest" });
+  const m = state.ply > 0 ? g.moves[state.ply - 1] : null;
+  $("comment").textContent = m ? [m.comment, m.analysis && m.analysis.comment ? "Stockfish: " + m.analysis.comment : ""].filter(Boolean).join("\n") : "";
+  $("status").textContent = state.ply === 0 ? `${h.Opening || "Start"} · ${h.Result} · ${h.Termination || ""}` : `Move ${Math.ceil(state.ply / 2)}${state.ply % 2 ? "" : "…"} ${m.san} · ${state.ply}/${g.moves.length} plies · ${h.Result}`;
+}
+
+function renderMoves() {
+  const el = $("moves"); el.innerHTML = "";
+  state.game.moves.forEach((m, i) => {
+    if (i % 2 === 0) { const n = document.createElement("div"); n.className = "n"; n.textContent = (i / 2 + 1) + "."; el.appendChild(n); }
+    const d = document.createElement("div"); d.className = "m"; d.dataset.ply = i + 1; d.textContent = m.san;
+    if (m.analysis && m.analysis.comment) { const loss = /loss (\d+)/.exec(m.analysis.comment); if (loss && +loss[1] >= 200) d.classList.add("blunder"); else if (loss && +loss[1] >= 100) d.classList.add("mistake"); }
+    d.onclick = () => goTo(i + 1); el.appendChild(d);
+  });
+}
+
+function goTo(ply) { state.ply = Math.max(0, Math.min(state.game.moves.length, ply)); renderBoard(); }
+function stop() { if (state.timer) { clearInterval(state.timer); state.timer = null; $("play").textContent = "▶ Play"; } }
+function togglePlay() {
+  if (state.timer) return stop();
+  if (!state.game) return;
+  if (state.ply >= state.game.moves.length) state.ply = 0;
+  $("play").textContent = "⏸ Pause";
+  state.timer = setInterval(() => { if (state.ply >= state.game.moves.length) return stop(); goTo(state.ply + 1); }, +$("speed").value);
+}
+
+async function loadGame(file) {
+  stop();
+  state.game = await api(`/api/game?run=${encodeURIComponent(state.run)}&file=${encodeURIComponent(file)}`);
+  state.ply = 0;
+  state.flipped = state.game.headers.EngineColor === "black";
+  document.querySelectorAll("#games li").forEach(li => li.classList.toggle("active", li.dataset.file === file));
+  renderMoves(); renderBoard();
+  history.replaceState(null, "", `?run=${encodeURIComponent(state.run)}&game=${encodeURIComponent(file)}`);
+}
+
+function outcomeClass(g) { if (g.result === "1/2-1/2") return "draw"; return (g.result === "1-0") === (g.engine === "white") ? "win" : "loss"; }
+
+async function loadRun(name, gameFile) {
+  state.run = name;
+  state.games = await api(`/api/games?run=${encodeURIComponent(name)}`);
+  const ul = $("games"); ul.innerHTML = "";
+  state.games.forEach(g => {
+    const li = document.createElement("li"); li.dataset.file = g.file;
+    const oc = outcomeClass(g);
+    li.innerHTML = `<span class="dot ${oc}"></span><span>${g.file.replace(".pgn", "")} · engine ${g.engine} vs Stockfish ${g.level}<br><span class="meta">${g.opening || ""} · ${g.plies} plies · ${g.termination}</span></span><span class="badge ${oc}">${oc}</span>`;
+    li.onclick = () => loadGame(g.file); ul.appendChild(li);
+  });
+  const runs = window.__runs || []; const info = runs.find(r => r.name === name);
+  const s = info && info.summary;
+  $("run-summary").innerHTML = s ? `Elo <b>${s.elo}</b> ±${s.elo_err95} · W/D/L <b>${s.wins}/${s.draws}/${s.losses}</b> · target ${s.target_elo}, wins@target <b>${s.wins_at_target}</b><br>${s.move_time_s}s/move · avg depth ${s.avg_depth} · ${(s.avg_nodes_per_sec / 1000).toFixed(0)}k nps · ${s.opponent}<br>${Object.entries(s.per_level).map(([lv, v]) => `${lv}: ${v.wins}/${v.draws}/${v.losses}`).join(" · ")}` : (name === "proofs" ? "Proof games: the wins that raised TARGET_ELO." : `${state.games.length} games`);
+  if (state.games.length) loadGame(gameFile && state.games.some(g => g.file === gameFile) ? gameFile : state.games[0].file);
+}
+
+async function init() {
+  const runs = await api("/api/runs"); window.__runs = runs;
+  const sel = $("runs"); sel.innerHTML = "";
+  runs.forEach(r => { const o = document.createElement("option"); o.value = r.name; o.textContent = `${r.name} · ${r.games} games` + (r.summary ? ` · elo ${r.summary.elo}` : ""); sel.appendChild(o); });
+  sel.onchange = () => loadRun(sel.value);
+  const q = new URLSearchParams(location.search);
+  const want = q.get("run") && runs.some(r => r.name === q.get("run")) ? q.get("run") : (runs[0] && runs[0].name);
+  if (want) { sel.value = want; loadRun(want, q.get("game")); } else $("status").textContent = "No games yet. Run `make bench` first.";
+  $("first").onclick = () => { stop(); goTo(0); }; $("prev").onclick = () => { stop(); goTo(state.ply - 1); };
+  $("next").onclick = () => { stop(); goTo(state.ply + 1); }; $("last").onclick = () => { stop(); goTo(1e9); };
+  $("play").onclick = togglePlay; $("flip").onclick = () => { state.flipped = !state.flipped; renderBoard(); };
+  document.addEventListener("keydown", e => {
+    if (!state.game || e.target.tagName === "SELECT" || e.target.tagName === "INPUT") return;
+    if (e.key === "ArrowLeft") { stop(); goTo(state.ply - 1); } else if (e.key === "ArrowRight") { stop(); goTo(state.ply + 1); }
+    else if (e.key === "Home") { stop(); goTo(0); } else if (e.key === "End") { stop(); goTo(1e9); }
+    else if (e.key === " ") { e.preventDefault(); togglePlay(); } else if (e.key === "f") { state.flipped = !state.flipped; renderBoard(); }
+  });
+}
+init().catch(e => { $("status").textContent = "Error: " + e.message; });
+</script>
+</body>
+</html>

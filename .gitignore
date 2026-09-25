@@ -1,2 +1,5 @@
 tools/stockfish/
 __pycache__/
+engine/target/
+run.log
+*.pyc
