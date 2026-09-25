@@ -133,8 +133,6 @@ fn main() {
     let stdin = io::stdin();
     let mut out = io::stdout();
     let mut game = Game::new();
-    // One searcher for the whole game, so the transposition table carries over between moves.
-    let mut searcher = Searcher::new();
 
     // Allow `engine bench [depth]` from the command line for `make profile`.
     let args: Vec<String> = std::env::args().collect();
@@ -158,14 +156,12 @@ fn main() {
                 println!("uciok");
             }
             "isready" => println!("readyok"),
-            "ucinewgame" => {
-                game = Game::new();
-                searcher.clear();
-            }
+            "ucinewgame" => game = Game::new(),
             "position" => game.set_position(&tokens[1..]),
             "go" => {
                 let white = game.board.side_to_move() == cozy_chess::Color::White;
                 let limits = parse_go(&tokens[1..], white);
+                let mut searcher = Searcher::new();
                 let result = searcher.search(&game.board, &game.history, &limits, true);
                 match result.best_move {
                     Some(mv) => println!("bestmove {}", util::display_uci_move(&game.board, mv)),
