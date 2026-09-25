@@ -221,5 +221,56 @@
     "slowest_move": 0.24,
     "problems": [],
     "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "fff833a",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2397\u00b1209 W/D/L=27/0/3 @2000 wins@target=7 \u2014 confirm king safety at 5s/move",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/55375f9-full/"
+    ],
+    "claimed_elo": 2397.0,
+    "claimed_err": 209.0,
+    "recomputed_elo": 2396.8,
+    "recomputed_err": 209.2,
+    "wdl": [
+      27,
+      0,
+      3
+    ],
+    "games": 30,
+    "move_time": 5.0,
+    "slowest_move": 4.75,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "0c5f5a4",
+    "kind": "ladder",
+    "subject": "[ladder] TARGET_ELO 2000 -> 2200 \u2014 proof games/proofs/beat-2000.pgn + beat-2100.pgn, tags beat-2000, beat-2100",
+    "host": "?",
+    "files": [
+      "sep25-erik/proofs/beat-2000.pgn",
+      "sep25-erik/proofs/beat-2100.pgn"
+    ],
+    "problems": [],
+    "proofs": [
+      {
+        "file": "beat-2000.pgn",
+        "level": 2000,
+        "plies": 62,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2100.pgn",
+        "level": 2100,
+        "plies": 35,
+        "termination": "checkmate"
+      }
+    ],
+    "verified": true
   }
 ]
