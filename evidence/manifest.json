@@ -130,27 +130,21 @@
     "subject": "[keep] elo=2092\u00b1169 W/D/L=24/2/4 @1800 wins@target=7 \u2014 search: merge main (NMP + LMR + PVS + killers/history + check extension + in-check quiescence) onto tapered eval",
     "host": "windows-i7-13700H",
     "files": [
-      "sep25-erik/1a24270/",
-      "sep25-erik/63ccb08/",
-      "sep25-erik/73fbb69/",
-      "sep25-erik/97aee56/",
-      "sep25-erik/aecf98e/"
+      "sep25-erik/73fbb69/"
     ],
     "claimed_elo": 2092.0,
     "claimed_err": 169.0,
-    "recomputed_elo": 2081.1,
-    "recomputed_err": 101.0,
+    "recomputed_elo": 2092.2,
+    "recomputed_err": 169.3,
     "wdl": [
-      133,
-      8,
-      9
+      24,
+      2,
+      4
     ],
     "games": 30,
     "move_time": 0.25,
-    "slowest_move": 0.27,
-    "problems": [
-      "games give elo=2081 W/D/L=133/8/9, commit claims elo=2092 W/D/L=24/2/4"
-    ],
-    "verified": false
+    "slowest_move": 0.25,
+    "problems": [],
+    "verified": true
   }
 ]

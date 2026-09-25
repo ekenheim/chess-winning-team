@@ -61,12 +61,17 @@ def added(sha, prefix):
     """Files under `prefix` that commit `sha` added."""
     # Diff against the first parent, so merge commits (which diff-tree
     # silently skips) count the games they bring in; --root for the first commit.
-    try:
-        out = git("diff", "--name-only", "--diff-filter=A", f"{sha}^1", sha, "--", prefix)
-    except Exception:
-        out = git("diff-tree", "--no-commit-id", "-r", "--name-only", "--diff-filter=A",
-                  "--root", sha, "--", prefix)
-    return out.split()
+    parents = git("rev-list", "--parents", "-n", "1", sha).split()[1:]
+    if not parents:
+        return git("diff-tree", "--no-commit-id", "-r", "--name-only", "--diff-filter=A",
+                   "--root", sha, "--", prefix).split()
+    # A merge commit only "adds" what is new against every parent: the run it
+    # played, not the other branch's games it merged in.
+    files = None
+    for parent in parents:
+        got = set(git("diff", "--name-only", "--diff-filter=A", parent, sha, "--", prefix).split())
+        files = got if files is None else files & got
+    return sorted(files or [])
 
 
 def check_game(text):
