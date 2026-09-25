@@ -1,6 +1,7 @@
-//! Baseline search: iterative deepening, plain alpha-beta negamax,
-//! MVV-LVA capture ordering, quiescence search, repetition and 50-move
-//! detection, and a simple time manager. Everything smarter is an experiment.
+//! Search: iterative deepening, principal-variation search with a
+//! transposition table (kept across moves), move ordering by hash move,
+//! MVV-LVA captures, killer moves and a history heuristic, quiescence search,
+//! repetition and 50-move detection, and a simple time manager.
 
 use cozy_chess::{Board, Move, Piece, Rank, Square};
 use std::time::{Duration, Instant};
@@ -12,6 +13,50 @@ pub const MAX_PLY: usize = 128;
 const INF: i32 = 100_000;
 /// Check the clock every this many nodes.
 const NODE_CHECK_MASK: u64 = 1023;
+/// History scores stay below the killer keys.
+const HISTORY_MAX: i32 = 7_000;
+static EMPTY_HISTORY: [[i32; 64]; 64] = [[0; 64]; 64];
+/// Transposition table entries (power of two); 2^21 x 24 bytes = 48 MB.
+const TT_ENTRIES: usize = 1 << 21;
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Bound {
+    Exact,
+    Lower,
+    Upper,
+}
+
+#[derive(Clone, Copy)]
+struct TtEntry {
+    key: u64,
+    mv: Option<Move>,
+    score: i32,
+    depth: i8,
+    bound: Bound,
+}
+
+const EMPTY_ENTRY: TtEntry = TtEntry { key: 0, mv: None, score: 0, depth: -1, bound: Bound::Upper };
+
+/// Mate scores are stored relative to the node, not the root.
+fn score_to_tt(score: i32, ply: usize) -> i32 {
+    if score >= MATE - MAX_PLY as i32 {
+        score + ply as i32
+    } else if score <= -MATE + MAX_PLY as i32 {
+        score - ply as i32
+    } else {
+        score
+    }
+}
+
+fn score_from_tt(score: i32, ply: usize) -> i32 {
+    if score >= MATE - MAX_PLY as i32 {
+        score - ply as i32
+    } else if score <= -MATE + MAX_PLY as i32 {
+        score + ply as i32
+    } else {
+        score
+    }
+}
 
 #[derive(Default, Clone, Debug)]
 pub struct SearchLimits {
@@ -41,6 +86,11 @@ pub struct Searcher {
     /// Hashes of the game history followed by the current search path.
     stack: Vec<u64>,
     root_move: Option<Move>,
+    tt: Vec<TtEntry>,
+    /// Two quiet moves per ply that recently caused a beta cutoff.
+    killers: [[Option<Move>; 2]; MAX_PLY],
+    /// Butterfly history [side][from][to]: how often a quiet move cut off, weighted by depth.
+    history: Box<[[[i32; 64]; 64]; 2]>,
 }
 
 impl Searcher {
@@ -54,7 +104,20 @@ impl Searcher {
             stopped: false,
             stack: Vec::with_capacity(512),
             root_move: None,
+            tt: vec![EMPTY_ENTRY; TT_ENTRIES],
+            killers: [[None; 2]; MAX_PLY],
+            history: Box::new([[[0; 64]; 64]; 2]),
         }
+    }
+
+    pub fn clear(&mut self) {
+        self.tt.fill(EMPTY_ENTRY);
+        self.history = Box::new([[[0; 64]; 64]; 2]);
+    }
+
+    #[inline]
+    fn tt_index(hash: u64) -> usize {
+        hash as usize & (TT_ENTRIES - 1)
     }
 
     pub fn search(&mut self, board: &Board, history: &[u64], limits: &SearchLimits, report: bool) -> SearchResult {
@@ -75,6 +138,11 @@ impl Searcher {
         }
         self.stack.clear();
         self.stack.extend_from_slice(history);
+        // Killers are position-specific; history carries over, aged.
+        self.killers = [[None; 2]; MAX_PLY];
+        for h in self.history.iter_mut().flatten().flatten() {
+            *h /= 2;
+        }
         let max_depth = limits.depth.unwrap_or(MAX_PLY as u8 - 1).min(MAX_PLY as u8 - 1);
 
         let mut best_move: Option<Move> = first_legal_move(board);
@@ -169,18 +237,45 @@ impl Searcher {
             return eval::evaluate(board);
         }
 
-        let moves = ordered_moves(board, false);
+        let hash = board.hash();
+        let entry = self.tt[Self::tt_index(hash)];
+        let hit = entry.key == hash;
+        if hit && ply > 0 && entry.depth as i32 >= depth {
+            let score = score_from_tt(entry.score, ply);
+            match entry.bound {
+                Bound::Exact => return score,
+                Bound::Lower if score >= beta => return score,
+                Bound::Upper if score <= alpha => return score,
+                _ => {}
+            }
+        }
+        let hash_move = if hit { entry.mv } else { None };
+
+        let side = board.side_to_move() as usize;
+        let moves = ordered_moves(board, false, hash_move, self.killers[ply], &self.history[side]);
         if moves.is_empty() {
             return if board.checkers().is_empty() { 0 } else { -MATE + ply as i32 };
         }
 
+        let enemy = board.colors(!board.side_to_move());
+        let alpha_orig = alpha;
         let mut best = -INF;
         let mut best_move = None;
-        for (mv, _) in moves {
+        for (i, (mv, _)) in moves.into_iter().enumerate() {
             let mut child = board.clone();
             child.play_unchecked(mv);
             self.stack.push(child.hash());
-            let score = -self.negamax(&child, depth - 1, -beta, -alpha, ply + 1);
+            // PVS: full window for the first move, a null window for the
+            // rest, re-searched only if one unexpectedly beats alpha.
+            let mut score;
+            if i == 0 {
+                score = -self.negamax(&child, depth - 1, -beta, -alpha, ply + 1);
+            } else {
+                score = -self.negamax(&child, depth - 1, -alpha - 1, -alpha, ply + 1);
+                if score > alpha && score < beta && !self.stopped {
+                    score = -self.negamax(&child, depth - 1, -beta, -alpha, ply + 1);
+                }
+            }
             self.stack.pop();
             if self.stopped {
                 return 0;
@@ -191,6 +286,16 @@ impl Searcher {
                 if score > alpha {
                     alpha = score;
                     if alpha >= beta {
+                        let quiet = !enemy.has(mv.to) && mv.promotion.is_none();
+                        if quiet {
+                            let k = &mut self.killers[ply];
+                            if k[0] != Some(mv) {
+                                k[1] = k[0];
+                                k[0] = Some(mv);
+                            }
+                            let h = &mut self.history[side][mv.from as usize][mv.to as usize];
+                            *h = (*h + depth * depth).min(HISTORY_MAX);
+                        }
                         break;
                     }
                 }
@@ -199,6 +304,23 @@ impl Searcher {
         if ply == 0 {
             self.root_move = best_move;
         }
+        let bound = if best >= beta {
+            Bound::Lower
+        } else if best > alpha_orig {
+            Bound::Exact
+        } else {
+            Bound::Upper
+        };
+        // On a fail-low every move scored <= alpha, so the "best" one is
+        // noise; keep the move the table already had.
+        let tt_move = if bound == Bound::Upper { hash_move.or(best_move) } else { best_move };
+        self.tt[Self::tt_index(hash)] = TtEntry {
+            key: hash,
+            mv: tt_move,
+            score: score_to_tt(best, ply),
+            depth: depth as i8,
+            bound,
+        };
         best
     }
 
@@ -218,7 +340,7 @@ impl Searcher {
             return stand_pat;
         }
         let mut best = stand_pat;
-        for (mv, _) in ordered_moves(board, true) {
+        for (mv, _) in ordered_moves(board, true, None, [None; 2], &EMPTY_HISTORY) {
             let mut child = board.clone();
             child.play_unchecked(mv);
             let score = -self.quiescence(&child, -beta, -alpha, ply + 1);
@@ -254,8 +376,16 @@ fn first_legal_move(board: &Board) -> Option<Move> {
 
 /// Generate moves with an ordering key: captures by MVV-LVA (most valuable
 /// victim first, cheapest attacker first), queen promotions high, quiet moves
-/// last. With `captures_only`, only captures and queen promotions are kept.
-fn ordered_moves(board: &Board, captures_only: bool) -> Vec<(Move, i32)> {
+/// after them killers, then the remaining quiet moves by history; the hash
+/// move, if any, goes first. With `captures_only`, only captures and queen
+/// promotions are kept.
+fn ordered_moves(
+    board: &Board,
+    captures_only: bool,
+    hash_move: Option<Move>,
+    killers: [Option<Move>; 2],
+    history: &[[i32; 64]; 64],
+) -> Vec<(Move, i32)> {
     let us = board.side_to_move();
     let enemy = board.colors(!us);
     let ep_square = board.en_passant().map(|file| Square::new(file, Rank::Sixth.relative_to(us)));
@@ -280,6 +410,18 @@ fn ordered_moves(board: &Board, captures_only: bool) -> Vec<(Move, i32)> {
             }
             if let Some(p) = mv.promotion {
                 key += if p == Piece::Queen { 9_000 } else { -5_000 };
+            }
+            if !is_capture && mv.promotion.is_none() {
+                key = if Some(mv) == killers[0] {
+                    8_000
+                } else if Some(mv) == killers[1] {
+                    7_900
+                } else {
+                    history[mv.from as usize][mv.to as usize]
+                };
+            }
+            if Some(mv) == hash_move {
+                key = 1_000_000;
             }
             out.push((mv, key));
         }
