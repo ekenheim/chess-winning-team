@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "darwin-arm64-MacBook-Pro-som-tillhor-Regent.local"]
+[Date "2026.09.25"]
+[Round "21"]
+[White "chess-winning-team 63ccb08"]
+[Black "Stockfish 19"]
+[Result "1-0"]
+[FEN "r1bqkbnr/pppp1ppp/2n5/8/3NP3/8/PPP2PPP/RNBQKB1R b KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "-"]
+[BlackElo "1600"]
+[StockfishElo "1600"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "63ccb08"]
+[EngineColor "white"]
+[Opening "Scotch Game"]
+[Termination "checkmate"]
+[PlyCount "70"]
+
+1... Bb4+ { S loss 16 d12 0.26s [%eval 0.36,14] } 2. c3 { E loss 0 d7 0.11s [%eval 0.38,14] } 2... Be7 { S loss 37 d11 0.25s [%eval 0.75,14] } 3. Nxc6 { E loss 30 d5 0.24s [%eval 0.45,14] } 3... bxc6 { S loss 8 d14 0.25s [%eval 0.53,14] } 4. Nd2 { E loss 1 d5 0.24s [%eval 0.52,14] } 4... Bb7 { S loss 109 best Nf6 d11 0.25s [%eval 1.61,14] } 5. Qb3 { E loss 114 best e5 d5 0.24s [%eval 0.47,14] } 5... Qc8 { S loss 128 best Rb8 d12 0.25s [%eval 1.75,14] } 6. Bc4 { E loss 0 d5 0.24s [%eval 1.95,14] } 6... a5 { S loss 136 best d5 d11 0.25s [%eval 3.31,14] } 7. Bxf7+ { E loss 0 d6 0.24s [%eval 3.65,14] } 7... Kd8 { S loss 317 best Kf8 d15 0.25s [%eval 6.82,14] } 8. Bxg8 { E loss 4 d6 0.24s [%eval 6.78,14] } 8... Ba6 { S loss 79 best d5 d12 0.25s [%eval 7.57,14] } 9. Qf7 { E loss 0 d6 0.15s [%eval 8.09,14] } 9... d6 { S loss 13 d13 0.25s [%eval 8.22,14] } 10. Qxg7 { E loss 0 d6 0.13s [%eval 8.65,14] } 10... a4 { S loss 12 d13 0.25s [%eval 8.77,14] } 11. Be6 { E loss 49 d6 0.10s [%eval 8.28,14] } 11... Qxe6 { S loss 53 d12 0.25s [%eval 8.81,14] } 12. Qxh8+ { E loss 10 d7 0.24s [%eval 8.71,14] } 12... Bf8 { S loss 109 best Kd7 d13 0.25s [%eval 9.80,14] } 13. Qxf8+ { E loss 0 d7 0.13s [%eval 9.84,14] } 13... Qe8 { S loss 0 d13 0.25s [%eval 9.62,14] } 14. Qg7 { E loss 28 d6 0.24s [%eval 9.34,14] } 14... Bd3 { S loss 42 d12 0.25s [%eval 9.76,14] } 15. Qxh7 { E loss 9 d6 0.24s [%eval 9.67,14] } 15... Qe6 { S loss 0 d13 0.25s [%eval 9.53,14] } 16. Qh8+ { E loss 11 d6 0.18s [%eval 9.42,14] } 16... Qe8 { S loss 54 best Kd7 d13 0.25s [%eval 9.96,14] } 17. Qd4 { E loss 0 d7 0.13s [%eval 10.14,14] } 17... Ba6 { S loss 0 d14 0.25s [%eval 9.85,14] } 18. Qxa4 { E loss 32 d6 0.24s [%eval 9.53,14] } 18... Qg6 { S loss 29 d13 0.25s [%eval 9.82,14] } 19. Qxc6 { E loss 47 d7 0.24s [%eval 9.35,14] } 19... Bd3 { S loss 223 best Ra7 d12 0.25s [%eval 11.58,14] } 20. Qxa8+ { E loss 14 d7 0.24s [%eval 11.44,14] } 20... Kd7 { S loss 30 d13 0.25s [%eval 11.74,14] } 21. Rg1 { E loss 0 d6 0.12s [%eval 11.74,14] } 21... Qg5 { S loss 27 d12 0.25s [%eval 12.01,14] } 22. c4 { E loss 48 d5 0.24s [%eval 11.53,14] } 22... Qg4 { S loss 10 d13 0.25s [%eval 11.63,14] } 23. Qa4+ { E loss 0 d6 0.16s [%eval 11.64,14] } 23... Ke7 { S loss 40 d11 0.25s [%eval 12.04,14] } 24. Qd1 { E loss 0 d6 0.13s [%eval 12.29,14] } 24... Qe6 { S loss 31 d12 0.25s [%eval 12.60,14] } 25. Qf3 { E loss 0 d6 0.24s [%eval 12.65,14] } 25... Bxe4 { S loss 184 best Bc2 d11 0.25s [%eval 14.49,14] } 26. Qxe4 { E loss 111 best Nxe4 d7 0.24s [%eval 13.38,14] } 26... Qxe4+ { S loss 28 d11 0.25s [%eval 13.66,14] } 27. Nxe4 { E loss 0 d8 0.16s [%eval 13.69,14] } 27... Kd7 { S loss 32 d14 0.25s [%eval 14.01,14] } 28. Kd2 { E loss 28 d6 0.24s [%eval 13.73,14] } 28... d5 { S loss 82 d13 0.25s [%eval 14.55,14] } 29. cxd5 { E loss 0 d8 0.19s [%eval 16.21,14] } 29... Ke7 { S loss 138 d13 0.25s [%eval 17.59,14] } 30. Kd3 { E loss 28 d7 0.19s [%eval 17.31,14] } 30... c6 { S loss 260 best Kf7 d13 0.25s [%eval 19.91,14] } 31. dxc6 { E loss 0 d7 0.24s [%eval 20.84,14] } 31... Kf8 { S loss 172 best Kd8 d24 0.25s [%eval 22.56,14] } 32. c7 { E loss 1263 best Bg5 d7 0.24s [%eval 9.93,14] } 32... Ke8 { S loss 1 d48 0.25s [%eval 9.94,14] } 33. c8=Q+ { E loss 0 d7 0.13s [%eval 9.96,14] } 33... Ke7 { S loss 0 d245 0.18s [%eval 9.96,14] } 34. Qc7+ { E loss 0 d6 0.09s [%eval 9.98,14] } 34... Ke8 { S loss 0 d245 0.01s [%eval 9.98,14] } 35. Ng5 { E loss 0 d4 0.00s [%eval 9.99,14] } 35... Kf8 { S loss 0 d245 0.01s [%eval 9.99,14] } 36. Qf7# { E loss 0 d2 0.00s [%eval 10.00,14] } 1-0
+
