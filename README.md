@@ -11,7 +11,8 @@ Two people work on this repo, one on macOS and one on Windows, each on their own
 
 | Run | Host | Experiments | Kept | Best Elo (0.25 s) | Best FULL Elo (5 s) | Target | Wins@target (FULL) | Proofs |
 |---|---|---|---|---|---|---|---|---|
-| — | — | 0 | 0 | — | — | — | — | — |
+| `sep25-erik` | windows-i7-13700H | 2 | 2 | **1894** ±93 (search: transposition table 64MB + hash-move ordering + TT PV) | 1785 ±144 | 1800 | 8 | 1 |
+| `sep25-robin` | macos-m1pro, | 7 | 4 | **2326** ±486 (search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes)) | — | 1600 | 0 | 0 |
 
 Elo is only comparable within one host (the Mac and the Windows PC reach different depths). Rebuilt from the git log by `python tools/progress.py`.
 <!-- progress:end -->
