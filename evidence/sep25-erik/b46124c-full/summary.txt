@@ -1,0 +1,21 @@
+=== run summary ===
+elo:                    2196.8
+elo_err95:              209.2
+target_elo:             1800
+wins_at_target:         7
+score:                  0.9
+wins/draws/losses:      25/4/1
+per_level:              1700: 10/0/0  1800: 7/3/0  1900: 8/1/1
+games:                  30
+timeouts:               0
+illegal_moves:          0
+avg_move_seconds:       3.298
+max_move_seconds:       4.755
+avg_depth:              14.2
+avg_nodes_per_sec:      3303640
+peak_ram_mb:            52.8
+total_seconds:          2978.8
+move_time_s:            5.0
+opponent:               Stockfish 19 (UCI_LimitStrength)
+games_dir:              games/runs/b46124c-full/
+host:                   windows-amd64-Regenr

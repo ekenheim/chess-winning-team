@@ -146,5 +146,56 @@
     "slowest_move": 0.25,
     "problems": [],
     "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "4879996",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2197\u00b1209 W/D/L=25/4/1 @1800 wins@target=7 \u2014 confirm merged search + tapered eval at 5s/move",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/b46124c-full/"
+    ],
+    "claimed_elo": 2197.0,
+    "claimed_err": 209.0,
+    "recomputed_elo": 2196.8,
+    "recomputed_err": 209.2,
+    "wdl": [
+      25,
+      4,
+      1
+    ],
+    "games": 30,
+    "move_time": 5.0,
+    "slowest_move": 4.75,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "7df0139",
+    "kind": "ladder",
+    "subject": "[ladder] TARGET_ELO 1800 -> 2000 \u2014 proof games/proofs/beat-1800.pgn + beat-1900.pgn, tags beat-1800, beat-1900",
+    "host": "?",
+    "files": [
+      "sep25-erik/proofs/beat-1800.pgn",
+      "sep25-erik/proofs/beat-1900.pgn"
+    ],
+    "problems": [],
+    "proofs": [
+      {
+        "file": "beat-1800.pgn",
+        "level": 1800,
+        "plies": 46,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-1900.pgn",
+        "level": 1900,
+        "plies": 40,
+        "termination": "checkmate"
+      }
+    ],
+    "verified": true
   }
 ]
