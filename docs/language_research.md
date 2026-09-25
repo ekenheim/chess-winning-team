@@ -73,6 +73,7 @@ Rust engine (UCI .exe)  <--stdin/stdout-->  Python match runner (python-chess)  
 
 - rustup-init.exe (auto-installs VS Build Tools). Build with `RUSTFLAGS=-C target-cpu=native`.
 - Python 3.14, Node 24 LTS via winget.
+- Stockfish: `python tools/stockfish.py` (pinned SF 19, same on macOS). No separate install needed.
 - fastchess Windows release for SPRT testing.
 - Bullet training: NVIDIA GPU + CUDA toolkit, or cloud.
 

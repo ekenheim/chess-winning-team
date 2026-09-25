@@ -12,7 +12,7 @@ To set up a new experiment, work with the user to:
    - `README.md` — repository context, competition rules, chosen engine language, Stockfish version.
    - `arena/util.py` — fixed constants, Stockfish configuration, the match harness, PGN saving, Elo estimation, **and integrity checks**. Do not modify.
    - `engine/` — what you modify. Board representation, search, evaluation, move ordering, time management. The language is whatever the README says (it is not decided yet — if `engine/` is empty, agree on one with the user; raw speed matters). The engine is a standalone executable that speaks **UCI** on stdin/stdout, built by `make engine`. That contract is the only thing the arena knows about it, which is what keeps the rest of this file language-independent.
-4. **Verify the toolchain for your OS**: Stockfish exists (`which stockfish` on macOS, `where stockfish` on Windows — the binary is `stockfish.exe` there; or `STOCKFISH_PATH` in `arena/util.py`), `make` and the engine's compiler are on `PATH`, and `make bench` runs end-to-end on the current engine. On Windows, run the loop from **Git Bash** (ships with Git for Windows) so `make`, `grep`, `tail` and the redirections below behave the same as on macOS.
+4. **Verify the toolchain for your OS**: the pinned Stockfish is installed (`python tools/stockfish.py` — downloads the official release for your OS into the gitignored `tools/stockfish/` and verifies checksum and version; the arena locates it via `find_stockfish()`: `STOCKFISH_PATH` env var, then `tools/stockfish/`, then `PATH`, and refuses any other version), `make` and the engine's compiler are on `PATH`, and `make bench` runs end-to-end on the current engine. On Windows, run the loop from **Git Bash** (ships with Git for Windows) so `make`, `grep`, `tail` and the redirections below behave the same as on macOS.
 5. **Initialize the log**: there is no results file — **git commits are the log** (see "Logging results"). Confirm the branch is clean and `git log --oneline` shows only the setup commit(s).
 6. **Confirm and go**: Confirm setup looks good.
 
@@ -76,7 +76,7 @@ avg_nodes_per_sec:      41200
 peak_ram_mb:            212.4
 total_seconds:          318.2
 move_time_s:            0.25
-opponent:               Stockfish 17 (UCI_LimitStrength)
+opponent:               Stockfish 19 (UCI_LimitStrength)
 games_dir:              games/runs/<commit>/
 ```
 
