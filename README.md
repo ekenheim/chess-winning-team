@@ -11,7 +11,7 @@ Two people work on this repo, one on macOS and one on Windows, each on their own
 
 | Run | Host | Experiments | Kept | Best Elo (0.25 s) | Best FULL Elo (5 s) | Target | Wins@target (FULL) | Proofs |
 |---|---|---|---|---|---|---|---|---|
-| `sep25-erik` | windows-i7-13700H | 6 | 5 | **2234** ±154 (eval: king safety (pawn shield + king-zone attackers, only vs an enemy queen) + Kh1 = Kg1) | 2397 ±209 | 2000 | 8 | 2 |
+| `sep25-erik` | windows-i7-13700H | 6 | 5 | **2234** ±154 (eval: king safety (pawn shield + king-zone attackers, only vs an enemy queen) + Kh1 = Kg1) | 2397 ±209 | 2200 | 8 | 3 |
 
 Elo is only comparable within one host (the Mac and the Windows PC reach different depths). Rebuilt from the git log by `python tools/progress.py`.
 <!-- progress:end -->

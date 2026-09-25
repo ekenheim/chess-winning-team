@@ -24,8 +24,8 @@
 <line x1="80" x2="1160" y1="550" y2="550" stroke="#6b7078"/>
 <text x="620.0" y="598" font-size="13" text-anchor="middle" fill="#6b7078">Experiment #</text>
 <text x="22" y="310.0" font-size="13" text-anchor="middle" fill="#6b7078" transform="rotate(-90 22 310.0)">Elo (higher is better)</text>
-<line x1="80" x2="1160" y1="310.0" y2="310.0" stroke="#1d1f23" stroke-dasharray="6 5" opacity="0.6"/>
-<text x="84" y="304.0" font-size="12" fill="#1d1f23">TARGET_ELO 2000</text>
+<line x1="80" x2="1160" y1="230.0" y2="230.0" stroke="#1d1f23" stroke-dasharray="6 5" opacity="0.6"/>
+<text x="84" y="224.0" font-size="12" fill="#1d1f23">TARGET_ELO 2200</text>
 <circle cx="600" cy="31" r="5" fill="#2a78d6"/>
 <text x="610" y="35" font-size="13" fill="#1d1f23">sep25-erik</text>
 <circle cx="710.0" cy="342.0" r="3.5" fill="#c4c7cc"/>
