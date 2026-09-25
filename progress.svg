@@ -46,5 +46,6 @@
 <path d="M157.1,389.0 L164.1,396.0 L157.1,403.0 L150.1,396.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
 <path d="M774.3,224.2 L781.3,231.2 L774.3,238.2 L767.3,231.2 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
 <path d="M928.6,144.2 L935.6,151.2 L928.6,158.2 L921.6,151.2 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M1082.9,143.0 L1089.9,150.0 L1082.9,157.0 L1075.9,150.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
 <text x="1160" y="598" font-size="11" text-anchor="end" fill="#6b7078">grey = discarded · dot = kept (0.25 s/move) · ◇ = FULL (5 s/move) · line = running best</text>
 </svg>
