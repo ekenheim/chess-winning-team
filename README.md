@@ -11,7 +11,7 @@ Two people work on this repo, one on macOS and one on Windows, each on their own
 
 | Run | Host | Experiments | Kept | Best Elo (0.25 s) | Best FULL Elo (5 s) | Target | Wins@target (FULL) | Proofs |
 |---|---|---|---|---|---|---|---|---|
-| `sep25-erik` | windows-i7-13700H | 7 | 6 | **2400** ±146 (time: soft limit 60%, keep best root move of an aborted iteration, reserve capped at 50ms) | 2400 ±146 | 2200 | 8 | 3 |
+| `sep25-erik` | windows-i7-13700H | 7 | 6 | **2400** ±146 (time: soft limit 60%, keep best root move of an aborted iteration, reserve capped at 50ms) | 2400 ±146 | 2400 | 8 | 4 |
 
 Elo is only comparable within one host (the Mac and the Windows PC reach different depths). Rebuilt from the git log by `python tools/progress.py`.
 <!-- progress:end -->
