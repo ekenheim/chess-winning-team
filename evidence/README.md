@@ -23,3 +23,4 @@ Every `[keep]` and `[FULL]` claim keeps **all** the games of its run, because th
 | sep25-erik | `64e5066` | keep | windows-i7-13700H | 0.25 | 1985 ± 144 | 1985 ([c3a8a8b](sep25-erik/c3a8a8b/)) | 21/2/7 | 30 | 0.29 s | yes |
 | sep25-erik | `b46124c` | keep | windows-i7-13700H | 0.25 | 2092 ± 169 | 2092 ([73fbb69](sep25-erik/73fbb69/)) | 24/2/4 | 30 | 0.25 s | yes |
 | sep25-erik | `4879996` | FULL | windows-i7-13700H | 5 | 2197 ± 209 | 2197 ([b46124c-full](sep25-erik/b46124c-full/)) | 25/4/1 | 30 | 4.75 s | yes |
+| sep25-erik | `55375f9` | keep | windows-i7-13700H | 0.25 | 2234 ± 154 | 2234 ([03fdcdc](sep25-erik/03fdcdc/)) | 21/5/4 | 30 | 0.24 s | yes |

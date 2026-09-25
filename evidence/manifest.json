@@ -197,5 +197,29 @@
       }
     ],
     "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "55375f9",
+    "kind": "keep",
+    "subject": "[keep] elo=2234\u00b1154 W/D/L=21/5/4 @2000 wins@target=5 \u2014 eval: king safety (pawn shield + king-zone attackers, only vs an enemy queen) + Kh1 = Kg1",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/03fdcdc/"
+    ],
+    "claimed_elo": 2234.0,
+    "claimed_err": 154.0,
+    "recomputed_elo": 2234.0,
+    "recomputed_err": 153.6,
+    "wdl": [
+      21,
+      5,
+      4
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.24,
+    "problems": [],
+    "verified": true
   }
 ]
