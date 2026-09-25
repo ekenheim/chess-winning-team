@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "darwin-arm64-MacBook-Pro-som-tillhor-Regent.local"]
+[Date "2026.09.25"]
+[Round "29"]
+[White "chess-winning-team dd6c58b"]
+[Black "Stockfish 19"]
+[Result "1-0"]
+[FEN "rnbqkb1r/ppp2ppp/3p4/8/4n3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "-"]
+[BlackElo "1700"]
+[StockfishElo "1700"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "dd6c58b"]
+[EngineColor "white"]
+[Opening "Petroff Defence"]
+[Termination "checkmate"]
+[PlyCount "31"]
+
+1. Bd3 { E loss 15 d5 0.24s [%eval 0.16,14] } 1... Ng5 { S loss 34 d11 0.26s [%eval 0.50,14] } 2. O-O { E loss 22 d6 0.24s [%eval 0.28,14] } 2... Bg4 { S loss 20 d12 0.25s [%eval 0.48,14] } 3. Qe1+ { E loss 5 d6 0.18s [%eval 0.43,14] } 3... Ne6 { S loss 0 d12 0.25s [%eval 0.43,14] } 4. Nd4 { E loss 27 d5 0.24s [%eval 0.16,14] } 4... Qf6 { S loss 113 best d5 d11 0.25s [%eval 1.29,14] } 5. Nb5 { E loss 0 d5 0.24s [%eval 1.52,14] } 5... Kd8 { S loss 159 best Qe5 d10 0.25s [%eval 3.11,14] } 6. Qe4 { E loss 0 d5 0.20s [%eval 3.22,14] } 6... Qg5 { S loss 207 best c6 d11 0.25s [%eval 5.29,14] } 7. Qxb7 { E loss 59 d6 0.16s [%eval 4.70,14] } 7... Bh3 { S loss 345 best d5 d12 0.25s [%eval 8.15,14] } 8. Qxa8 { E loss 176 best Be4 d7 0.20s [%eval 6.39,14] } 8... Bxg2 { S loss 180 best d5 d11 0.25s [%eval 8.19,14] } 9. Qxg2 { E loss 2 d7 0.11s [%eval 8.17,14] } 9... a6 { S loss 48 d12 0.25s [%eval 8.65,14] } 10. Qxg5+ { E loss 0 d8 0.13s [%eval 8.65,14] } 10... f6 { S loss 488 best Nxg5 d13 0.25s [%eval 13.53,14] } 11. Qe3 { E loss 0 d6 0.24s [%eval 13.87,14] } 11... axb5 { S loss 205 best Nd7 d12 0.25s [%eval 15.92,14] } 12. Qxe6 { E loss 0 d6 0.24s [%eval 16.09,14] } 12... c6 { S loss 256 best g6 d12 0.25s [%eval 18.65,14] } 13. Bf5 { E loss 0 d6 0.17s [%eval 19.63,14] } 13... Rg8 { S loss 0 d31 0.25s [%eval 9.97,14] } 14. Qc8+ { E loss 0 d6 0.07s [%eval 9.98,14] } 14... Ke7 { S loss 0 d245 0.01s [%eval 9.98,14] } 15. Re1+ { E loss 0 d4 0.01s [%eval 9.99,14] } 15... Kf7 { S loss 0 d245 0.01s [%eval 9.99,14] } 16. Qe6# { E loss 0 d2 0.00s [%eval 10.00,14] } 1-0
+
