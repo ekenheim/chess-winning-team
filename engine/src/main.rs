@@ -3,7 +3,6 @@
 
 mod eval;
 mod search;
-mod tt;
 
 use cozy_chess::{util, Board};
 use std::io::{self, BufRead, Write};
@@ -134,6 +133,7 @@ fn main() {
     let stdin = io::stdin();
     let mut out = io::stdout();
     let mut game = Game::new();
+    // One searcher for the whole game, so the transposition table carries over between moves.
     let mut searcher = Searcher::new();
 
     // Allow `engine bench [depth]` from the command line for `make profile`.
@@ -160,7 +160,7 @@ fn main() {
             "isready" => println!("readyok"),
             "ucinewgame" => {
                 game = Game::new();
-                searcher.new_game();
+                searcher.clear();
             }
             "position" => game.set_position(&tokens[1..]),
             "go" => {

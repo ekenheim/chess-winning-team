@@ -1,0 +1,21 @@
+[Event "autoresearch fast run"]
+[Site "darwin-arm64-MacBook-Pro-som-tillhor-Regent.local"]
+[Date "2026.09.25"]
+[Round "5"]
+[White "chess-winning-team 97aee56"]
+[Black "Stockfish 19"]
+[Result "1-0"]
+[WhiteElo "-"]
+[BlackElo "1700"]
+[StockfishElo "1700"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "97aee56"]
+[EngineColor "white"]
+[Opening "Start position"]
+[Termination "checkmate"]
+[PlyCount "81"]
+
+1. e4 { [%eval 0.00,8] E d8 0.19s 1043k } 1... Nc6 { [%eval 0.00,11] S d11 0.26s 91k } 2. d4 { [%eval 0.30,7] E d7 0.24s 506k } 2... Nb8 { [%eval 0.00,11] S d11 0.25s 71k } 3. Nc3 { [%eval 1.10,7] E d7 0.12s 1139k } 3... a6 { [%eval 1.55,13] S d13 0.25s 61k } 4. Nf3 { [%eval 1.30,7] E d7 0.20s 1615k } 4... h6 { [%eval 1.74,12] S d12 0.25s 75k } 5. Bd3 { [%eval 1.45,7] E d7 0.17s 1504k } 5... e6 { [%eval 1.90,13] S d13 0.25s 75k } 6. O-O { [%eval 1.20,6] E d6 0.24s 364k } 6... Be7 { [%eval 0.00,12] S d12 0.25s 77k } 7. Bc4 { [%eval 1.35,7] E d7 0.20s 1592k } 7... d6 { [%eval 1.33,10] S d10 0.25s 58k } 8. Qe2 { [%eval 1.20,7] E d7 0.20s 1751k } 8... b6 { [%eval 1.52,12] S d12 0.25s 75k } 9. Be3 { [%eval 1.45,7] E d7 0.24s 2037k } 9... Nf6 { [%eval 1.50,11] S d11 0.25s 71k } 10. e5 { [%eval 1.20,6] E d6 0.24s 613k } 10... Ng4 { [%eval 1.79,11] S d11 0.25s 62k } 11. Bd2 { [%eval 1.50,6] E d6 0.24s 533k } 11... d5 { [%eval 1.52,12] S d12 0.25s 78k } 12. Bd3 { [%eval 1.60,7] E d7 0.16s 1405k } 12... h5 { [%eval 1.84,11] S d11 0.26s 67k } 13. h3 { [%eval 1.10,6] E d6 0.24s 456k } 13... Nh6 { [%eval 1.46,13] S d13 0.25s 89k } 14. Bxh6 { [%eval 1.00,6] E d6 0.24s 400k } 14... gxh6 { [%eval 2.27,13] S d13 0.25s 80k } 15. Rad1 { [%eval 0.90,6] E d6 0.24s 287k } 15... c5 { [%eval 2.10,12] S d12 0.25s 82k } 16. Qe3 { [%eval 0.95,7] E d7 0.17s 1307k } 16... Bb7 { [%eval 1.18,11] S d11 0.25s 75k } 17. Rfe1 { [%eval 0.85,6] E d6 0.24s 372k } 17... Nd7 { [%eval 1.28,10] S d10 0.25s 71k } 18. Qf4 { [%eval 0.80,6] E d6 0.24s 477k } 18... Nf8 { [%eval 0.00,9] S d9 0.25s 55k } 19. Qg3 { [%eval 1.30,6] E d6 0.24s 561k } 19... c4 { [%eval 0.00,11] S d11 0.25s 73k } 20. Qg7 { [%eval 2.65,7] E d7 0.24s 854k } 20... cxd3 { [%eval 6.33,12] S d12 0.29s 73k } 21. Qxh8 { [%eval 2.60,7] E d7 0.24s 564k } 21... Kd7 { [%eval 6.22,14] S d14 0.25s 74k } 22. Rxd3 { [%eval 4.05,7] E d7 0.10s 660k } 22... Ng6 { [%eval 6.20,14] S d14 0.25s 77k } 23. Qxh6 { [%eval 4.60,7] E d7 0.15s 965k } 23... Rc8 { [%eval 6.33,13] S d13 0.25s 81k } 24. Qxh5 { [%eval 4.95,7] E d7 0.23s 1865k } 24... b5 { [%eval 6.67,14] S d14 0.25s 64k } 25. Rd2 { [%eval 5.30,7] E d7 0.20s 1625k } 25... Qh8 { [%eval 6.96,12] S d12 0.25s 71k } 26. Qxh8 { [%eval 4.85,7] E d7 0.21s 1383k } 26... Nh4 { [%eval 0.00,12] S d12 0.25s 85k } 27. Qh5 { [%eval 14.40,8] E d8 0.20s 1170k } 27... Ng6 { [%eval 10.90,13] S d13 0.25s 89k } 28. Ng5 { [%eval 14.55,7] E d7 0.10s 1003k } 28... Rh8 { [%eval 0.00,12] S d12 0.25s 89k } 29. Qg4 { [%eval 14.50,7] E d7 0.24s 704k } 29... Ke8 { [%eval 10.86,13] S d13 0.25s 85k } 30. Nxe6 { [%eval 15.60,7] E d7 0.11s 959k } 30... Bc8 { [%eval 10.95,12] S d12 0.25s 83k } 31. Nxd5 { [%eval 16.70,7] E d7 0.14s 1038k } 31... Bxe6 { [%eval 11.12,13] S d13 0.25s 95k } 32. Nc7+ { [%eval 16.70,7] E d7 0.24s 569k } 32... Kd7 { [%eval 12.88,12] S d12 0.25s 93k } 33. Nxe6 { [%eval 16.90,7] E d7 0.24s 517k } 33... Kc8 { [%eval 15.18,12] S d12 0.25s 119k } 34. Ng5+ { [%eval 17.75,7] E d7 0.24s 1011k } 34... Kb7 { [%eval 13.20,13] S d13 0.25s 94k } 35. Nxf7 { [%eval 17.90,7] E d7 0.24s 635k } 35... Rh4 { [%eval 0.00,11] S d11 0.25s 100k } 36. Qxg6 { [%eval 21.05,7] E d7 0.24s 791k } 36... b4 { [%eval 17.99,12] S d12 0.25s 124k } 37. Qe6 { [%eval 24.40,7] E d7 0.15s 1714k } 37... Bc5 { [%eval 0.00,12] S d12 0.25s 124k } 38. dxc5 { [%eval 29.60,7] E d7 0.11s 846k } 38... Rd4 { [%eval #3,196] S d196 0.25s 1302k } 39. Rxd4 { [%eval #3,6] E d6 0.02s 159k } 39... Ka8 { [%eval #2,245] S d245 0.02s 96k } 40. Qb6 { [%eval #2,3] E d3 0.00s 3k } 40... a5 { [%eval #1,245] S d245 0.01s 3k } 41. Rd8# { [%eval #1,2] E d2 0.00s 0k } 1-0
+
