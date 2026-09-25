@@ -59,8 +59,13 @@ def claims(ref):
 
 def added(sha, prefix):
     """Files under `prefix` that commit `sha` added."""
-    out = git("diff-tree", "--no-commit-id", "-r", "--name-only", "--diff-filter=A",
-              "--root", sha, "--", prefix)
+    # Diff against the first parent, so merge commits (which diff-tree
+    # silently skips) count the games they bring in; --root for the first commit.
+    try:
+        out = git("diff", "--name-only", "--diff-filter=A", f"{sha}^1", sha, "--", prefix)
+    except Exception:
+        out = git("diff-tree", "--no-commit-id", "-r", "--name-only", "--diff-filter=A",
+                  "--root", sha, "--", prefix)
     return out.split()
 
 
@@ -155,13 +160,22 @@ def main():
                     problems += [f"{run}/{b}" for b in bad]
                     row["files"].append(f"{name}/{run}/")
                 games = [g for run in per_run for g in run]
-                # A SEED re-run is extra evidence; the claimed Elo is the first run's.
+                # A SEED re-run is extra evidence: the claimed Elo may be the
+                # first run's alone or the pooled result over every run added.
                 first = per_run[0] if per_run else []
-                elo, err = estimate_elo([(g["level"], g["score"]) for g in first])
-                wdl = [sum(g["score"] == s for g in first) for s in (1.0, 0.5, 0.0)]
+                candidates = [first] + ([games] if len(per_run) > 1 else [])
+                elo, err, wdl = 0.0, 0.0, [0, 0, 0]
+                matched = False
+                for cand in candidates:
+                    elo, err = estimate_elo([(g["level"], g["score"]) for g in cand])
+                    wdl = [sum(g["score"] == s for g in cand) for s in (1.0, 0.5, 0.0)]
+                    if abs(elo - c["elo"]) <= 1.0 and wdl == c["wdl"]:
+                        matched = True
+                        first = cand
+                        break
                 if not runs:
                     problems.append("commit adds no games")
-                elif abs(elo - c["elo"]) > 1.0 or wdl != c["wdl"]:
+                elif not matched:
                     problems.append(f"games give elo={elo:.0f} W/D/L={'/'.join(map(str, wdl))}, "
                                     f"commit claims elo={c['elo']:.0f} W/D/L={'/'.join(map(str, c['wdl']))}")
                 row.update({"claimed_elo": c["elo"], "claimed_err": c["err"], "recomputed_elo": elo,

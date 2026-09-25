@@ -86,20 +86,18 @@
     ],
     "claimed_elo": 1894.0,
     "claimed_err": 93.0,
-    "recomputed_elo": 1824.5,
-    "recomputed_err": 128.0,
+    "recomputed_elo": 1893.5,
+    "recomputed_err": 93.1,
     "wdl": [
-      14,
-      4,
-      12
+      34,
+      7,
+      19
     ],
-    "games": 30,
+    "games": 60,
     "move_time": 0.25,
     "slowest_move": 0.25,
-    "problems": [
-      "games give elo=1824 W/D/L=14/4/12, commit claims elo=1894 W/D/L=34/7/19"
-    ],
-    "verified": false
+    "problems": [],
+    "verified": true
   },
   {
     "branch": "sep25-erik",
@@ -131,21 +129,27 @@
     "kind": "keep",
     "subject": "[keep] elo=2092\u00b1169 W/D/L=24/2/4 @1800 wins@target=7 \u2014 search: merge main (NMP + LMR + PVS + killers/history + check extension + in-check quiescence) onto tapered eval",
     "host": "windows-i7-13700H",
-    "files": [],
+    "files": [
+      "sep25-erik/1a24270/",
+      "sep25-erik/63ccb08/",
+      "sep25-erik/73fbb69/",
+      "sep25-erik/97aee56/",
+      "sep25-erik/aecf98e/"
+    ],
     "claimed_elo": 2092.0,
     "claimed_err": 169.0,
-    "recomputed_elo": 0.0,
-    "recomputed_err": 0.0,
+    "recomputed_elo": 2081.1,
+    "recomputed_err": 101.0,
     "wdl": [
-      0,
-      0,
-      0
+      133,
+      8,
+      9
     ],
-    "games": 0,
-    "move_time": null,
-    "slowest_move": null,
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.27,
     "problems": [
-      "commit adds no games"
+      "games give elo=2081 W/D/L=133/8/9, commit claims elo=2092 W/D/L=24/2/4"
     ],
     "verified": false
   }
