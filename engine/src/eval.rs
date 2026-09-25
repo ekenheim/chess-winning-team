@@ -1,6 +1,7 @@
-//! Static evaluation: material + piece-square tables
-//! (Tomasz Michniewski's "Simplified Evaluation Function"), from the side to
-//! move's point of view, in centipawns.
+//! Static evaluation: material + piece-square tables (Michniewski's
+//! "Simplified Evaluation Function" tables), tapered between a middlegame
+//! and an endgame score by the non-pawn material left on the board. From the
+//! side to move's point of view, in centipawns.
 
 use cozy_chess::{Board, Color, Piece, Square};
 
@@ -118,58 +119,64 @@ fn pst_index(color: Color, sq: Square) -> usize {
     }
 }
 
-fn table(piece: Piece, endgame: bool) -> &'static [i32; 64] {
+/// Endgame pawn table: advancement is what matters once the pieces are off.
+#[rustfmt::skip]
+const PAWN_EG_PST: [i32; 64] = [
+     0,  0,  0,  0,  0,  0,  0,  0,
+    90, 90, 90, 90, 90, 90, 90, 90,
+    55, 55, 55, 55, 55, 55, 55, 55,
+    30, 30, 30, 30, 30, 30, 30, 30,
+    15, 15, 15, 15, 15, 15, 15, 15,
+     5,  5,  5,  5,  5,  5,  5,  5,
+     0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,
+];
+
+fn tables(piece: Piece) -> (&'static [i32; 64], &'static [i32; 64]) {
     match piece {
-        Piece::Pawn => &PAWN_PST,
-        Piece::Knight => &KNIGHT_PST,
-        Piece::Bishop => &BISHOP_PST,
-        Piece::Rook => &ROOK_PST,
-        Piece::Queen => &QUEEN_PST,
-        Piece::King => {
-            if endgame {
-                &KING_EG_PST
-            } else {
-                &KING_MG_PST
-            }
-        }
+        Piece::Pawn => (&PAWN_PST, &PAWN_EG_PST),
+        Piece::Knight => (&KNIGHT_PST, &KNIGHT_PST),
+        Piece::Bishop => (&BISHOP_PST, &BISHOP_PST),
+        Piece::Rook => (&ROOK_PST, &ROOK_PST),
+        Piece::Queen => (&QUEEN_PST, &QUEEN_PST),
+        Piece::King => (&KING_MG_PST, &KING_EG_PST),
     }
 }
 
-/// Michniewski's endgame rule: no queens, or every side that has a queen has
-/// no rook and at most one minor piece besides it.
-fn is_endgame(board: &Board) -> bool {
-    let queens = board.pieces(Piece::Queen);
-    if queens.is_empty() {
-        return true;
-    }
-    for color in [Color::White, Color::Black] {
-        let side = board.colors(color);
-        if !(queens & side).is_empty() {
-            let rooks = (board.pieces(Piece::Rook) & side).len();
-            let minors = ((board.pieces(Piece::Knight) | board.pieces(Piece::Bishop)) & side).len();
-            if rooks > 0 || minors > 1 {
-                return false;
-            }
-        }
-    }
-    true
+/// Total phase weight of all non-pawn material at the start of the game:
+/// 4 minors x1 + 4 rooks x2 + 2 queens x4 per both sides.
+pub const PHASE_MAX: i32 = 24;
+
+/// Game phase from remaining non-pawn material: PHASE_MAX at the start,
+/// 0 with only pawns and kings. Middlegame and endgame scores are blended by
+/// this weight, so the king only creeps out as material actually comes off
+/// (rather than the moment the queens are traded).
+pub fn phase(board: &Board) -> i32 {
+    let minors = (board.pieces(Piece::Knight) | board.pieces(Piece::Bishop)).len() as i32;
+    let rooks = board.pieces(Piece::Rook).len() as i32;
+    let queens = board.pieces(Piece::Queen).len() as i32;
+    (minors + 2 * rooks + 4 * queens).min(PHASE_MAX)
 }
 
-/// Score from the side to move's point of view.
+/// Score from the side to move's point of view (tapered evaluation).
 pub fn evaluate(board: &Board) -> i32 {
-    let endgame = is_endgame(board);
-    let mut score = 0;
+    let mut mg = 0;
+    let mut eg = 0;
     for color in [Color::White, Color::Black] {
         let sign = if color == Color::White { 1 } else { -1 };
         let side = board.colors(color);
         for piece in Piece::ALL {
-            let pst = table(piece, endgame);
+            let (mg_pst, eg_pst) = tables(piece);
             let value = piece_value(piece);
             for sq in board.pieces(piece) & side {
-                score += sign * (value + pst[pst_index(color, sq)]);
+                let i = pst_index(color, sq);
+                mg += sign * (value + mg_pst[i]);
+                eg += sign * (value + eg_pst[i]);
             }
         }
     }
+    let p = phase(board);
+    let score = (mg * p + eg * (PHASE_MAX - p)) / PHASE_MAX;
     if board.side_to_move() == Color::White {
         score
     } else {
