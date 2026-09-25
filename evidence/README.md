@@ -8,6 +8,8 @@ Every `[keep]` and `[FULL]` claim keeps **all** the games of its run, because th
 
 | Level | Proof | Branch | Commit | Plies | Ending | Verified |
 |---|---|---|---|---|---|---|
+| 2300 | [beat-2300.pgn](sep25-erik/proofs/beat-2300.pgn) | sep25-erik | `4340e04` | 37 | checkmate | yes |
+| 2200 | [beat-2200.pgn](sep25-erik/proofs/beat-2200.pgn) | sep25-erik | `4340e04` | 44 | checkmate | yes |
 | 2100 | [beat-2100.pgn](sep25-erik/proofs/beat-2100.pgn) | sep25-erik | `0c5f5a4` | 35 | checkmate | yes |
 | 2000 | [beat-2000.pgn](sep25-erik/proofs/beat-2000.pgn) | sep25-erik | `0c5f5a4` | 62 | checkmate | yes |
 | 1900 | [beat-1900.pgn](sep25-erik/proofs/beat-1900.pgn) | sep25-erik | `7df0139` | 40 | checkmate | yes |
@@ -28,3 +30,4 @@ Every `[keep]` and `[FULL]` claim keeps **all** the games of its run, because th
 | sep25-erik | `55375f9` | keep | windows-i7-13700H | 0.25 | 2234 ± 154 | 2234 ([03fdcdc](sep25-erik/03fdcdc/)) | 21/5/4 | 30 | 0.24 s | yes |
 | sep25-erik | `fff833a` | FULL | windows-i7-13700H | 5 | 2397 ± 209 | 2397 ([55375f9-full](sep25-erik/55375f9-full/)) | 27/0/3 | 30 | 4.75 s | yes |
 | sep25-erik | `555bcaf` | keep | windows-i7-13700H | 0.25 | 2400 ± 146 | 2400 ([c9cb33a](sep25-erik/c9cb33a/)) | 21/3/6 | 30 | 0.24 s | yes |
+| sep25-erik | `1e4f3da` | FULL | windows-i7-13700H | 5 | 2400 ± 146 | 2400 ([555bcaf-full](sep25-erik/555bcaf-full/)) | 19/7/4 | 30 | 4.96 s | yes |

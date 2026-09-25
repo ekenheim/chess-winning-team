@@ -296,5 +296,56 @@
     "slowest_move": 0.24,
     "problems": [],
     "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "1e4f3da",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2400\u00b1146 W/D/L=19/7/4 @2200 wins@target=5 \u2014 confirm time manager at 5s/move",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/555bcaf-full/"
+    ],
+    "claimed_elo": 2400.0,
+    "claimed_err": 146.0,
+    "recomputed_elo": 2400.4,
+    "recomputed_err": 146.4,
+    "wdl": [
+      19,
+      7,
+      4
+    ],
+    "games": 30,
+    "move_time": 5.0,
+    "slowest_move": 4.96,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "4340e04",
+    "kind": "ladder",
+    "subject": "[ladder] TARGET_ELO 2200 -> 2400 \u2014 proof games/proofs/beat-2200.pgn + beat-2300.pgn, tags beat-2200, beat-2300",
+    "host": "?",
+    "files": [
+      "sep25-erik/proofs/beat-2200.pgn",
+      "sep25-erik/proofs/beat-2300.pgn"
+    ],
+    "problems": [],
+    "proofs": [
+      {
+        "file": "beat-2200.pgn",
+        "level": 2200,
+        "plies": 44,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2300.pgn",
+        "level": 2300,
+        "plies": 37,
+        "termination": "checkmate"
+      }
+    ],
+    "verified": true
   }
 ]
