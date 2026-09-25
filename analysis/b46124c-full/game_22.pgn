@@ -1,0 +1,23 @@
+[Event "autoresearch full run"]
+[Site "windows-amd64-Regenr"]
+[Date "2026.09.25"]
+[Round "22"]
+[White "Stockfish 19"]
+[Black "chess-winning-team b46124c"]
+[Result "0-1"]
+[FEN "r1bqkbnr/pppp1ppp/2n5/8/3NP3/8/PPP2PPP/RNBQKB1R b KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "1800"]
+[BlackElo "-"]
+[StockfishElo "1800"]
+[TimeControl "5s/move"]
+[MoveTimeS "5"]
+[Opponent "Stockfish 19"]
+[EngineCommit "b46124c"]
+[EngineColor "black"]
+[Opening "Scotch Game"]
+[Termination "checkmate"]
+[PlyCount "69"]
+
+1... Bb4+ { E loss 16 d13 2.76s [%eval 0.36,14] } 2. c3 { S loss 0 d23 5.01s [%eval 0.38,14] } 2... Bd6 { E loss 37 d14 4.42s [%eval 0.75,14] } 3. Bc4 { S loss 0 d19 5.00s [%eval 0.78,14] } 3... Nf6 { E loss 0 d12 2.39s [%eval 0.68,14] } 4. O-O { S loss 53 best Nf5 d22 5.00s [%eval 0.15,14] } 4... O-O { E loss 4 d12 2.50s [%eval 0.19,14] } 5. Nd2 { S loss 0 d22 5.00s [%eval 0.24,14] } 5... Bf4 { E loss 11 d12 2.77s [%eval 0.35,14] } 6. N4f3 { S loss 32 d23 5.00s [%eval 0.03,14] } 6... Bxd2 { E loss 50 best d6 d13 2.96s [%eval 0.53,14] } 7. Nxd2 { S loss 0 d23 5.00s [%eval 0.56,14] } 7... d5 { E loss 0 d14 3.10s [%eval 0.43,14] } 8. Bb5 { S loss 76 best exd5 d21 5.00s [%eval -0.33,14] } 8... dxe4 { E loss 0 d15 3.70s [%eval -0.37,14] } 9. Bxc6 { S loss 3 d22 5.00s [%eval -0.40,14] } 9... bxc6 { E loss 1 d14 2.32s [%eval -0.39,14] } 10. Qa4 { S loss 3 d22 5.00s [%eval -0.42,14] } 10... Qe8 { E loss 30 d14 2.38s [%eval -0.12,14] } 11. h3 { S loss 25 d20 5.00s [%eval -0.37,14] } 11... c5 { E loss 1 d14 3.02s [%eval -0.36,14] } 12. Qc2 { S loss 54 best Qxe8 d21 5.00s [%eval -0.90,14] } 12... Bf5 { E loss 30 d14 2.79s [%eval -0.60,14] } 13. Re1 { S loss 5 d21 5.00s [%eval -0.65,14] } 13... Qd7 { E loss 2 d14 4.75s [%eval -0.63,14] } 14. Qb3 { S loss 0 d19 5.00s [%eval -0.60,14] } 14... Rfe8 { E loss 7 d13 3.62s [%eval -0.53,14] } 15. Nf1 { S loss 0 d21 5.00s [%eval -0.47,14] } 15... Be6 { E loss 0 d13 4.75s [%eval -0.48,14] } 16. c4 { S loss 13 d20 5.00s [%eval -0.61,14] } 16... Rab8 { E loss 3 d14 2.74s [%eval -0.58,14] } 17. Qc3 { S loss 0 d22 5.00s [%eval -0.44,14] } 17... Qd4 { E loss 0 d13 3.75s [%eval -0.44,14] } 18. Nd2 { S loss 52 best Qa5 d21 5.00s [%eval -0.96,14] } 18... Rbd8 { E loss 62 best Qxc3 d13 4.75s [%eval -0.34,14] } 19. Qg3 { S loss 18 d21 5.00s [%eval -0.52,14] } 19... Bxc4 { E loss 0 d13 3.09s [%eval -0.58,14] } 20. Nb3 { S loss 106 best Nxc4 d22 5.00s [%eval -1.64,14] } 20... Qd6 { E loss 92 best Bxb3 d14 3.46s [%eval -0.72,14] } 21. Be3 { S loss 108 best Bf4 d21 5.00s [%eval -1.80,14] } 21... Bxb3 { E loss 0 d14 2.18s [%eval -2.17,14] } 22. axb3 { S loss 0 d22 5.00s [%eval -1.96,14] } 22... Qb6 { E loss 135 best Qxg3 d14 4.75s [%eval -0.61,14] } 23. Rac1 { S loss 35 d20 5.00s [%eval -0.96,14] } 23... Qxb3 { E loss 49 d15 4.53s [%eval -0.47,14] } 24. Rxc5 { S loss 34 d21 5.00s [%eval -0.81,14] } 24... Nd5 { E loss 0 d14 3.55s [%eval -1.35,14] } 25. Ra1 { S loss 108 best Bf4 d19 5.00s [%eval -2.43,14] } 25... Qxb2 { E loss 69 best Rd6 d14 2.95s [%eval -1.74,14] } 26. Rca5 { S loss 145 best Rxa7 d20 5.00s [%eval -3.19,14] } 26... Ra8 { E loss 145 best Rd6 d13 3.48s [%eval -1.74,14] } 27. R1a2 { S loss 125 best Bxa7 d19 5.00s [%eval -2.99,14] } 27... Qb1+ { E loss 0 d15 3.77s [%eval -3.34,14] } 28. Kh2 { S loss 5 d24 5.00s [%eval -3.39,14] } 28... Nxe3 { E loss 0 d15 3.03s [%eval -3.48,14] } 29. Ra1 { S loss 526 best Qxe3 d21 5.00s [%eval -8.74,14] } 29... Nf1+ { E loss 0 d19 2.80s [%eval -8.93,14] } 30. Kg1 { S loss 0 d28 5.00s [%eval -8.85,14] } 30... Qxa1 { E loss 13 d20 4.75s [%eval -8.72,14] } 31. Qxc7 { S loss 163 best Rxa1 d23 5.00s [%eval -10.35,14] } 31... Qe1 { E loss 0 d13 3.54s [%eval -11.50,14] } 32. f4 { S loss 954 best Rg5 d21 5.00s [%eval -21.04,14] } 32... exf3 { E loss 1113 d11 4.75s [%eval -9.91,14] } 33. h4 { S loss 6 d70 5.00s [%eval -9.97,14] } 33... Ne3+ { E loss 0 d6 0.03s [%eval -9.98,14] } 34. Kh2 { S loss 0 d245 0.02s [%eval -9.98,14] } 34... Qxh4+ { E loss 0 d4 0.00s [%eval -9.99,14] } 35. Kg1 { S loss 0 d245 0.01s [%eval -9.99,14] } 35... f2# { E loss 0 d2 0.00s [%eval -10.00,14] } 0-1
+

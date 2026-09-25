@@ -1,0 +1,23 @@
+[Event "autoresearch full run"]
+[Site "windows-amd64-Regenr"]
+[Date "2026.09.25"]
+[Round "17"]
+[White "chess-winning-team b46124c"]
+[Black "Stockfish 19"]
+[Result "1-0"]
+[FEN "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "-"]
+[BlackElo "1900"]
+[StockfishElo "1900"]
+[TimeControl "5s/move"]
+[MoveTimeS "5"]
+[Opponent "Stockfish 19"]
+[EngineCommit "b46124c"]
+[EngineColor "white"]
+[Opening "Ruy Lopez, Morphy Defence"]
+[Termination "checkmate"]
+[PlyCount "77"]
+
+1. Bxc6 { E loss 33 d15 3.37s [%eval 0.03,14] } 1... dxc6 { S loss 0 d22 5.00s [%eval -0.01,14] } 2. d4 { E loss 33 d14 2.97s [%eval -0.34,14] } 2... Nf6 { S loss 70 best exd4 d22 5.00s [%eval 0.36,14] } 3. Nxe5 { E loss 0 d13 2.19s [%eval 0.57,14] } 3... c5 { S loss 24 d20 5.00s [%eval 0.81,14] } 4. c3 { E loss 28 d13 4.75s [%eval 0.53,14] } 4... cxd4 { S loss 0 d20 5.00s [%eval 0.49,14] } 5. Qb3 { E loss 0 d13 3.99s [%eval 0.49,14] } 5... Qe7 { S loss 32 d20 5.00s [%eval 0.81,14] } 6. cxd4 { E loss 5 d14 3.62s [%eval 0.76,14] } 6... c5 { S loss 0 d21 5.00s [%eval 0.70,14] } 7. Nd2 { E loss 73 best O-O d13 4.55s [%eval -0.03,14] } 7... cxd4 { S loss 1 d21 5.00s [%eval -0.02,14] } 8. Qa4+ { E loss 0 d14 2.07s [%eval 0.00,14] } 8... Nd7 { S loss 57 best b5 d21 5.00s [%eval 0.57,14] } 9. Nd3 { E loss 0 d13 4.41s [%eval 0.68,14] } 9... Qd6 { S loss 3 d22 5.00s [%eval 0.71,14] } 10. Nb3 { E loss 1 d15 2.86s [%eval 0.70,14] } 10... Be7 { S loss 33 d21 5.00s [%eval 1.03,14] } 11. Qxd4 { E loss 46 d15 4.02s [%eval 0.57,14] } 11... Qxd4 { S loss 0 d22 5.00s [%eval 0.55,14] } 12. Nxd4 { E loss 5 d15 3.45s [%eval 0.50,14] } 12... Nc5 { S loss 0 d23 5.00s [%eval 0.49,14] } 13. Nxc5 { E loss 0 d16 2.23s [%eval 0.52,14] } 13... O-O { S loss 589 best Bxc5 d22 5.00s [%eval 6.41,14] } 14. Ncb3 { E loss 23 d13 3.10s [%eval 6.18,14] } 14... f5 { S loss 38 d20 5.00s [%eval 6.56,14] } 15. e5 { E loss 28 d14 4.75s [%eval 6.28,14] } 15... f4 { S loss 4 d21 5.00s [%eval 6.32,14] } 16. a4 { E loss 0 d14 4.00s [%eval 6.63,14] } 16... b6 { S loss 19 d21 5.00s [%eval 6.82,14] } 17. O-O { E loss 13 d14 4.75s [%eval 6.69,14] } 17... a5 { S loss 20 d21 5.00s [%eval 6.89,14] } 18. Bd2 { E loss 0 d14 2.61s [%eval 6.93,14] } 18... Bg5 { S loss 15 d21 5.01s [%eval 7.08,14] } 19. Rfe1 { E loss 7 d13 4.75s [%eval 7.01,14] } 19... Bg4 { S loss 9 d20 5.00s [%eval 7.10,14] } 20. e6 { E loss 0 d14 2.60s [%eval 7.33,14] } 20... h6 { S loss 0 d23 5.00s [%eval 7.18,14] } 21. Re4 { E loss 6 d15 3.50s [%eval 7.12,14] } 21... Bh5 { S loss 0 d21 5.00s [%eval 6.96,14] } 22. e7 { E loss 28 d14 3.26s [%eval 6.68,14] } 22... Rfe8 { S loss 0 d24 5.00s [%eval 6.58,14] } 23. Nc6 { E loss 17 d14 2.35s [%eval 6.41,14] } 23... Bg6 { S loss 37 d24 5.00s [%eval 6.78,14] } 24. Ree1 { E loss 21 d16 2.67s [%eval 6.57,14] } 24... Rac8 { S loss 22 d23 5.00s [%eval 6.79,14] } 25. Nbd4 { E loss 0 d15 2.10s [%eval 6.79,14] } 25... Bf7 { S loss 8 d23 5.00s [%eval 6.87,14] } 26. h4 { E loss 25 d15 2.07s [%eval 6.62,14] } 26... Bf6 { S loss 31 d25 5.00s [%eval 6.93,14] } 27. Bxf4 { E loss 0 d15 2.40s [%eval 6.98,14] } 27... Kh7 { S loss 30 d23 5.00s [%eval 7.28,14] } 28. Rac1 { E loss 16 d14 2.32s [%eval 7.12,14] } 28... Bxe7 { S loss 152 best Bd5 d22 5.00s [%eval 8.64,14] } 29. Rxe7 { E loss 35 d16 4.75s [%eval 8.29,14] } 29... Rxe7 { S loss 0 d22 5.00s [%eval 8.24,14] } 30. Nxe7 { E loss 7 d16 2.64s [%eval 8.17,14] } 30... Re8 { S loss 33 d21 5.00s [%eval 8.50,14] } 31. Rc7 { E loss 0 d15 3.76s [%eval 8.75,14] } 31... Bh5 { S loss 25 d20 5.00s [%eval 9.00,14] } 32. Nef5 { E loss 0 d14 4.75s [%eval 9.27,14] } 32... Re4 { S loss 55 best Kh8 d22 5.00s [%eval 9.82,14] } 33. Rxg7+ { E loss 15 d15 2.57s [%eval 9.67,14] } 33... Kh8 { S loss 5 d28 5.00s [%eval 9.72,14] } 34. Bxh6 { E loss 0 d15 2.57s [%eval 9.86,14] } 34... Rxd4 { S loss 77 best Be8 d18 5.00s [%eval 10.63,14] } 35. Nxd4 { E loss 28 d17 3.03s [%eval 10.35,14] } 35... Bg4 { S loss 1016 best Be8 d89 5.00s [%eval 20.51,14] } 36. Rxg4 { E loss 11 d11 0.09s [%eval 20.40,14] } 36... Kh7 { S loss 0 d245 1.00s [%eval 17.54,14] } 37. Rg7+ { E loss 0 d8 0.02s [%eval 20.08,14] } 37... Kxh6 { S loss 0 d245 0.02s [%eval 9.98,14] } 38. Nf5+ { E loss 0 d4 0.00s [%eval 9.99,14] } 38... Kh5 { S loss 0 d245 0.01s [%eval 9.99,14] } 39. g4# { E loss 0 d2 0.00s [%eval 10.00,14] } 1-0
+
