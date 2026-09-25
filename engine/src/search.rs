@@ -1,7 +1,8 @@
 //! Search: iterative deepening, principal-variation search with a
-//! transposition table (kept across moves), move ordering by hash move,
-//! MVV-LVA captures, killer moves and a history heuristic, quiescence search,
-//! repetition and 50-move detection, and a simple time manager.
+//! transposition table (kept across moves), null-move pruning, late-move
+//! reductions, move ordering by hash move, MVV-LVA captures, killer moves and
+//! a history heuristic, quiescence search, repetition and 50-move detection,
+//! and a simple time manager.
 
 use cozy_chess::{Board, Move, Piece, Rank, Square};
 use std::time::{Duration, Instant};
@@ -13,6 +14,24 @@ pub const MAX_PLY: usize = 128;
 const INF: i32 = 100_000;
 /// Check the clock every this many nodes.
 const NODE_CHECK_MASK: u64 = 1023;
+/// Null move: reduce by NULL_BASE_REDUCTION + depth / NULL_DEPTH_DIVISOR,
+/// only at depth >= NULL_MIN_DEPTH.
+const NULL_MIN_DEPTH: i32 = 3;
+const NULL_BASE_REDUCTION: i32 = 2;
+const NULL_DEPTH_DIVISOR: i32 = 4;
+/// LMR: quiet moves from the LMR_FIRST_MOVE-th on (0-based) lose one ply at
+/// depth >= LMR_MIN_DEPTH, two from LMR_DEEP_MOVE on at depth >= LMR_DEEP_DEPTH.
+const LMR_MIN_DEPTH: i32 = 3;
+const LMR_FIRST_MOVE: usize = 3;
+const LMR_DEEP_MOVE: usize = 8;
+const LMR_DEEP_DEPTH: i32 = 6;
+
+/// Does `color` have anything besides king and pawns?
+fn has_pieces(board: &Board, color: cozy_chess::Color) -> bool {
+    let pawns_and_king = board.pieces(Piece::Pawn) | board.pieces(Piece::King);
+    !(board.colors(color) & !pawns_and_king).is_empty()
+}
+
 /// History scores stay below the killer keys.
 const HISTORY_MAX: i32 = 7_000;
 static EMPTY_HISTORY: [[i32; 64]; 64] = [[0; 64]; 64];
@@ -151,7 +170,7 @@ impl Searcher {
 
         for depth in 1..=max_depth {
             self.root_move = None;
-            let score = self.negamax(board, depth as i32, -INF, INF, 0);
+            let score = self.negamax(board, depth as i32, -INF, INF, 0, true);
             if self.stopped {
                 break;
             }
@@ -222,7 +241,7 @@ impl Searcher {
         self.stack.iter().rev().skip(1).any(|&h| h == hash)
     }
 
-    fn negamax(&mut self, board: &Board, depth: i32, mut alpha: i32, beta: i32, ply: usize) -> i32 {
+    fn negamax(&mut self, board: &Board, depth: i32, mut alpha: i32, beta: i32, ply: usize, null_ok: bool) -> i32 {
         if depth <= 0 {
             return self.quiescence(board, alpha, beta, ply);
         }
@@ -251,13 +270,38 @@ impl Searcher {
         }
         let hash_move = if hit { entry.mv } else { None };
 
-        let side = board.side_to_move() as usize;
-        let moves = ordered_moves(board, false, hash_move, self.killers[ply], &self.history[side]);
+        let in_check = !board.checkers().is_empty();
+        let pv_node = beta - alpha > 1;
+        let us = board.side_to_move();
+
+        // Null-move pruning: if passing still fails high on a reduced search,
+        // a real move will too. Not in check, not twice in a row, and not with
+        // only pawns left (zugzwang).
+        if null_ok && !pv_node && !in_check && ply > 0 && depth >= NULL_MIN_DEPTH && has_pieces(board, us) {
+            if eval::evaluate(board) >= beta {
+                if let Some(child) = board.null_move() {
+                    let r = NULL_BASE_REDUCTION + depth / NULL_DEPTH_DIVISOR;
+                    self.stack.push(child.hash());
+                    let score = -self.negamax(&child, depth - 1 - r, -beta, -beta + 1, ply + 1, false);
+                    self.stack.pop();
+                    if self.stopped {
+                        return 0;
+                    }
+                    if score >= beta {
+                        return if is_mate_score(score) { beta } else { score };
+                    }
+                }
+            }
+        }
+
+        let side = us as usize;
+        let killers = self.killers[ply];
+        let moves = ordered_moves(board, false, hash_move, killers, &self.history[side]);
         if moves.is_empty() {
             return if board.checkers().is_empty() { 0 } else { -MATE + ply as i32 };
         }
 
-        let enemy = board.colors(!board.side_to_move());
+        let enemy = board.colors(!us);
         let alpha_orig = alpha;
         let mut best = -INF;
         let mut best_move = None;
@@ -265,15 +309,30 @@ impl Searcher {
             let mut child = board.clone();
             child.play_unchecked(mv);
             self.stack.push(child.hash());
+            let quiet = !enemy.has(mv.to) && mv.promotion.is_none();
             // PVS: full window for the first move, a null window for the
-            // rest, re-searched only if one unexpectedly beats alpha.
+            // rest, re-searched only if one unexpectedly beats alpha. Late
+            // quiet moves are first searched shallower (LMR).
             let mut score;
             if i == 0 {
-                score = -self.negamax(&child, depth - 1, -beta, -alpha, ply + 1);
+                score = -self.negamax(&child, depth - 1, -beta, -alpha, ply + 1, true);
             } else {
-                score = -self.negamax(&child, depth - 1, -alpha - 1, -alpha, ply + 1);
+                let mut r = 0;
+                if depth >= LMR_MIN_DEPTH
+                    && i >= LMR_FIRST_MOVE
+                    && quiet
+                    && !in_check
+                    && child.checkers().is_empty()
+                    && !killers.contains(&Some(mv))
+                {
+                    r = 1 + (i >= LMR_DEEP_MOVE && depth >= LMR_DEEP_DEPTH) as i32;
+                }
+                score = -self.negamax(&child, depth - 1 - r, -alpha - 1, -alpha, ply + 1, true);
+                if r > 0 && score > alpha && !self.stopped {
+                    score = -self.negamax(&child, depth - 1, -alpha - 1, -alpha, ply + 1, true);
+                }
                 if score > alpha && score < beta && !self.stopped {
-                    score = -self.negamax(&child, depth - 1, -beta, -alpha, ply + 1);
+                    score = -self.negamax(&child, depth - 1, -beta, -alpha, ply + 1, true);
                 }
             }
             self.stack.pop();
@@ -286,7 +345,6 @@ impl Searcher {
                 if score > alpha {
                     alpha = score;
                     if alpha >= beta {
-                        let quiet = !enemy.has(mv.to) && mv.promotion.is_none();
                         if quiet {
                             let k = &mut self.killers[ply];
                             if k[0] != Some(mv) {
