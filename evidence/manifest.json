@@ -49,33 +49,6 @@
   },
   {
     "branch": "sep25-erik",
-    "commit": "0b5e357",
-    "kind": "ladder",
-    "subject": "[ladder] TARGET_ELO 1600 -> 1800 \u2014 proof games/proofs/beat-1600.pgn + beat-1700.pgn, tags beat-1600, beat-1700",
-    "host": "?",
-    "files": [
-      "sep25-erik/proofs/beat-1600.pgn",
-      "sep25-erik/proofs/beat-1700.pgn"
-    ],
-    "problems": [],
-    "proofs": [
-      {
-        "file": "beat-1600.pgn",
-        "level": 1600,
-        "plies": 37,
-        "termination": "checkmate"
-      },
-      {
-        "file": "beat-1700.pgn",
-        "level": 1700,
-        "plies": 61,
-        "termination": "checkmate"
-      }
-    ],
-    "verified": true
-  },
-  {
-    "branch": "sep25-erik",
     "commit": "4c2ece5",
     "kind": "keep",
     "subject": "[keep] elo=1894\u00b193 W/D/L=34/7/19 @1800 wins@target=12 \u2014 search: transposition table 64MB + hash-move ordering + TT PV",
@@ -173,33 +146,6 @@
   },
   {
     "branch": "sep25-erik",
-    "commit": "7df0139",
-    "kind": "ladder",
-    "subject": "[ladder] TARGET_ELO 1800 -> 2000 \u2014 proof games/proofs/beat-1800.pgn + beat-1900.pgn, tags beat-1800, beat-1900",
-    "host": "?",
-    "files": [
-      "sep25-erik/proofs/beat-1800.pgn",
-      "sep25-erik/proofs/beat-1900.pgn"
-    ],
-    "problems": [],
-    "proofs": [
-      {
-        "file": "beat-1800.pgn",
-        "level": 1800,
-        "plies": 46,
-        "termination": "checkmate"
-      },
-      {
-        "file": "beat-1900.pgn",
-        "level": 1900,
-        "plies": 40,
-        "termination": "checkmate"
-      }
-    ],
-    "verified": true
-  },
-  {
-    "branch": "sep25-erik",
     "commit": "55375f9",
     "kind": "keep",
     "subject": "[keep] elo=2234\u00b1154 W/D/L=21/5/4 @2000 wins@target=5 \u2014 eval: king safety (pawn shield + king-zone attackers, only vs an enemy queen) + Kh1 = Kg1",
@@ -248,33 +194,6 @@
   },
   {
     "branch": "sep25-erik",
-    "commit": "0c5f5a4",
-    "kind": "ladder",
-    "subject": "[ladder] TARGET_ELO 2000 -> 2200 \u2014 proof games/proofs/beat-2000.pgn + beat-2100.pgn, tags beat-2000, beat-2100",
-    "host": "?",
-    "files": [
-      "sep25-erik/proofs/beat-2000.pgn",
-      "sep25-erik/proofs/beat-2100.pgn"
-    ],
-    "problems": [],
-    "proofs": [
-      {
-        "file": "beat-2000.pgn",
-        "level": 2000,
-        "plies": 62,
-        "termination": "checkmate"
-      },
-      {
-        "file": "beat-2100.pgn",
-        "level": 2100,
-        "plies": 35,
-        "termination": "checkmate"
-      }
-    ],
-    "verified": true
-  },
-  {
-    "branch": "sep25-erik",
     "commit": "555bcaf",
     "kind": "keep",
     "subject": "[keep] elo=2400\u00b1146 W/D/L=21/3/6 @2200 wins@target=8 \u2014 time: soft limit 60%, keep best root move of an aborted iteration, reserve capped at 50ms",
@@ -319,33 +238,6 @@
     "move_time": 5.0,
     "slowest_move": 4.96,
     "problems": [],
-    "verified": true
-  },
-  {
-    "branch": "sep25-erik",
-    "commit": "4340e04",
-    "kind": "ladder",
-    "subject": "[ladder] TARGET_ELO 2200 -> 2400 \u2014 proof games/proofs/beat-2200.pgn + beat-2300.pgn, tags beat-2200, beat-2300",
-    "host": "?",
-    "files": [
-      "sep25-erik/proofs/beat-2200.pgn",
-      "sep25-erik/proofs/beat-2300.pgn"
-    ],
-    "problems": [],
-    "proofs": [
-      {
-        "file": "beat-2200.pgn",
-        "level": 2200,
-        "plies": 44,
-        "termination": "checkmate"
-      },
-      {
-        "file": "beat-2300.pgn",
-        "level": 2300,
-        "plies": 37,
-        "termination": "checkmate"
-      }
-    ],
     "verified": true
   },
   {
@@ -490,6 +382,75 @@
     "move_time": 5.0,
     "slowest_move": 5.04,
     "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "main",
+    "commit": "c5aa1ed",
+    "kind": "ladder",
+    "subject": "[ladder] TARGET_ELO 1600 -> 2400 \u2014 proof games/proofs/beat-1600.pgn + games/proofs/beat-1700.pgn + games/proofs/beat-1800.pgn + games/proofs/beat-1900.pgn + games/proofs/beat-2000.pgn + games/proofs/beat-2100.pgn + games/proofs/beat-2200.pgn + games/proofs/beat-2300.pgn",
+    "host": "?",
+    "files": [
+      "main/proofs/beat-1600.pgn",
+      "main/proofs/beat-1700.pgn",
+      "main/proofs/beat-1800.pgn",
+      "main/proofs/beat-1900.pgn",
+      "main/proofs/beat-2000.pgn",
+      "main/proofs/beat-2100.pgn",
+      "main/proofs/beat-2200.pgn",
+      "main/proofs/beat-2300.pgn"
+    ],
+    "problems": [],
+    "proofs": [
+      {
+        "file": "beat-1600.pgn",
+        "level": 1600,
+        "plies": 37,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-1700.pgn",
+        "level": 1700,
+        "plies": 61,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-1800.pgn",
+        "level": 1800,
+        "plies": 46,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-1900.pgn",
+        "level": 1900,
+        "plies": 40,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2000.pgn",
+        "level": 2000,
+        "plies": 62,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2100.pgn",
+        "level": 2100,
+        "plies": 35,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2200.pgn",
+        "level": 2200,
+        "plies": 44,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2300.pgn",
+        "level": 2300,
+        "plies": 37,
+        "termination": "checkmate"
+      }
+    ],
     "verified": true
   }
 ]

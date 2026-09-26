@@ -8,14 +8,14 @@ Every `[keep]`, `[FULL]` and `[sync]` claim keeps **all** the games of its runs,
 
 | Level | Proof | Branch | Commit | Plies | Ending | Verified |
 |---|---|---|---|---|---|---|
-| 2300 | [beat-2300.pgn](sep25-erik/proofs/beat-2300.pgn) | sep25-erik | `4340e04` | 37 | checkmate | yes |
-| 2200 | [beat-2200.pgn](sep25-erik/proofs/beat-2200.pgn) | sep25-erik | `4340e04` | 44 | checkmate | yes |
-| 2100 | [beat-2100.pgn](sep25-erik/proofs/beat-2100.pgn) | sep25-erik | `0c5f5a4` | 35 | checkmate | yes |
-| 2000 | [beat-2000.pgn](sep25-erik/proofs/beat-2000.pgn) | sep25-erik | `0c5f5a4` | 62 | checkmate | yes |
-| 1900 | [beat-1900.pgn](sep25-erik/proofs/beat-1900.pgn) | sep25-erik | `7df0139` | 40 | checkmate | yes |
-| 1800 | [beat-1800.pgn](sep25-erik/proofs/beat-1800.pgn) | sep25-erik | `7df0139` | 46 | checkmate | yes |
-| 1700 | [beat-1700.pgn](sep25-erik/proofs/beat-1700.pgn) | sep25-erik | `0b5e357` | 61 | checkmate | yes |
-| 1600 | [beat-1600.pgn](sep25-erik/proofs/beat-1600.pgn) | sep25-erik | `0b5e357` | 37 | checkmate | yes |
+| 2300 | [beat-2300.pgn](main/proofs/beat-2300.pgn) | main | `c5aa1ed` | 37 | checkmate | yes |
+| 2200 | [beat-2200.pgn](main/proofs/beat-2200.pgn) | main | `c5aa1ed` | 44 | checkmate | yes |
+| 2100 | [beat-2100.pgn](main/proofs/beat-2100.pgn) | main | `c5aa1ed` | 35 | checkmate | yes |
+| 2000 | [beat-2000.pgn](main/proofs/beat-2000.pgn) | main | `c5aa1ed` | 62 | checkmate | yes |
+| 1900 | [beat-1900.pgn](main/proofs/beat-1900.pgn) | main | `c5aa1ed` | 40 | checkmate | yes |
+| 1800 | [beat-1800.pgn](main/proofs/beat-1800.pgn) | main | `c5aa1ed` | 46 | checkmate | yes |
+| 1700 | [beat-1700.pgn](main/proofs/beat-1700.pgn) | main | `c5aa1ed` | 61 | checkmate | yes |
+| 1600 | [beat-1600.pgn](main/proofs/beat-1600.pgn) | main | `c5aa1ed` | 37 | checkmate | yes |
 
 ## Elo claims
 

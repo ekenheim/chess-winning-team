@@ -9,7 +9,6 @@ Being benched right now. Don't start the same idea on the other branch.
 | Since | Who | Branch | Trying | Hypothesis |
 |---|---|---|---|---|
 | Sep 25 10:33 UTC (stale? no result after 4 h) | Erik Adolfsson | `sep25-erik` @`36032fd` | speed: incremental tapered evaluation (O(1) eval update per move) |  |
-| Sep 26 07:03 UTC | Erik Adolfsson | `sep25-erik` @`1517c7b` | eval: king danger v3 (attacked zone squares, storm pawns 4 ranks, open king files, no 2-attacker gate) | the c9cb33a and 555bcaf-full reviews found 9 of 12 and all 4 |
 
 ## Champion engine on main
 
@@ -20,6 +19,7 @@ Engine code moves between the branches only through main: a `[keep]` is `[promot
 | Sep 26 07:05 UTC | chopsting | promote `bb884cc` | `sep25-robin@fbc8c67` | 2326 ±486 | macos-m1pro | search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes) |
 | Sep 26 07:05 UTC | chopsting | promote `3e3b483` | `sep25-erik@555bcaf` | 2400 ±146 | windows-i7-13700H | time: soft limit 60%, keep best root move of an aborted iteration, reserve capped at 50ms |
 | Sep 26 07:06 UTC | chopsting | promote `6d40457` | `sep26-robin@bba68b9` | 2718 ±180 | macos-m1pro | confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher) |
+| Sep 26 07:07 UTC | chopsting | ladder `c5aa1ed` | `sep25-erik` | — | ? | proof games/proofs/beat-1600.pgn + games/proofs/beat-1700.pgn + games/proofs/beat-1800.pgn + games/proofs/beat-1900.pgn + games/proofs/beat-2000.pgn + games/proofs/beat-2100.pgn + games/proofs/beat-2200.pgn + games/proofs/beat-2300.pgn |
 
 ## Every result
 
@@ -27,6 +27,7 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 07:07 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **discard** | 2326 ±130 | 9/6/15 @2400 (2 wins) | eval: king danger v3 (attacked zone squares, storm pawns, open king files) | reverted | `6f37ca4` |
 | Sep 26 07:01 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2718 ±180 | 5/6/4 @2700 (1 wins) | confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher) | 5 s run | `bba68b9` |
 | Sep 26 07:01 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2692 ±169 | 22/6/2 @2400 (7 wins) | confirm frontier pruning + movetime + bucket TT at 5s/move | 5 s run | `3896e6c` |
 | Sep 25 16:38 UTC | Erik Adolfsson | `sep25-erik` | ? | **ladder** | — | → 2400 | proof games/proofs/beat-2200.pgn + beat-2300.pgn, tags beat-2200, beat-2300 |  | `4340e04` |
