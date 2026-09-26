@@ -8,6 +8,7 @@ Every `[keep]`, `[FULL]` and `[sync]` claim keeps **all** the games of its runs,
 
 | Level | Proof | Branch | Commit | Plies | Ending | Verified |
 |---|---|---|---|---|---|---|
+| 2900 | [beat-2900.pgn](main/proofs/beat-2900.pgn) | main | `823c402` | 103 | checkmate | yes |
 | 2800 | [beat-2800.pgn](main/proofs/beat-2800.pgn) | main | `d519e4e` | 207 | checkmate | yes |
 | 2700 | [beat-2700.pgn](main/proofs/beat-2700.pgn) | main | `d519e4e` | 190 | checkmate | yes |
 | 2600 | [beat-2600.pgn](main/proofs/beat-2600.pgn) | main | `d519e4e` | 71 | checkmate | yes |
@@ -42,3 +43,4 @@ Every `[keep]`, `[FULL]` and `[sync]` claim keeps **all** the games of its runs,
 | sep25-robin | `fbc8c67` | keep | macos-m1pro | 0.25 | 2326 ± 486 | 2326 ([aecf98e](sep25-robin/aecf98e/)) | 29/1/0 | 30 | 0.27 s | yes |
 | sep26-robin | `3896e6c` | FULL | macos-m1pro | 5 | 2692 ± 169 | 2692 ([4340e04-dirty-full-r2](sep26-robin/4340e04-dirty-full-r2/)) | 22/6/2 | 30 | 5.03 s | yes |
 | sep26-robin | `bba68b9` | FULL | macos-m1pro | 5 | 2718 ± 180 | 2718 ([stack-v2-full-t2700s100](sep26-robin/stack-v2-full-t2700s100/)) | 5/6/4 | 15 | 5.04 s | yes |
+| sep26-robin | `e5d57de` | FULL | macos-m1pro | 5 | 3075 ± 321 | 3075 ([stack-v2-full-t3000s100](sep26-robin/stack-v2-full-t3000s100/)) | 1/4/0 | 5 | 4.92 s | yes |
