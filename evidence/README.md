@@ -8,6 +8,7 @@ Every `[keep]`, `[FULL]` and `[sync]` claim keeps **all** the games of its runs,
 
 | Level | Proof | Branch | Commit | Plies | Ending | Verified |
 |---|---|---|---|---|---|---|
+| 2900 | [beat-2900.pgn](main/proofs/beat-2900.pgn) | main | `823c402` | 103 | checkmate | yes |
 | 2800 | [beat-2800.pgn](main/proofs/beat-2800.pgn) | main | `d519e4e` | 207 | checkmate | yes |
 | 2700 | [beat-2700.pgn](main/proofs/beat-2700.pgn) | main | `d519e4e` | 190 | checkmate | yes |
 | 2600 | [beat-2600.pgn](main/proofs/beat-2600.pgn) | main | `d519e4e` | 71 | checkmate | yes |

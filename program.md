@@ -17,6 +17,7 @@ To set up a new experiment, work with the user to:
      - `sep25-robin` (macOS): **search, move ordering, pruning, time management, speed**.
      - `sep25-erik` (Windows): **evaluation**: king safety, pawn structure, mobility, tapered terms, and later tuning its weights on *our own* games' results (Texel-style). Tuning on Stockfish's evaluations or best moves stays forbidden, see "What you CANNOT do".
      - Work outside your area only for a bug fix, or when the ledger shows the owner hasn't touched an idea and you've said why in your hypothesis. Swap or change areas by editing this list on main.
+   - **Updating main by hand:** use `git pull --ff-only` (or `--rebase`), never a merging `git pull`: a merge commit on main moves main's own commits off its first-parent line. Once per machine: `git config pull.ff only`.
    - Tooling, `program.md`, `arena/`, `games/proofs/` and the generated files (`README.md` scoreboard, `progress.svg`, `LEDGER.md`, `evidence/`) change **only on main**. Never edit them on your branch.
 3. **Read the in-scope files**: The repo is small. Read these files for full context:
    - `README.md` — repository context, competition rules, chosen engine language, Stockfish version.

@@ -524,5 +524,25 @@
       }
     ],
     "verified": true
+  },
+  {
+    "branch": "main",
+    "commit": "823c402",
+    "kind": "ladder",
+    "subject": "[ladder] TARGET_ELO 2900 -> 3000 \u2014 proof games/proofs/beat-2900.pgn",
+    "host": "macos-m1pro",
+    "files": [
+      "main/proofs/beat-2900.pgn"
+    ],
+    "problems": [],
+    "proofs": [
+      {
+        "file": "beat-2900.pgn",
+        "level": 2900,
+        "plies": 103,
+        "termination": "checkmate"
+      }
+    ],
+    "verified": true
   }
 ]

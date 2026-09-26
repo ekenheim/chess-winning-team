@@ -145,9 +145,26 @@ def experiments(ref, exclude=None):
 
 
 def champion():
-    """`[promote]` and `[ladder]` commits on main, oldest first."""
-    rows = [parse(*r) for r in log_rows(base())]
-    return [r for r in rows if r and r["status"] in ("promote", "ladder")]
+    """`[promote]` and `[ladder]` commits on main, oldest first. Walks all of
+    main's history, not only its first-parent line: a `git pull` that merges
+    on main (instead of fast-forwarding) moves main-side commits to a second
+    parent. Branch commits (a branch's own [ladder] from before the ladder
+    moved to main) are left out."""
+    on_branch = set()
+    for ref in branches().values():
+        on_branch.update(git("rev-list", "--first-parent", ref).split())
+    out = git("log", "--reverse", "--topo-order", "--format=%H%x1f%an%x1f%ct%x1f%B%x1e", base())
+    rows = []
+    for entry in out.split("\x1e"):
+        if not entry.strip():
+            continue
+        sha, who, ts, body = entry.strip().split("\x1f", 3)
+        if sha in on_branch:
+            continue
+        r = parse(sha, who, int(ts), body)
+        if r and r["status"] in ("promote", "ladder"):
+            rows.append(r)
+    return rows
 
 
 def mark_state(name, rows, promotions):
