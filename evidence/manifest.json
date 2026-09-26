@@ -601,6 +601,30 @@
     "verified": true
   },
   {
+    "branch": "sep26-robin",
+    "commit": "325e399",
+    "kind": "FULL",
+    "subject": "[FULL] elo=3190\u00b1482 W/D/L=0/2/0 @3190 wins@target=0 \u2014 92521ec (8 threads, contempt 120) at 3190, one game at a time (in progress)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/t8c120x1-92521ec-full-t3190s0/"
+    ],
+    "claimed_elo": 3190.0,
+    "claimed_err": 482.0,
+    "recomputed_elo": 3190.0,
+    "recomputed_err": 481.5,
+    "wdl": [
+      0,
+      2,
+      0
+    ],
+    "games": 2,
+    "move_time": 5.0,
+    "slowest_move": 4.93,
+    "problems": [],
+    "verified": true
+  },
+  {
     "branch": "main",
     "commit": "c5aa1ed",
     "kind": "ladder",

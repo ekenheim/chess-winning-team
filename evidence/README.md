@@ -52,3 +52,4 @@ Every `[keep]`, `[FULL]` and `[sync]` claim keeps **all** the games of its runs,
 | sep26-robin | `480ae8c` | FULL | macos-m1pro | 5 | 3190 ± 681 | 3190 ([c120-9492e36-full-t3190s0](sep26-robin/c120-9492e36-full-t3190s0/)) | 0/1/0 | 1 | 4.91 s | yes |
 | sep26-robin | `df3b787` | FULL | macos-m1pro | 5 | 3190 ± 681 | 3190 ([t8c120x2-92521ec-full-t3190s0](sep26-robin/t8c120x2-92521ec-full-t3190s0/)) | 0/1/0 | 1 | 4.91 s | yes |
 | sep26-robin | `864982e` | FULL | macos-m1pro | 5 | 3190 ± 482 | 3190 ([t8c120x2-92521ec-full-t3190s0](sep26-robin/t8c120x2-92521ec-full-t3190s0/)) | 0/2/0 | 2 | 4.96 s | yes |
+| sep26-robin | `325e399` | FULL | macos-m1pro | 5 | 3190 ± 482 | 3190 ([t8c120x1-92521ec-full-t3190s0](sep26-robin/t8c120x1-92521ec-full-t3190s0/)) | 0/2/0 | 2 | 4.93 s | yes |

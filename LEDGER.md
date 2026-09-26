@@ -31,6 +31,7 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 09:24 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±482 | 0/2/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, one game at a time (in progress) | 5 s run | `325e399` |
 | Sep 26 09:09 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±482 | 0/2/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, 2 games in parallel (switched to 1 at a time) | 5 s run | `864982e` |
 | Sep 26 08:56 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±681 | 0/1/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, 2 games in parallel (in progress) | 5 s run | `df3b787` |
 | Sep 26 08:35 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2790 ±999 | 0/0/1 @3190 (0 wins) | 139c887 (contempt 50) at 3190, side-by-side run A (1 game) | 5 s run | `a87b376` |
