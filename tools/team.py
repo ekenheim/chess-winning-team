@@ -69,6 +69,18 @@ def last_change(*paths, ref="origin/main", cwd=None):
     return git("log", "--first-parent", "-1", "--format=%H", ref, "--", *paths, cwd=cwd)
 
 
+def built_on(engine_ref, ref, cwd=None):
+    """True if main's engine at `engine_ref` is the engine/ of some commit on
+    `ref`'s first-parent line: `ref` was developed (and benched) on top of it.
+    Compares content, so a promote's merge commit need not be an ancestor."""
+    want = git("rev-parse", f"{engine_ref}:engine", cwd=cwd)
+    commits = git("rev-list", "--first-parent", "-n", "2000", ref, cwd=cwd).split()
+    r = subprocess.run(["git", "cat-file", "--batch-check=%(objectname)"], cwd=cwd or HERE,
+                       input="".join(f"{c}:engine\n" for c in commits),
+                       capture_output=True, encoding="utf-8")
+    return want in r.stdout.split()
+
+
 def owner(sha):
     """The branch whose own (first-parent) line holds `sha`."""
     for ref in git("for-each-ref", "--format=%(refname:short)",
@@ -127,6 +139,9 @@ def cmd_sync(_args):
         return
     champ = last_change(*CHAMPION_PATHS)
     behind = bool(champ) and not ok("merge-base", "--is-ancestor", champ, "HEAD")
+    # Main's engine is one this branch already built on (e.g. it promoted the
+    # engine this branch started from): only the arena may need adopting.
+    engine_known = built_on("origin/main", "HEAD")
     merge = run("merge", "--no-ff", "--no-commit", "origin/main")
     if merge.returncode and not ok("rev-parse", "-q", "--verify", "MERGE_HEAD"):
         die(f"git merge origin/main did not start:\n{merge.stdout}{merge.stderr}")
@@ -136,7 +151,10 @@ def cmd_sync(_args):
                *RECORDS).splitlines()
     if gone:
         git("checkout", before, "--", *gone)
-    if behind:
+    if behind and engine_known:
+        git("checkout", before, "--", "engine")
+        git("checkout", "origin/main", "--", "arena")
+    elif behind:
         # Main has a new champion engine or a new ladder: take main's engine and
         # arena wholesale, dropping engine files only this branch had.
         tracked = set(git("ls-tree", "-r", "--name-only", before, "--", "engine").splitlines())
@@ -203,7 +221,8 @@ def cmd_promote(args):
         # Only the engine matters here: a [ladder] since then doesn't make it stale.
         # (A result whose engine main already has, e.g. merged by hand, is just recorded.)
         champ = last_change("engine", ref="HEAD", cwd=wt)
-        if not same and champ and not ok("merge-base", "--is-ancestor", champ, sha, cwd=wt):
+        if not same and champ and not (ok("merge-base", "--is-ancestor", champ, sha, cwd=wt)
+                                       or built_on("HEAD", sha, cwd=wt)):
             die(f"{sha[:7]} was not benched on the current champion "
                 f"({champ[:7]}): run `team.py sync`, bench, and re-apply the idea")
         # A merge edge (so the promoter's next sync is clean) that takes only
