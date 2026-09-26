@@ -11,7 +11,7 @@ Two people work on this repo, one on macOS and one on Windows, each on their own
 
 | Run | Who | Host | Experiments | Kept | Best Elo (0.25 s) | Best FULL Elo (5 s) | Target | Wins@target (FULL) | Proofs |
 |---|---|---|---|---|---|---|---|---|---|
-| `sep25-erik` | Erik Adolfsson | windows-i7-13700H | 9 | 6 | **2873** ±135 (adopt main@3e2bf9b) | 2400 ±146 | 3000 | 8 | 8 |
+| `sep25-erik` | Erik Adolfsson | windows-i7-13700H | 10 | 6 | **2873** ±135 (adopt main@3e2bf9b) | 2400 ±146 | 3000 | 8 | 8 |
 | `sep25-robin` | chopsting | macos-m1pro | 7 | 4 | **2326** ±486 (search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes)) | — | 1600 | 0 | 0 |
 | `sep26-robin` | chopsting | macos-m1pro | 0 | 0 | — | 3075 ±321 | 3100 | 7 | 6 |
 
