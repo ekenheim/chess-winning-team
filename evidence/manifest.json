@@ -433,6 +433,54 @@
     "verified": true
   },
   {
+    "branch": "sep26-robin",
+    "commit": "e93a0ba",
+    "kind": "FULL",
+    "subject": "[FULL] elo=3010\u00b1681 W/D/L=0/1/0 @3010 wins@target=0 \u2014 aim ead1002 (4 threads) at 3010/3100/3190 at 5s/move (1 game, restarted with 2 threads x 4 games)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/v4-ead1002-full-t3100s90/"
+    ],
+    "claimed_elo": 3010.0,
+    "claimed_err": 681.0,
+    "recomputed_elo": 3010.0,
+    "recomputed_err": 681.0,
+    "wdl": [
+      0,
+      1,
+      0
+    ],
+    "games": 1,
+    "move_time": 5.0,
+    "slowest_move": 4.93,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep26-robin",
+    "commit": "14e5fe2",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2965\u00b1354 W/D/L=0/3/1 @3100 wins@target=0 \u2014 aim 139c887 (2 threads) at 3010/3100/3190 at 5s/move (4 games, stopped for the 3190-only rule)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/v4t2-139c887-full-t3100s90/"
+    ],
+    "claimed_elo": 2965.0,
+    "claimed_err": 354.0,
+    "recomputed_elo": 2964.8,
+    "recomputed_err": 354.4,
+    "wdl": [
+      0,
+      3,
+      1
+    ],
+    "games": 4,
+    "move_time": 5.0,
+    "slowest_move": 4.94,
+    "problems": [],
+    "verified": true
+  },
+  {
     "branch": "main",
     "commit": "c5aa1ed",
     "kind": "ladder",

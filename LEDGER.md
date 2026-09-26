@@ -9,8 +9,7 @@ Being benched right now. Don't start the same idea on the other branch.
 | Since | Who | Branch | Trying | Hypothesis |
 |---|---|---|---|---|
 | Sep 25 10:33 UTC (stale? no result after 4 h) | Erik Adolfsson | `sep25-erik` @`36032fd` | speed: incremental tapered evaluation (O(1) eval update per move) |  |
-| Sep 26 07:12 UTC | chopsting | `sep26-robin` @`ead1002` | search: Lazy SMP (4 threads, shared lockless TT) + contempt 50 (draws score nothing here) + eval: endgame draw scaling, passed pawns, fifty-move taper | at 2900-3100 the engine draws (4 of 5 games at 5 s) instead of |
-| Sep 26 07:34 UTC | chopsting | `sep26-robin` @`139c887` | speed: 2 search threads by default, so 4 games can play in parallel at 5 s/move | under load 2 -&gt; 4 threads added no depth (Lazy SMP agent: 23.58 vs 23.58 at 5 s), so 4 games x 2 threads doubles the proof attempts per hour at about the same strength. |
+| Sep 26 08:01 UTC | Erik Adolfsson | `sep25-erik` @`966bbcc` | eval: tapered mobility (N/B/R/Q safe squares, zero-mean per piece type) | the engine's own score is optimistic by +110 cp (middlegame) and +140 cp (endgame) against Stockfish with no pessimism at all (analysis/579a92f/engine-dev.md section 2), and the residual grows monotonically with the mobility we lack (+174 at -15 squares to +74 at +15, about 3 cp per square). Every middlegame mate (games 5, 20, 21, 30) had undeveloped or offside pieces that no king-danger term prices. Mobility is the standard published term the eval lacks: squares a knight/bishop/rook/queen attacks that are not its own pieces and not attacked by enemy pawns, centred on the usual count per piece type so it does not double-count material, weighted 4/5/2/1 mg and 3/4/4/2 eg per square. Static gate: g5 p37 +243 -&gt; +222, g20 p19 +138 -&gt; +117, g30 p34 +133 -&gt; +123; bench 10 nps unchanged within noise. |
 
 ## Champion engine on main
 
@@ -24,6 +23,7 @@ Engine code moves between the branches only through main: a `[keep]` is `[promot
 | Sep 26 07:07 UTC | chopsting | ladder `c5aa1ed` | `sep25-erik` | — | ? | proof games/proofs/beat-1600.pgn + games/proofs/beat-1700.pgn + games/proofs/beat-1800.pgn + games/proofs/beat-1900.pgn + games/proofs/beat-2000.pgn + games/proofs/beat-2100.pgn + games/proofs/beat-2200.pgn + games/proofs/beat-2300.pgn |
 | Sep 26 07:08 UTC | chopsting | ladder `d519e4e` | `sep26-robin` | — | macos-m1pro | proof games/proofs/beat-2400.pgn + games/proofs/beat-2500.pgn + games/proofs/beat-2600.pgn + games/proofs/beat-2700.pgn + games/proofs/beat-2800.pgn |
 | Sep 26 07:11 UTC | chopsting | ladder `823c402` | `sep26-robin` | — | macos-m1pro | proof games/proofs/beat-2900.pgn |
+| Sep 26 08:05 UTC | chopsting | promote `6a6b139` | `sep26-robin@14e5fe2` | 2965 ±354 | macos-m1pro | aim 139c887 (2 threads) at 3010/3100/3190 at 5s/move (4 games, stopped for the 3190-only rule) |
 
 ## Every result
 
@@ -31,6 +31,8 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 08:05 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3010 ±681 | 0/1/0 @3010 (0 wins) | aim ead1002 (4 threads) at 3010/3100/3190 at 5s/move (1 game, restarted with 2 threads x 4 games) | 5 s run | `e93a0ba` |
+| Sep 26 08:05 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2965 ±354 | 0/3/1 @3100 (0 wins) | aim 139c887 (2 threads) at 3010/3100/3190 at 5s/move (4 games, stopped for the 3190-only rule) | 5 s run | `14e5fe2` |
 | Sep 26 07:37 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **sync** | 2873 ±135 | 5/10/15 @3000 (2 wins) | adopt main@3e2bf9b | champion | `1c096d5` |
 | Sep 26 07:11 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3075 ±321 | 1/4/0 @3000 (0 wins) | aim 888bd24 at 2900/3000/3100 at 5s/move (5 of 60 games, stopped for a stronger build) | 5 s run | `e5d57de` |
 | Sep 26 07:07 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **discard** | 2326 ±130 | 9/6/15 @2400 (2 wins) | eval: king danger v3 (attacked zone squares, storm pawns, open king files) | reverted | `6f37ca4` |

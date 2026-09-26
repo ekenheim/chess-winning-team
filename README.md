@@ -13,9 +13,9 @@ Two people work on this repo, one on macOS and one on Windows, each on their own
 |---|---|---|---|---|---|---|---|---|---|
 | `sep25-erik` | Erik Adolfsson | windows-i7-13700H | 9 | 6 | **2873** ±135 (adopt main@3e2bf9b) | 2400 ±146 | 3000 | 8 | 8 |
 | `sep25-robin` | chopsting | macos-m1pro | 7 | 4 | **2326** ±486 (search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes)) | — | 1600 | 0 | 0 |
-| `sep26-robin` | chopsting | macos-m1pro | 0 | 0 | — | 3075 ±321 | 3000 | 7 | 6 |
+| `sep26-robin` | chopsting | macos-m1pro | 0 | 0 | — | 3075 ±321 | 3100 | 7 | 6 |
 
-**Champion engine on main**: `sep26-robin@bba68b9` by chopsting, 2718 ±180 on macos-m1pro — confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher)
+**Champion engine on main**: `sep26-robin@14e5fe2` by chopsting, 2965 ±354 on macos-m1pro — aim 139c887 (2 threads) at 3010/3100/3190 at 5s/move (4 games, stopped for the 3190-only rule)
 
 Every experiment by both of us, what it tried and where its engine went: [LEDGER.md](LEDGER.md). Elo is only comparable within one host (the Mac and the Windows PC reach different depths). Rebuilt from the git log by `python tools/progress.py` on main.
 <!-- progress:end -->
