@@ -452,5 +452,53 @@
       }
     ],
     "verified": true
+  },
+  {
+    "branch": "main",
+    "commit": "d519e4e",
+    "kind": "ladder",
+    "subject": "[ladder] TARGET_ELO 2400 -> 2900 \u2014 proof games/proofs/beat-2400.pgn + games/proofs/beat-2500.pgn + games/proofs/beat-2600.pgn + games/proofs/beat-2700.pgn + games/proofs/beat-2800.pgn",
+    "host": "macos-m1pro",
+    "files": [
+      "main/proofs/beat-2400.pgn",
+      "main/proofs/beat-2500.pgn",
+      "main/proofs/beat-2600.pgn",
+      "main/proofs/beat-2700.pgn",
+      "main/proofs/beat-2800.pgn"
+    ],
+    "problems": [],
+    "proofs": [
+      {
+        "file": "beat-2400.pgn",
+        "level": 2400,
+        "plies": 125,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2500.pgn",
+        "level": 2500,
+        "plies": 195,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2600.pgn",
+        "level": 2600,
+        "plies": 71,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2700.pgn",
+        "level": 2700,
+        "plies": 190,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2800.pgn",
+        "level": 2800,
+        "plies": 207,
+        "termination": "checkmate"
+      }
+    ],
+    "verified": true
   }
 ]
