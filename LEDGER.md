@@ -30,6 +30,7 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 10:05 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2790 ±999 | 0/0/1 @3190 (0 wins) | 7894d25 (repetition fix, 8 threads, contempt 120) at 3190, one game at a time (in progress) | 5 s run | `42ccaf9` |
 | Sep 26 09:39 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3070 ±417 | 0/2/1 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, one game at a time (in progress) | 5 s run | `b1330d7` |
 | Sep 26 09:27 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **FULL** | 2978 ±142 | 0/16/14 @3190 (0 wins) | aim 2002feb at 3090/3190/3190 at 5s/move (30 games, 6 parallel) | 5 s run | `8de95ba` |
 | Sep 26 09:24 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±482 | 0/2/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, one game at a time (in progress) | 5 s run | `325e399` |
