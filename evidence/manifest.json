@@ -505,6 +505,54 @@
     "verified": true
   },
   {
+    "branch": "sep26-robin",
+    "commit": "a87b376",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2790\u00b1999 W/D/L=0/0/1 @3190 wins@target=0 \u2014 139c887 (contempt 50) at 3190, side-by-side run A (1 game)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/c50-139c887-b-full-t3190s0/"
+    ],
+    "claimed_elo": 2790.0,
+    "claimed_err": 999.0,
+    "recomputed_elo": 2790.0,
+    "recomputed_err": 999.0,
+    "wdl": [
+      0,
+      0,
+      1
+    ],
+    "games": 1,
+    "move_time": 5.0,
+    "slowest_move": 4.91,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep26-robin",
+    "commit": "480ae8c",
+    "kind": "FULL",
+    "subject": "[FULL] elo=3190\u00b1681 W/D/L=0/1/0 @3190 wins@target=0 \u2014 9492e36 (contempt 120) at 3190, side-by-side run B (1 game)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/c120-9492e36-full-t3190s0/"
+    ],
+    "claimed_elo": 3190.0,
+    "claimed_err": 681.0,
+    "recomputed_elo": 3190.0,
+    "recomputed_err": 681.0,
+    "wdl": [
+      0,
+      1,
+      0
+    ],
+    "games": 1,
+    "move_time": 5.0,
+    "slowest_move": 4.91,
+    "problems": [],
+    "verified": true
+  },
+  {
     "branch": "main",
     "commit": "c5aa1ed",
     "kind": "ladder",

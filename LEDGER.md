@@ -10,7 +10,7 @@ Being benched right now. Don't start the same idea on the other branch.
 |---|---|---|---|---|
 | Sep 25 10:33 UTC (stale? no result after 4 h) | Erik Adolfsson | `sep25-erik` @`36032fd` | speed: incremental tapered evaluation (O(1) eval update per move) |  |
 | Sep 26 08:16 UTC | Erik Adolfsson | `sep25-erik` @`b78c197` | full: confirm main@2002feb at 2900/3000/3100 at 5s/move | the champion engine (main's engine, identical to the [sync] 1c096d5 tree) has no [FULL] at TARGET_ELO 3000 on this host; Robin's 5 s run of the same engine (e5d57de) drew 4 of 5 games and was stopped. At 5 s the search reaches depth 20+ and the 0.25 s optimism halves (analysis/579a92f/engine-dev.md section 4), so a win at 3000 or 3100 is possible; a win at 3100 would ladder TARGET_ELO to 3200. Runs on windows-i7-13700H with WORKERS=6 in a detached worktree of origin/main. |
-| Sep 26 08:21 UTC | chopsting | `sep26-robin` @`9492e36` | search: contempt 120 (was 50) to play on instead of accepting repetitions at 3190 | at Stockfish 3190 the engine takes threefold repetitions (2 of 2 games, 82 and 98 plies) because every alternative looks worse than -50. Under the win-ratio rule a draw is worth exactly as much as a loss, so avoiding draws down to about -120 can only add wins. Played side by side with 139c887 on the same openings. |
+| Sep 26 08:34 UTC | chopsting | `sep26-robin` @`92521ec` | speed: 8 search threads (one game at a time on the whole machine) with contempt 120 | the win ratio at 3190 rewards per-game strength, not volume, so the last 75 minutes play one game at a time with all 8 performance cores (Stockfish is idle during our turn). |
 
 ## Champion engine on main
 
@@ -32,6 +32,8 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 08:35 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2790 ±999 | 0/0/1 @3190 (0 wins) | 139c887 (contempt 50) at 3190, side-by-side run A (1 game) | 5 s run | `a87b376` |
+| Sep 26 08:35 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±681 | 0/1/0 @3190 (0 wins) | 9492e36 (contempt 120) at 3190, side-by-side run B (1 game) | 5 s run | `480ae8c` |
 | Sep 26 08:22 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3043 ±332 | 0/3/2 @3190 (0 wins) | 139c887 at Stockfish 3190 only (win-ratio rule), 5 games, then split with contempt 120 | 5 s run | `aff77a3` |
 | Sep 26 08:07 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **discard** | 2873 ±135 | 2/16/12 @3000 (0 wins) | eval: tapered mobility (N/B/R/Q safe squares, zero-mean); Elo unchanged, draws 10 -&gt; 16, wins 5 -&gt; 2 | reverted | `ea0e9a4` |
 | Sep 26 08:05 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3010 ±681 | 0/1/0 @3010 (0 wins) | aim ead1002 (4 threads) at 3010/3100/3190 at 5s/move (1 game, restarted with 2 threads x 4 games) | 5 s run | `e93a0ba` |
