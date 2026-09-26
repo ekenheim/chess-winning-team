@@ -327,6 +327,165 @@ pub fn psq_delta(board: &Board, mv: Move) -> (i32, i32) {
     (mg, eg)
 }
 
+/// Passed-pawn bonus by relative rank (index 0 = own back rank). Kept small:
+/// the endgame pawn table already rewards advancement for every pawn.
+const PASSED_MG: [i32; 8] = [0, 0, 5, 10, 15, 25, 40, 0];
+const PASSED_EG: [i32; 8] = [0, 5, 10, 20, 35, 55, 80, 0];
+
+#[inline]
+fn north_fill(mut b: u64) -> u64 {
+    b |= b << 8;
+    b |= b << 16;
+    b |= b << 32;
+    b
+}
+
+#[inline]
+fn south_fill(mut b: u64) -> u64 {
+    b |= b >> 8;
+    b |= b >> 16;
+    b |= b >> 32;
+    b
+}
+
+/// Squares on the same and neighbouring files as `span`.
+#[inline]
+fn widen(span: u64) -> u64 {
+    span | ((span & !FILE_H) << 1) | ((span & !FILE_A) >> 1)
+}
+
+/// Light squares (b1, a2, ...). a1 is dark.
+const LIGHT_SQUARES: u64 = 0x55AA_55AA_55AA_55AA;
+const FILE_A: u64 = 0x0101_0101_0101_0101;
+const FILE_H: u64 = FILE_A << 7;
+
+/// Scale factors are out of 64 (64 = no change).
+const SCALE_NORMAL: i32 = 64;
+
+#[inline]
+fn chebyshev(a: Square, b: Square) -> i32 {
+    let df = (a.file() as i32 - b.file() as i32).abs();
+    let dr = (a.rank() as i32 - b.rank() as i32).abs();
+    df.max(dr)
+}
+
+/// Material summary of one side.
+struct Side {
+    pawns: u64,
+    knights: u32,
+    bishops: u32,
+    rooks: u32,
+    queens: u32,
+    /// Non-pawn material in centipawns.
+    npm: i32,
+}
+
+fn side_material(board: &Board, color: Color) -> Side {
+    let c = board.colors(color);
+    let knights = (board.pieces(Piece::Knight) & c).len();
+    let bishops = (board.pieces(Piece::Bishop) & c).len();
+    let rooks = (board.pieces(Piece::Rook) & c).len();
+    let queens = (board.pieces(Piece::Queen) & c).len();
+    Side {
+        pawns: (board.pieces(Piece::Pawn) & c).0,
+        knights,
+        bishops,
+        rooks,
+        queens,
+        npm: knights as i32 * KNIGHT + bishops as i32 * BISHOP + rooks as i32 * ROOK + queens as i32 * QUEEN,
+    }
+}
+
+/// Endgame knowledge: how much of the (positive) score the stronger side
+/// can realistically convert, out of 64. Pure chess rules of thumb:
+/// no pawns and less than a rook up rarely wins, a lone minor never wins,
+/// the wrong rook-pawn bishop draws with the king in the corner, opposite
+/// bishops and one-extra-pawn rook endings are drawish.
+fn scale_factor(board: &Board, strong: Color) -> i32 {
+    let weak = !strong;
+    let s = side_material(board, strong);
+    let w = side_material(board, weak);
+    let s_pawns = s.pawns.count_ones() as i32;
+    let w_pawns = w.pawns.count_ones() as i32;
+
+    // The side without pawns needs a real material edge to win.
+    if s_pawns == 0 {
+        // A lone minor (or nothing) cannot mate.
+        if s.npm <= BISHOP {
+            return 0;
+        }
+        // Two knights cannot force mate against a bare king.
+        if s.npm == 2 * KNIGHT && s.knights == 2 && w.npm == 0 {
+            return if w_pawns == 0 { 0 } else { 16 };
+        }
+        let diff = s.npm - w.npm;
+        if diff <= BISHOP {
+            // Minor-piece edge or less (R v B, R+B v R, Q v R+B ...).
+            return 6;
+        }
+        if diff < ROOK && !(s.queens > 0 && w.queens == 0) {
+            // Q v R is a known win; other sub-rook edges are hard work.
+            return 32;
+        }
+        return SCALE_NORMAL;
+    }
+
+    // Bishop + rook pawn(s) on one file where the bishop does not control
+    // the queening square, weak king already on/next to it: a dead draw.
+    if s.npm == BISHOP && s.bishops == 1 {
+        let on_a = s.pawns & !FILE_A == 0;
+        let on_h = s.pawns & !FILE_H == 0;
+        if on_a || on_h {
+            let promo_idx: u64 = match (strong, on_a) {
+                (Color::White, true) => 56,
+                (Color::White, false) => 63,
+                (Color::Black, true) => 0,
+                (Color::Black, false) => 7,
+            };
+            let bishop_light = (board.pieces(Piece::Bishop) & board.colors(strong)).0 & LIGHT_SQUARES != 0;
+            let promo_light = (1u64 << promo_idx) & LIGHT_SQUARES != 0;
+            if bishop_light != promo_light {
+                let promo = Square::index(promo_idx as usize);
+                if chebyshev(board.king(weak), promo) <= 1 {
+                    return 0;
+                }
+            }
+        }
+    }
+
+    // Opposite-coloured bishops.
+    if s.bishops == 1 && w.bishops == 1 {
+        let sb = (board.pieces(Piece::Bishop) & board.colors(strong)).0 & LIGHT_SQUARES != 0;
+        let wb = (board.pieces(Piece::Bishop) & board.colors(weak)).0 & LIGHT_SQUARES != 0;
+        if sb != wb {
+            if s.npm == BISHOP && w.npm == BISHOP {
+                let diff = (s_pawns - w_pawns).max(0);
+                return (12 + 8 * (diff - 1).max(0)).min(40);
+            }
+            return 48;
+        }
+    }
+
+    // Rook endings (one rook each, nothing else).
+    if s.npm == ROOK && w.npm == ROOK && s.rooks == 1 && w.rooks == 1 {
+        let on_a = s.pawns & !FILE_A == 0;
+        let on_h = s.pawns & !FILE_H == 0;
+        // All pawns on a single file (e.g. doubled): effectively one pawn.
+        let one_file = [0u32, 1, 2, 3, 4, 5, 6, 7].iter().any(|&f| s.pawns & !(FILE_A << f) == 0);
+        if w_pawns == 0 && (on_a || on_h) {
+            return 8;
+        }
+        if w_pawns == 0 && one_file {
+            return 32;
+        }
+        if s_pawns - w_pawns <= 1 {
+            return 40;
+        }
+    }
+
+    SCALE_NORMAL
+}
+
 /// Score from the side to move's point of view (tapered evaluation).
 pub fn evaluate(board: &Board) -> i32 {
     let (mg, eg) = psq(board);
@@ -335,11 +494,45 @@ pub fn evaluate(board: &Board) -> i32 {
 
 /// `evaluate` given the material + piece-square sums (`psq`) of `board`.
 #[inline]
-pub fn evaluate_with(board: &Board, mut mg: i32, eg: i32) -> i32 {
+pub fn evaluate_with(board: &Board, mut mg: i32, mut eg: i32) -> i32 {
     mg -= king_danger(board, Color::White);
     mg += king_danger(board, Color::Black);
+
+    // Passed pawns: no enemy pawn ahead on the same or a neighbouring file.
+    let wp = (board.pieces(Piece::Pawn) & board.colors(Color::White)).0;
+    let bp = (board.pieces(Piece::Pawn) & board.colors(Color::Black)).0;
+    let mut w_passed = wp & !widen(south_fill(bp >> 8));
+    while w_passed != 0 {
+        let r = (w_passed.trailing_zeros() / 8) as usize;
+        mg += PASSED_MG[r];
+        eg += PASSED_EG[r];
+        w_passed &= w_passed - 1;
+    }
+    let mut b_passed = bp & !widen(north_fill(wp << 8));
+    while b_passed != 0 {
+        let r = 7 - (b_passed.trailing_zeros() / 8) as usize;
+        mg -= PASSED_MG[r];
+        eg -= PASSED_EG[r];
+        b_passed &= b_passed - 1;
+    }
+
     let p = phase(board);
-    let score = (mg * p + eg * (PHASE_MAX - p)) / PHASE_MAX;
+    let mut score = (mg * p + eg * (PHASE_MAX - p)) / PHASE_MAX;
+
+    // Endgame scaling only once few pieces remain (cheap gate).
+    if p <= 6 && score != 0 {
+        let strong = if score > 0 { Color::White } else { Color::Black };
+        let sf = scale_factor(board, strong);
+        if sf != SCALE_NORMAL {
+            score = score * sf / SCALE_NORMAL;
+        }
+    }
+
+    // Approaching the fifty-move rule: nothing is being made of the edge.
+    let hm = board.halfmove_clock() as i32;
+    if hm > 60 {
+        score = score * (100 - hm).max(0) / 40;
+    }
     if board.side_to_move() == Color::White {
         score
     } else {
