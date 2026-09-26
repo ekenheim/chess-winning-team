@@ -265,6 +265,30 @@
     "verified": true
   },
   {
+    "branch": "sep25-erik",
+    "commit": "8de95ba",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2978\u00b1142 W/D/L=0/16/14 @3190 wins@target=0 \u2014 aim 2002feb at 3090/3190/3190 at 5s/move (30 games, 6 parallel)",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/2002feb-full-t3190s100/"
+    ],
+    "claimed_elo": 2978.0,
+    "claimed_err": 142.0,
+    "recomputed_elo": 2978.0,
+    "recomputed_err": 141.7,
+    "wdl": [
+      0,
+      16,
+      14
+    ],
+    "games": 30,
+    "move_time": 5.0,
+    "slowest_move": 4.96,
+    "problems": [],
+    "verified": true
+  },
+  {
     "branch": "sep25-robin",
     "commit": "81396e0",
     "kind": "keep",

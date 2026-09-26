@@ -9,7 +9,6 @@ Being benched right now. Don't start the same idea on the other branch.
 | Since | Who | Branch | Trying | Hypothesis |
 |---|---|---|---|---|
 | Sep 25 10:33 UTC (stale? no result after 4 h) | Erik Adolfsson | `sep25-erik` @`36032fd` | speed: incremental tapered evaluation (O(1) eval update per move) |  |
-| Sep 26 08:16 UTC | Erik Adolfsson | `sep25-erik` @`b78c197` | full: confirm main@2002feb at 2900/3000/3100 at 5s/move | the champion engine (main's engine, identical to the [sync] 1c096d5 tree) has no [FULL] at TARGET_ELO 3000 on this host; Robin's 5 s run of the same engine (e5d57de) drew 4 of 5 games and was stopped. At 5 s the search reaches depth 20+ and the 0.25 s optimism halves (analysis/579a92f/engine-dev.md section 4), so a win at 3000 or 3100 is possible; a win at 3100 would ladder TARGET_ELO to 3200. Runs on windows-i7-13700H with WORKERS=6 in a detached worktree of origin/main. |
 
 ## Champion engine on main
 
@@ -31,6 +30,7 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 09:27 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **FULL** | 2978 ±142 | 0/16/14 @3190 (0 wins) | aim 2002feb at 3090/3190/3190 at 5s/move (30 games, 6 parallel) | 5 s run | `8de95ba` |
 | Sep 26 09:24 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±482 | 0/2/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, one game at a time (in progress) | 5 s run | `325e399` |
 | Sep 26 09:09 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±482 | 0/2/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, 2 games in parallel (switched to 1 at a time) | 5 s run | `864982e` |
 | Sep 26 08:56 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±681 | 0/1/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, 2 games in parallel (in progress) | 5 s run | `df3b787` |
