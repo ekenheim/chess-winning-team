@@ -43,13 +43,30 @@ function roundedSquare(): THREE.CanvasTexture {
   return roundedTex;
 }
 
+let outlineTex: THREE.CanvasTexture | null = null;
+function roundedOutline(): THREE.CanvasTexture {
+  if (outlineTex) return outlineTex;
+  const c = document.createElement("canvas");
+  c.width = c.height = 128;
+  const ctx = c.getContext("2d")!;
+  ctx.strokeStyle = "#fff";
+  ctx.lineWidth = 7;
+  ctx.beginPath();
+  ctx.roundRect(8, 8, 112, 112, 12);
+  ctx.stroke();
+  outlineTex = new THREE.CanvasTexture(c);
+  return outlineTex;
+}
+
 const LAST = new THREE.Color(...HL_LAST);
 const CHECK = new THREE.Color(...HL_CHECK);
 const HALO = new THREE.Color(...HL_HALO);
 
-function Square({ sq, opacity }: { sq: string; opacity: number }) {
+/** `fill` tints the whole square (destination); `outline` is a thin frame (origin), so an empty origin square
+ *  never reads as a leftover on the wood grain. */
+function Square({ sq, opacity, variant = "fill" }: { sq: string; opacity: number; variant?: "fill" | "outline" }) {
   const [x, z] = squareToWorld(sq);
-  const alpha = roundedSquare();
+  const alpha = variant === "outline" ? roundedOutline() : roundedSquare();
   return (
     <mesh position={[x, 0.004, z]} rotation-x={-Math.PI / 2}>
       <planeGeometry args={[0.98, 0.98]} />
@@ -214,8 +231,8 @@ export default function Highlights() {
     <>
       {lastMove && (
         <>
-          <Square sq={lastMove[0]} opacity={0.25} />
-          <Square sq={lastMove[1]} opacity={0.45} />
+          <Square sq={lastMove[0]} opacity={0.75} variant="outline" />
+          <Square sq={lastMove[1]} opacity={0.38} />
         </>
       )}
       <ImpactRing />
