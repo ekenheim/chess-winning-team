@@ -9,7 +9,6 @@ Being benched right now. Don't start the same idea on the other branch.
 | Since | Who | Branch | Trying | Hypothesis |
 |---|---|---|---|---|
 | Sep 25 10:33 UTC (stale? no result after 4 h) | Erik Adolfsson | `sep25-erik` @`36032fd` | speed: incremental tapered evaluation (O(1) eval update per move) |  |
-| Sep 26 09:51 UTC | chopsting | `sep26-robin` @`7894d25` | search: repetition only draws a pre-root position when threefold is claimable | Erik's engine-dev review of 2002feb-full-t3190s100: is_repetition treated a single earlier occurrence in the game history as a draw, gluing the root score at the (contempt) draw value in lost positions. Inside the search tree one repetition still scores as a draw; positions played before the root need two earlier occurrences. Game 3 of that run after 96 plies: old -120 (the contempt draw score) at depth 37, fixed -350 at depth 21. |
 
 ## Champion engine on main
 
@@ -31,6 +30,7 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 10:05 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2790 ±999 | 0/0/1 @3190 (0 wins) | 7894d25 (repetition fix, 8 threads, contempt 120) at 3190, one game at a time (in progress) | 5 s run | `42ccaf9` |
 | Sep 26 09:39 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3070 ±417 | 0/2/1 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, one game at a time (in progress) | 5 s run | `b1330d7` |
 | Sep 26 09:27 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **FULL** | 2978 ±142 | 0/16/14 @3190 (0 wins) | aim 2002feb at 3090/3190/3190 at 5s/move (30 games, 6 parallel) | 5 s run | `8de95ba` |
 | Sep 26 09:24 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±482 | 0/2/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, one game at a time (in progress) | 5 s run | `325e399` |
