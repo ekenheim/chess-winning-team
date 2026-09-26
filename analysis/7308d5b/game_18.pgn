@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "windows-amd64-Regenr"]
+[Date "2026.09.25"]
+[Round "18"]
+[White "Stockfish 19"]
+[Black "chess-winning-team 7308d5b"]
+[Result "0-1"]
+[FEN "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "1900"]
+[BlackElo "-"]
+[StockfishElo "1900"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "7308d5b"]
+[EngineColor "black"]
+[Opening "Ruy Lopez, Morphy Defence"]
+[Termination "checkmate"]
+[PlyCount "68"]
+
+1. Be2 { S loss 57 best Ba4 d13 0.26s [%eval -0.21,14] } 1... Nf6 { E loss 1 d6 0.24s [%eval -0.20,14] } 2. d3 { S loss 7 d15 0.25s [%eval -0.27,14] } 2... d5 { E loss 6 d7 0.21s [%eval -0.21,14] } 3. O-O { S loss 119 best Nbd2 d13 0.25s [%eval -1.40,14] } 3... dxe4 { E loss 5 d7 0.13s [%eval -1.35,14] } 4. dxe4 { S loss 8 d15 0.25s [%eval -1.43,14] } 4... Qxd1 { E loss 61 best Nxe4 d7 0.24s [%eval -0.82,14] } 5. Bxd1 { S loss 0 d15 0.25s [%eval -0.72,14] } 5... Nxe4 { E loss 0 d7 0.23s [%eval -0.88,14] } 6. Re1 { S loss 0 d15 0.25s [%eval -0.62,14] } 6... Bf5 { E loss 0 d7 0.13s [%eval -0.65,14] } 7. Nxe5 { S loss 151 best Nh4 d13 0.25s [%eval -2.16,14] } 7... Nxe5 { E loss 1 d7 0.22s [%eval -2.15,14] } 8. f4 { S loss 353 best Nd2 d13 0.25s [%eval -5.68,14] } 8... Bc5+ { E loss 0 d6 0.24s [%eval -5.94,14] } 9. Be3 { S loss 0 d13 0.25s [%eval -5.94,14] } 9... Bxe3+ { E loss 0 d7 0.24s [%eval -6.73,14] } 10. Rxe3 { S loss 0 d19 0.25s [%eval -6.65,14] } 10... Nc4 { E loss 0 d6 0.24s [%eval -6.79,14] } 11. Rxe4+ { S loss 83 best Re1 d14 0.25s [%eval -7.62,14] } 11... Bxe4 { E loss 1 d8 0.12s [%eval -7.61,14] } 12. Bh5 { S loss 62 best Nc3 d12 0.25s [%eval -8.23,14] } 12... Bxc2 { E loss 34 d6 0.24s [%eval -7.89,14] } 13. Bf3 { S loss 37 d13 0.25s [%eval -8.26,14] } 13... Rb8 { E loss 13 d7 0.16s [%eval -8.13,14] } 14. Nc3 { S loss 0 d14 0.25s [%eval -7.73,14] } 14... Ke7 { E loss 146 best Bf5 d6 0.24s [%eval -6.27,14] } 15. g4 { S loss 129 best Rc1 d15 0.25s [%eval -7.56,14] } 15... Kd6 { E loss 68 best Nd6 d6 0.24s [%eval -6.88,14] } 16. Rc1 { S loss 14 d14 0.25s [%eval -7.02,14] } 16... Ne3 { E loss 2 d7 0.24s [%eval -7.00,14] } 17. h4 { S loss 44 d14 0.25s [%eval -7.44,14] } 17... Bd3 { E loss 106 best Rhe8 d6 0.24s [%eval -6.38,14] } 18. Kf2 { S loss 31 d14 0.25s [%eval -6.69,14] } 18... Rbe8 { E loss 38 d7 0.21s [%eval -6.31,14] } 19. Nd1 { S loss 21 d13 0.25s [%eval -6.52,14] } 19... Nd5 { E loss 20 d7 0.11s [%eval -6.32,14] } 20. Nc3 { S loss 114 best Bxd5 d15 0.25s [%eval -7.46,14] } 20... Nxf4 { E loss 43 d7 0.11s [%eval -7.03,14] } 21. Bxb7 { S loss 31 d14 0.25s [%eval -7.34,14] } 21... Rb8 { E loss 0 d7 0.20s [%eval -7.47,14] } 22. Be4 { S loss 51 best Ke3 d12 0.25s [%eval -7.98,14] } 22... Ke5 { E loss 74 best Bxe4 d7 0.20s [%eval -7.24,14] } 23. Bb7 { S loss 86 best Bf3 d12 0.25s [%eval -8.10,14] } 23... Rxb7 { E loss 0 d7 0.11s [%eval -8.29,14] } 24. Ke3 { S loss 56 best Re1+ d12 0.25s [%eval -8.85,14] } 24... Rxb2 { E loss 8 d7 0.12s [%eval -8.77,14] } 25. Kf3 { S loss 29 d14 0.25s [%eval -9.06,14] } 25... Ng2 { E loss 0 d7 0.20s [%eval -9.21,14] } 26. Na4 { S loss 0 d14 0.25s [%eval -9.07,14] } 26... Rxa2 { E loss 0 d7 0.24s [%eval -9.32,14] } 27. Nc5 { S loss 73 best Nc3 d14 0.25s [%eval -10.05,14] } 27... Bb5 { E loss 141 best Rd8 d7 0.24s [%eval -8.64,14] } 28. Nb3 { S loss 147 best Kg3 d14 0.25s [%eval -10.11,14] } 28... Ba4 { E loss 45 d7 0.11s [%eval -9.66,14] } 29. Nc5 { S loss 35 d13 0.25s [%eval -10.01,14] } 29... Bc6+ { E loss 19 d7 0.24s [%eval -9.82,14] } 30. Ne4 { S loss 332 best Kg3 d15 0.25s [%eval -13.14,14] } 30... Bxe4+ { E loss 8 d7 0.24s [%eval -13.06,14] } 31. Kg3 { S loss 50 d33 0.25s [%eval -13.56,14] } 31... Nf4 { E loss 61 best Rd8 d7 0.24s [%eval -12.95,14] } 32. Rc5+ { S loss 177 d37 0.25s [%eval -14.72,14] } 32... Nd5 { E loss 46 d8 0.15s [%eval -14.26,14] } 33. Rc6 { S loss 0 d37 0.25s [%eval -9.98,14] } 33... Rg2+ { E loss 0 d4 0.00s [%eval -9.99,14] } 34. Kh3 { S loss 0 d245 0.01s [%eval -9.99,14] } 34... Nf4# { E loss 0 d2 0.00s [%eval -10.00,14] } 0-1
+

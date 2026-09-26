@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "windows-amd64-Regenr"]
+[Date "2026.09.25"]
+[Round "12"]
+[White "Stockfish 19"]
+[Black "chess-winning-team 7308d5b"]
+[Result "0-1"]
+[FEN "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "1900"]
+[BlackElo "-"]
+[StockfishElo "1900"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "7308d5b"]
+[EngineColor "black"]
+[Opening "Italian Game"]
+[Termination "checkmate"]
+[PlyCount "22"]
+
+1. c3 { S loss 0 d14 0.25s [%eval 0.17,14] } 1... Nf6 { E loss 0 d7 0.22s [%eval 0.15,14] } 2. O-O { S loss 70 best d3 d13 0.25s [%eval -0.55,14] } 2... Nxe4 { E loss 7 d7 0.16s [%eval -0.48,14] } 3. Qe2 { S loss 62 best d4 d13 0.25s [%eval -1.10,14] } 3... d5 { E loss 0 d7 0.17s [%eval -1.10,14] } 4. Bb3 { S loss 68 best Bb5 d14 0.25s [%eval -1.78,14] } 4... Bg4 { E loss 39 d6 0.16s [%eval -1.39,14] } 5. h3 { S loss 207 best d3 d12 0.25s [%eval -3.46,14] } 5... Ng3 { E loss 0 d6 0.11s [%eval -3.46,14] } 6. Qd3 { S loss 84 best Qb5 d14 0.25s [%eval -4.30,14] } 6... Bxf3 { E loss 38 d6 0.24s [%eval -3.92,14] } 7. Re1 { S loss 245 best Qxf3 d15 0.25s [%eval -6.37,14] } 7... Ne4 { E loss 0 d7 0.23s [%eval -6.47,14] } 8. gxf3 { S loss 197 best Rf1 d14 0.25s [%eval -8.44,14] } 8... Qh4 { E loss 0 d7 0.14s [%eval -9.58,14] } 9. fxe4 { S loss 38 d14 0.25s [%eval -9.96,14] } 9... Qxf2+ { E loss 0 d7 0.11s [%eval -9.97,14] } 10. Kh1 { S loss 0 d245 0.15s [%eval -9.97,14] } 10... Qxe1+ { E loss 0 d6 0.04s [%eval -9.98,14] } 11. Kh2 { S loss 1 d245 0.02s [%eval -9.99,14] } 11... Qg1# { E loss 0 d2 0.00s [%eval -10.00,14] } 0-1
+
