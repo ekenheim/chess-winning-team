@@ -298,6 +298,9 @@ const HELPER_STACK: usize = 32 << 20;
 const CONTEMPT: i32 = 120;
 
 pub struct Searcher {
+    /// Stack length once the game history is loaded: entries below it were
+    /// played before the root.
+    root_len: usize,
     /// The side this search plays for (set per search), for contempt.
     root_color: cozy_chess::Color,
     nodes: u64,
@@ -356,6 +359,7 @@ impl Searcher {
             stopped: false,
             stack: Vec::with_capacity(512),
             root_move: None,
+            root_len: 0,
             root_color: cozy_chess::Color::White,
             root_score: -INF,
             tt,
@@ -597,6 +601,7 @@ impl Searcher {
         }
         self.stack.clear();
         self.stack.extend_from_slice(history);
+        self.root_len = self.stack.len();
         self.psq_stack[0] = eval::psq(board);
         // Killers are position-specific; history carries over, aged.
         self.killers = [[None; 2]; MAX_PLY];
@@ -772,13 +777,25 @@ impl Searcher {
         // A null move pushes NULL_BARRIER: positions before it are not
         // reachable repetitions of positions after it. Nothing before the
         // last capture or pawn move (halfmove clock) can repeat either.
-        self.stack
-            .iter()
-            .rev()
-            .skip(1)
-            .take(halfmove_clock as usize)
-            .take_while(|&&h| h != NULL_BARRIER)
-            .any(|&h| h == hash)
+        // Inside the search tree one repetition is a draw (the opponent can
+        // force it). Positions from the game before the root only draw once
+        // the threefold is really claimable: two earlier occurrences.
+        let mut before_root = 0;
+        for (i, &h) in self.stack.iter().enumerate().rev().skip(1).take(halfmove_clock as usize) {
+            if h == NULL_BARRIER {
+                break;
+            }
+            if h == hash {
+                if i + 1 >= self.root_len {
+                    return true;
+                }
+                before_root += 1;
+                if before_root >= 2 {
+                    return true;
+                }
+            }
+        }
+        false
     }
 
     fn negamax(&mut self, board: &Board, mut depth: i32, mut alpha: i32, beta: i32, ply: usize, null_ok: bool) -> i32 {
