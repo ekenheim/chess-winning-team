@@ -1,7 +1,8 @@
 //! Static evaluation: material + piece-square tables (Michniewski's
-//! "Simplified Evaluation Function" tables), tapered between a middlegame
-//! and an endgame score by the non-pawn material left on the board. From the
-//! side to move's point of view, in centipawns.
+//! "Simplified Evaluation Function" tables), king safety and piece mobility,
+//! tapered between a middlegame and an endgame score by the non-pawn
+//! material left on the board. From the side to move's point of view, in
+//! centipawns.
 
 use cozy_chess::{
     get_bishop_moves, get_bishop_rays, get_king_moves, get_knight_moves, get_rook_moves, get_rook_rays, BitBoard, Board,
@@ -256,6 +257,72 @@ const fn build_shield() -> [[[BitBoard; 3]; 64]; 2] {
     t
 }
 
+/// Mobility (middlegame, endgame) from White's point of view. For each
+/// knight, bishop, rook and queen: the squares it attacks that are not
+/// occupied by its own side and not attacked by an enemy pawn, minus the
+/// usual count for that piece type (so an ordinarily placed piece scores
+/// zero and the term does not double-count material), times a per-type
+/// weight per square. The 579a92f review found the engine's optimism grew
+/// monotonically with the mobility it lacked (about 3 cp per square) and
+/// undeveloped or offside pieces in every middlegame it lost.
+const MOB_MG: [i32; 4] = [4, 5, 2, 1]; // N, B, R, Q per square
+const MOB_EG: [i32; 4] = [3, 4, 4, 2];
+const MOB_AVG: [i32; 4] = [4, 6, 7, 13];
+const FILE_A: u64 = 0x0101_0101_0101_0101;
+const FILE_H: u64 = FILE_A << 7;
+
+/// Every square attacked by a pawn of `color` in `pawns`.
+#[inline]
+fn pawn_attacks(pawns: BitBoard, color: Color) -> BitBoard {
+    let b = pawns.0;
+    BitBoard(match color {
+        Color::White => ((b << 7) & !FILE_H) | ((b << 9) & !FILE_A),
+        Color::Black => ((b >> 7) & !FILE_A) | ((b >> 9) & !FILE_H),
+    })
+}
+
+fn mobility(board: &Board) -> (i32, i32) {
+    let occ = board.occupied();
+    let pawns = board.pieces(Piece::Pawn);
+    let (mut mg, mut eg) = (0, 0);
+    for color in [Color::White, Color::Black] {
+        let ours = board.colors(color);
+        let safe = !ours & !pawn_attacks(pawns & board.colors(!color), !color);
+        let mut squares = [0i32; 4];
+        let mut count = [0i32; 4];
+        for sq in board.pieces(Piece::Knight) & ours {
+            squares[0] += (get_knight_moves(sq) & safe).len() as i32;
+            count[0] += 1;
+        }
+        for sq in board.pieces(Piece::Bishop) & ours {
+            squares[1] += (get_bishop_moves(sq, occ) & safe).len() as i32;
+            count[1] += 1;
+        }
+        for sq in board.pieces(Piece::Rook) & ours {
+            squares[2] += (get_rook_moves(sq, occ) & safe).len() as i32;
+            count[2] += 1;
+        }
+        for sq in board.pieces(Piece::Queen) & ours {
+            squares[3] += ((get_rook_moves(sq, occ) | get_bishop_moves(sq, occ)) & safe).len() as i32;
+            count[3] += 1;
+        }
+        let (mut m, mut e) = (0, 0);
+        for i in 0..4 {
+            let d = squares[i] - MOB_AVG[i] * count[i];
+            m += MOB_MG[i] * d;
+            e += MOB_EG[i] * d;
+        }
+        if color == Color::White {
+            mg += m;
+            eg += e;
+        } else {
+            mg -= m;
+            eg -= e;
+        }
+    }
+    (mg, eg)
+}
+
 /// Material + piece-square sums (middlegame, endgame) of one piece, from
 /// White's point of view.
 #[inline(always)]
@@ -335,9 +402,12 @@ pub fn evaluate(board: &Board) -> i32 {
 
 /// `evaluate` given the material + piece-square sums (`psq`) of `board`.
 #[inline]
-pub fn evaluate_with(board: &Board, mut mg: i32, eg: i32) -> i32 {
+pub fn evaluate_with(board: &Board, mut mg: i32, mut eg: i32) -> i32 {
     mg -= king_danger(board, Color::White);
     mg += king_danger(board, Color::Black);
+    let (mob_mg, mob_eg) = mobility(board);
+    mg += mob_mg;
+    eg += mob_eg;
     let p = phase(board);
     let score = (mg * p + eg * (PHASE_MAX - p)) / PHASE_MAX;
     if board.side_to_move() == Color::White {
