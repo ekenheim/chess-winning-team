@@ -2,6 +2,7 @@
 // reflections, one shadow-casting key light, and contact shadows on the board and under the frame.
 import { Suspense } from "react";
 import { ContactShadows, Environment, Lightformer } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
 import type { Tier } from "@/lib/three/flags";
 import ErrorBoundary from "./ErrorBoundary";
 
@@ -34,6 +35,26 @@ function HdriEnv() {
   );
 }
 
+// The post-processing composer (high tier) sets gl.autoClear = false and drei's ContactShadows never clears its render
+// target itself, so every piece base that ever touched the board stayed baked in the shadow texture. These two run in
+// mount order around the ContactShadows frame hooks: clear on for them, then back to whatever the composer wants.
+let autoClearBefore = true;
+function AutoClearOn() {
+  const gl = useThree((s) => s.gl);
+  useFrame(() => {
+    autoClearBefore = gl.autoClear;
+    gl.autoClear = true;
+  });
+  return null;
+}
+function AutoClearRestore() {
+  const gl = useThree((s) => s.gl);
+  useFrame(() => {
+    gl.autoClear = autoClearBefore;
+  });
+  return null;
+}
+
 export default function Studio({ tier }: { tier: Tier }) {
   const mapSize = tier === "high" ? 2048 : 1024;
   return (
@@ -60,9 +81,11 @@ export default function Studio({ tier }: { tier: Tier }) {
         shadow-camera-far={30}
       />
       <hemisphereLight intensity={0.15} color="#fff4e6" groundColor="#2a1a10" />
+      <AutoClearOn />
       <ContactShadows position={[0, 0.002, 0]} scale={8.4} far={1.2} blur={2} opacity={0.5} resolution={512} color="#1a1008" />
       {/* baked once: only the board frame (y -0.425..-0.005) may fall into it, never the pieces, or their start-position shadows would stay forever */}
       <ContactShadows position={[0, -0.419, 0]} scale={14} far={0.5} blur={2.4} opacity={0.6} resolution={512} frames={1} color="#000000" />
+      <AutoClearRestore />
     </>
   );
 }

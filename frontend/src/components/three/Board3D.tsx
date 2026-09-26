@@ -57,9 +57,13 @@ export default function Board3D({ onReady, onFail }: { onReady(): void; onFail(r
     gl.toneMapping = tier === "low" ? THREE.AgXToneMapping : THREE.NoToneMapping;
   }, [tier]);
 
-  const onCreated = ({ gl }: RootState) => {
+  const onCreated = (state: RootState) => {
+    const { gl } = state;
     glRef.current = gl;
-    if (urlFlag("debug") === "1") (window as unknown as { __gl: THREE.WebGLRenderer }).__gl = gl;
+    if (urlFlag("debug") === "1") {
+      (window as unknown as { __gl: THREE.WebGLRenderer }).__gl = gl;
+      (window as unknown as { __state: RootState }).__state = state;
+    }
     gl.domElement.addEventListener("webglcontextlost", (e) => {
       e.preventDefault();
       onFail("context lost");
