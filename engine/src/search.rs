@@ -10,6 +10,9 @@ use cozy_chess::{
     get_between_rays, get_bishop_moves, get_bishop_rays, get_king_moves, get_knight_moves, get_pawn_attacks,
     get_rook_moves, get_rook_rays, BitBoard, Board, Color, Move, Piece, PieceMoves, Rank, Square};
 use std::mem::MaybeUninit;
+use std::sync::atomic::Ordering::Relaxed;
+use std::sync::atomic::{AtomicBool, AtomicU64};
+use std::sync::Arc;
 use std::time::{Duration, Instant};
 
 use crate::eval;
@@ -94,6 +97,8 @@ const KEY_UNDERPROMO: i32 = -50_000;
 fn history_update(h: &mut i32, bonus: i32) {
     *h += bonus - *h * bonus.abs() / HISTORY_MAX;
 }
+/// Lazy SMP: play a helper's move when it completed a deeper iteration than the main thread.
+const PREFER_DEEPER_HELPER: bool = true;
 /// Default transposition table size in MB (`setoption name Hash`).
 pub const DEFAULT_HASH_MB: usize = 128;
 /// Also store quiescence results (depth 0, empty or same-key slots only).
@@ -113,9 +118,8 @@ enum Bound {
     Upper = 3,
 }
 
-/// One 16-byte table slot. `gen_bound` = generation (6 bits) << 2 | bound
-/// (2 bits, 0 = empty slot).
-#[repr(C)]
+/// One table slot, as unpacked from the shared table. `gen_bound` =
+/// generation (6 bits) << 2 | bound (2 bits, 0 = empty slot).
 #[derive(Clone, Copy, Default)]
 struct TtEntry {
     key: u64,
@@ -140,12 +144,73 @@ impl TtEntry {
     fn gen(&self) -> u8 {
         self.gen_bound >> 2
     }
+    #[inline]
+    fn pack(&self) -> u64 {
+        self.mv as u64
+            | (self.score as u16 as u64) << 16
+            | (self.eval as u16 as u64) << 32
+            | (self.depth as u8 as u64) << 48
+            | (self.gen_bound as u64) << 56
+    }
+    #[inline]
+    fn unpack(key: u64, d: u64) -> Self {
+        TtEntry {
+            key,
+            mv: d as u16,
+            score: (d >> 16) as u16 as i16,
+            eval: (d >> 32) as u16 as i16,
+            depth: (d >> 48) as u8 as i8,
+            gen_bound: (d >> 56) as u8,
+        }
+    }
 }
 
-/// Four slots sharing one cache line.
+/// Four slots sharing one cache line. Each slot is two words: (key ^ data,
+/// data). Threads read and write them without locks; a slot torn by a
+/// concurrent write fails the xor check and reads as some other position.
 #[repr(C, align(64))]
-#[derive(Clone, Copy, Default)]
-struct Bucket([TtEntry; 4]);
+#[derive(Default)]
+struct Bucket([AtomicU64; 8]);
+
+impl Bucket {
+    /// Slot `i` with its key recovered (a torn slot yields a wrong key).
+    #[inline]
+    fn load(&self, i: usize) -> TtEntry {
+        let k = self.0[2 * i].load(Relaxed);
+        let d = self.0[2 * i + 1].load(Relaxed);
+        TtEntry::unpack(k ^ d, d)
+    }
+    #[inline]
+    fn store(&self, i: usize, e: &TtEntry) {
+        let d = e.pack();
+        self.0[2 * i + 1].store(d, Relaxed);
+        self.0[2 * i].store(e.key ^ d, Relaxed);
+    }
+    #[inline]
+    fn clear(&self) {
+        for w in &self.0 {
+            w.store(0, Relaxed);
+        }
+    }
+}
+
+/// The transposition table shared by every search thread.
+pub struct Tt {
+    buckets: Box<[Bucket]>,
+}
+
+impl Tt {
+    fn new(mb: usize) -> Self {
+        // Writing every bucket touches the pages here, not during the first move.
+        let buckets: Box<[Bucket]> = (0..bucket_count(mb)).map(|_| Bucket::default()).collect();
+        Tt { buckets }
+    }
+    fn clear(&self) {
+        for b in self.buckets.iter() {
+            b.clear();
+        }
+    }
+}
 
 /// from | to << 6 | promotion << 12 (1..4 = N/B/R/Q); 0 = no move.
 #[inline]
@@ -223,7 +288,18 @@ pub struct SearchResult {
     pub nodes: u64,
 }
 
+/// Maximum number of search threads (`setoption name Threads`).
+pub const MAX_THREADS: usize = 16;
+/// Stack size of a helper search thread.
+const HELPER_STACK: usize = 32 << 20;
+
+/// Contempt: a draw is worth nothing in this competition (only wins count),
+/// so the side the engine plays scores every draw as this much below equal.
+const CONTEMPT: i32 = 50;
+
 pub struct Searcher {
+    /// The side this search plays for (set per search), for contempt.
+    root_color: cozy_chess::Color,
     nodes: u64,
     start: Instant,
     /// Abort the search (mid-iteration) once this much time has passed.
@@ -237,7 +313,7 @@ pub struct Searcher {
     root_move: Option<Move>,
     /// Score of `root_move` (valid when it is Some).
     root_score: i32,
-    tt: Vec<Bucket>,
+    tt: Arc<Tt>,
     /// Search generation (6 bits), bumped at every search() call.
     gen: u8,
     /// Two quiet moves per ply that recently caused a beta cutoff.
@@ -254,10 +330,23 @@ pub struct Searcher {
     countermoves: Box<[[Option<Move>; 64]; 12]>,
     /// LMR table [depth][move index] in 1/1024 ply.
     lmr: Box<[[i32; 64]; 64]>,
+    /// Lazy SMP: 0 = main thread; helpers are 1.. and run the same
+    /// iterative deepening on the shared table, stopping on `stop`.
+    thread_id: usize,
+    /// Set by the main thread when the search ends; every thread polls it.
+    stop: Arc<AtomicBool>,
+    /// This thread's node count, published every NODE_CHECK_MASK + 1 nodes.
+    nodes_pub: Arc<AtomicU64>,
+    /// Helper searchers (main thread only), each with its own heuristics.
+    helpers: Vec<Searcher>,
 }
 
 impl Searcher {
     pub fn new() -> Self {
+        Self::with_table(Arc::new(Tt::new(DEFAULT_HASH_MB)), Arc::new(AtomicBool::new(false)), 0)
+    }
+
+    fn with_table(tt: Arc<Tt>, stop: Arc<AtomicBool>, thread_id: usize) -> Self {
         Searcher {
             nodes: 0,
             start: Instant::now(),
@@ -267,10 +356,9 @@ impl Searcher {
             stopped: false,
             stack: Vec::with_capacity(512),
             root_move: None,
+            root_color: cozy_chess::Color::White,
             root_score: -INF,
-            // vec! writes every bucket, so the pages are touched here and
-            // not during the first move.
-            tt: vec![Bucket::default(); bucket_count(DEFAULT_HASH_MB)],
+            tt,
             gen: 0,
             killers: [[None; 2]; MAX_PLY],
             history: Box::new([[[0; 64]; 64]; 2]),
@@ -279,32 +367,60 @@ impl Searcher {
             move_stack: [None; MAX_PLY],
             countermoves: Box::new([[None; 64]; 12]),
             lmr: Box::new(lmr_table()),
+            thread_id,
+            stop,
+            nodes_pub: Arc::new(AtomicU64::new(0)),
+            helpers: Vec::new(),
         }
     }
 
     pub fn clear(&mut self) {
-        self.tt.fill(Bucket::default());
+        self.tt.clear();
         self.gen = 0;
         self.history = Box::new([[[0; 64]; 64]; 2]);
         self.countermoves = Box::new([[None; 64]; 12]);
+        for h in &mut self.helpers {
+            h.history = Box::new([[[0; 64]; 64]; 2]);
+            h.countermoves = Box::new([[None; 64]; 12]);
+        }
     }
 
     /// Resize the table to `mb` megabytes (rounded down to a power of two), cleared.
     pub fn set_hash_mb(&mut self, mb: usize) {
-        self.tt = Vec::new();
-        self.tt = vec![Bucket::default(); bucket_count(mb)];
+        let threads = self.threads();
+        self.helpers.clear();
+        self.tt = Arc::new(Tt::new(1)); // free the old table first
+        self.tt = Arc::new(Tt::new(mb));
         self.gen = 0;
+        self.set_threads(threads);
+    }
+
+    /// Number of search threads, main included.
+    pub fn threads(&self) -> usize {
+        1 + self.helpers.len()
+    }
+
+    /// Use `n` search threads (1..=MAX_THREADS), main included.
+    pub fn set_threads(&mut self, n: usize) {
+        let n = n.clamp(1, MAX_THREADS);
+        self.helpers.truncate(n - 1);
+        while self.helpers.len() < n - 1 {
+            let id = self.helpers.len() + 1;
+            self.helpers.push(Searcher::with_table(self.tt.clone(), self.stop.clone(), id));
+        }
     }
 
     #[inline]
-    fn tt_index(&self, hash: u64) -> usize {
-        hash as usize & (self.tt.len() - 1)
+    fn tt_bucket(&self, hash: u64) -> &Bucket {
+        let n = self.tt.buckets.len();
+        // SAFETY: n is a power of two, so the index is in range.
+        unsafe { self.tt.buckets.get_unchecked(hash as usize & (n - 1)) }
     }
 
     /// Start loading the bucket of `hash` into the cache.
     #[inline(always)]
     fn tt_prefetch(&self, hash: u64) {
-        let ptr = self.tt.as_ptr().wrapping_add(self.tt_index(hash)) as *const u8;
+        let ptr = self.tt_bucket(hash) as *const Bucket as *const u8;
         #[cfg(target_arch = "aarch64")]
         // SAFETY: a prefetch hint never faults and has no visible effect.
         unsafe {
@@ -321,13 +437,14 @@ impl Searcher {
 
     #[inline]
     fn tt_probe(&self, hash: u64) -> Option<TtEntry> {
-        self.tt[self.tt_index(hash)].0.iter().find(|e| e.key == hash && e.gen_bound & 3 != 0).copied()
+        let b = self.tt_bucket(hash);
+        (0..4).map(|i| b.load(i)).find(|e| e.key == hash && e.gen_bound & 3 != 0)
     }
 
-    fn tt_store(&mut self, hash: u64, mv: Option<Move>, score: i32, depth: i32, bound: Bound) {
+    fn tt_store(&self, hash: u64, mv: Option<Move>, score: i32, depth: i32, bound: Bound) {
         let gen = self.gen;
-        let idx = self.tt_index(hash);
-        let bucket = &mut self.tt[idx].0;
+        let b = self.tt_bucket(hash);
+        let slots: [TtEntry; 4] = std::array::from_fn(|i| b.load(i));
         let new = TtEntry {
             key: hash,
             mv: encode_move(mv),
@@ -336,38 +453,40 @@ impl Searcher {
             depth: depth.clamp(-1, 127) as i8,
             gen_bound: gen << 2 | bound as u8,
         };
-        if let Some(e) = bucket.iter_mut().find(|e| e.key == hash && e.gen_bound & 3 != 0) {
+        if let Some(i) = slots.iter().position(|e| e.key == hash && e.gen_bound & 3 != 0) {
+            let mut e = slots[i];
             // Keep a deeper result from this search unless the new one is exact.
             if (new.depth as i32) < e.depth as i32 - 2 && e.gen() == gen && bound != Bound::Exact {
                 if new.mv != 0 {
                     e.mv = new.mv;
+                    b.store(i, &e);
                 }
                 return;
             }
             let old_mv = e.mv;
-            *e = new;
+            e = new;
             if e.mv == 0 {
                 e.mv = old_mv;
             }
+            b.store(i, &e);
             return;
         }
-        if let Some(e) = bucket.iter_mut().find(|e| e.gen_bound & 3 == 0) {
-            *e = new;
+        if let Some(i) = slots.iter().position(|e| e.gen_bound & 3 == 0) {
+            b.store(i, &new);
             return;
         }
         // Replace the shallowest slot, older generations counting as shallower.
-        let victim = bucket
-            .iter_mut()
-            .min_by_key(|e| e.depth as i32 - 8 * (gen.wrapping_sub(e.gen()) & 63) as i32)
+        let victim = (0..4)
+            .min_by_key(|&i| slots[i].depth as i32 - 8 * (gen.wrapping_sub(slots[i].gen()) & 63) as i32)
             .unwrap();
-        *victim = new;
+        b.store(victim, &new);
     }
 
     /// Quiescence store: only into an empty slot or over the same position.
-    fn tt_store_qs(&mut self, hash: u64, mv: Option<Move>, score: i32, bound: Bound) {
+    fn tt_store_qs(&self, hash: u64, mv: Option<Move>, score: i32, bound: Bound) {
         let gen = self.gen;
-        let idx = self.tt_index(hash);
-        let bucket = &mut self.tt[idx].0;
+        let b = self.tt_bucket(hash);
+        let slots: [TtEntry; 4] = std::array::from_fn(|i| b.load(i));
         let new = TtEntry {
             key: hash,
             mv: encode_move(mv),
@@ -376,27 +495,93 @@ impl Searcher {
             depth: 0,
             gen_bound: gen << 2 | bound as u8,
         };
-        if let Some(e) = bucket.iter_mut().find(|e| e.key == hash && e.gen_bound & 3 != 0) {
+        if let Some(i) = slots.iter().position(|e| e.key == hash && e.gen_bound & 3 != 0) {
+            let e = slots[i];
             if e.depth <= 0 {
-                let old_mv = e.mv;
-                *e = new;
-                if e.mv == 0 {
-                    e.mv = old_mv;
+                let mut n = new;
+                if n.mv == 0 {
+                    n.mv = e.mv;
                 }
+                b.store(i, &n);
             }
             return;
         }
-        if let Some(e) = bucket.iter_mut().find(|e| e.gen_bound & 3 == 0) {
-            *e = new;
+        if let Some(i) = slots.iter().position(|e| e.gen_bound & 3 == 0) {
+            b.store(i, &new);
         }
     }
 
+    /// Search `board` (reached through the positions `history`) within
+    /// `limits`. With helpers (Lazy SMP), they search the same position on
+    /// the shared table until this (main) thread finishes; all are joined
+    /// before returning. The move played is the main thread's, unless a
+    /// helper completed a deeper iteration.
     pub fn search(&mut self, board: &Board, history: &[u64], limits: &SearchLimits, report: bool) -> SearchResult {
-        self.start = Instant::now();
+        let start = Instant::now();
+        self.gen = (self.gen + 1) & 63;
+        self.stop.store(false, Relaxed);
+        if self.helpers.is_empty() {
+            return self.search_thread(board, history, limits, report, start, &[]);
+        }
+        let mut helpers = std::mem::take(&mut self.helpers);
+        let helper_nodes: Vec<Arc<AtomicU64>> = helpers.iter().map(|h| h.nodes_pub.clone()).collect();
+        let helper_limits = SearchLimits { nodes: None, ..limits.clone() };
+        let log = std::env::var_os("ENGINE_TIMELOG").is_some();
+        let mut stop_at = start;
+        let (main_result, helper_results) = std::thread::scope(|scope| {
+            let mut handles = Vec::with_capacity(helpers.len());
+            for h in helpers.iter_mut() {
+                h.gen = self.gen;
+                h.nodes_pub.store(0, Relaxed);
+                let hl = &helper_limits;
+                let handle = std::thread::Builder::new()
+                    .stack_size(HELPER_STACK)
+                    .spawn_scoped(scope, move || h.search_thread(board, history, hl, false, start, &[]))
+                    .expect("spawn search thread");
+                handles.push(handle);
+            }
+            let r = self.search_thread(board, history, limits, report, start, &helper_nodes);
+            self.stop.store(true, Relaxed);
+            stop_at = Instant::now();
+            let hs: Vec<SearchResult> = handles.into_iter().map(|h| h.join().expect("search thread")).collect();
+            (r, hs)
+        });
+        self.helpers = helpers;
+        if log {
+            eprintln!("timelog smp join_ms {:.3}", stop_at.elapsed().as_secs_f64() * 1000.0);
+        }
+        let mut result = main_result;
+        let mut total = result.nodes;
+        let mut chosen_depth = result.depth;
+        for h in &helper_results {
+            total += h.nodes;
+            if PREFER_DEEPER_HELPER && h.depth > chosen_depth && h.best_move.is_some() {
+                chosen_depth = h.depth;
+                result.best_move = h.best_move;
+                result.score = h.score;
+                result.depth = h.depth;
+            }
+        }
+        result.nodes = total;
+        result
+    }
+
+    /// Iterative deepening on this thread. Helpers skip depths by their id
+    /// (diversification) and report nothing.
+    fn search_thread(
+        &mut self,
+        board: &Board,
+        history: &[u64],
+        limits: &SearchLimits,
+        report: bool,
+        start: Instant,
+        helper_nodes: &[Arc<AtomicU64>],
+    ) -> SearchResult {
+        self.root_color = board.side_to_move();
+        self.start = start;
         self.nodes = 0;
         self.stopped = false;
         self.node_limit = limits.nodes;
-        self.gen = (self.gen + 1) & 63;
         // Time manager (movetime): nothing carries over to the next move and
         // an iteration cut off by the hard limit still contributes its best
         // root move so far, so keep iterating until the hard stop. Reserve a
@@ -424,10 +609,18 @@ impl Searcher {
         let mut best_score = 0;
         let mut completed_depth = 0;
 
-        let log = std::env::var_os("ENGINE_TIMELOG").is_some();
+        let log = self.thread_id == 0 && std::env::var_os("ENGINE_TIMELOG").is_some();
         let mut total_researches = 0u32;
         let mut iter_start = self.start.elapsed();
         for depth in 1..=max_depth {
+            // Helper diversification: odd helpers skip every odd depth past
+            // the first few, so they run one ply ahead of the main thread.
+            if self.thread_id % 2 == 1 && depth > 1 && depth < max_depth && depth % 2 == 1 {
+                continue;
+            }
+            if self.stop.load(Relaxed) {
+                break;
+            }
             // Aspiration window around the last completed score, widened
             // (doubling) on each failure and opened fully after 4 failures.
             let use_asp = depth >= 5 && !is_mate_score(best_score);
@@ -483,7 +676,8 @@ impl Searcher {
                 iter_start = now;
             }
             if report {
-                self.report(board, depth, score);
+                let all = self.nodes + helper_nodes.iter().map(|n| n.load(Relaxed)).sum::<u64>();
+                self.report(board, depth, score, all);
             }
             // Stop early only on a mate for us that this depth already proves.
             if score > 0 && is_mate_score(score) && MATE - score < depth as i32 {
@@ -502,12 +696,13 @@ impl Searcher {
                 self.hard_limit.map_or(0, |h| h.as_millis())
             );
         }
+        self.nodes_pub.store(self.nodes, Relaxed);
         SearchResult { best_move, score: best_score, depth: completed_depth, nodes: self.nodes }
     }
 
-    fn report(&self, board: &Board, depth: u8, score: i32) {
+    fn report(&self, board: &Board, depth: u8, score: i32, nodes: u64) {
         let ms = self.start.elapsed().as_millis().max(1);
-        let nps = self.nodes as u128 * 1000 / ms;
+        let nps = nodes as u128 * 1000 / ms;
         let score_str = if is_mate_score(score) {
             let plies = MATE - score.abs();
             let moves = (plies + 1) / 2;
@@ -521,8 +716,7 @@ impl Searcher {
             None => String::new(),
         };
         println!(
-            "info depth {depth} score {score_str} nodes {} nps {nps} time {ms} pv {pv}",
-            self.nodes
+            "info depth {depth} score {score_str} nodes {nodes} nps {nps} time {ms} pv {pv}"
         );
     }
 
@@ -547,7 +741,12 @@ impl Searcher {
         if self.stopped {
             return true;
         }
+        if self.stop.load(Relaxed) {
+            self.stopped = true;
+            return true;
+        }
         if self.nodes & NODE_CHECK_MASK == 0 {
+            self.nodes_pub.store(self.nodes, Relaxed);
             if let Some(hard) = self.hard_limit {
                 if self.start.elapsed() >= hard {
                     self.stopped = true;
@@ -560,6 +759,11 @@ impl Searcher {
             }
         }
         self.stopped
+    }
+
+    /// A draw from the side to move's view, with contempt for the engine's side.
+    fn draw_score(&self, board: &Board) -> i32 {
+        if board.side_to_move() == self.root_color { -CONTEMPT } else { CONTEMPT }
     }
 
     fn is_repetition(&self, hash: u64, halfmove_clock: u8) -> bool {
@@ -592,7 +796,7 @@ impl Searcher {
             return 0;
         }
         if ply > 0 && (board.halfmove_clock() >= 100 || self.is_repetition(board.hash(), board.halfmove_clock())) {
-            return 0;
+            return self.draw_score(board);
         }
         if ply >= MAX_PLY - 1 {
             return self.evaluate(board, ply);
@@ -788,7 +992,7 @@ impl Searcher {
             }
         }
         if i == 0 {
-            return if in_check { -MATE + ply as i32 } else { 0 };
+            return if in_check { -MATE + ply as i32 } else { self.draw_score(board) };
         }
         let bound = if best >= beta {
             Bound::Lower

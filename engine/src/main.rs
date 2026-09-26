@@ -12,6 +12,8 @@ use search::{SearchLimits, Searcher};
 
 const NAME: &str = "chess-winning-team";
 const AUTHOR: &str = "Erik Adolfsson + Claude";
+/// Search threads when the GUI sends no `setoption name Threads` (the arena never does).
+const DEFAULT_THREADS: usize = 4;
 
 struct Game {
     board: Board,
@@ -135,6 +137,7 @@ fn main() {
     let mut game = Game::new();
     // One searcher for the whole game, so the transposition table carries over between moves.
     let mut searcher = Searcher::new();
+    searcher.set_threads(DEFAULT_THREADS);
 
     // Allow `engine bench [depth]` from the command line for `make profile`.
     let args: Vec<String> = std::env::args().collect();
@@ -156,6 +159,7 @@ fn main() {
                 println!("id name {NAME}");
                 println!("id author {AUTHOR}");
                 println!("option name Hash type spin default {} min 1 max 4096", search::DEFAULT_HASH_MB);
+                println!("option name Threads type spin default {DEFAULT_THREADS} min 1 max {}", search::MAX_THREADS);
                 println!("uciok");
             }
             "isready" => println!("readyok"),
@@ -169,6 +173,11 @@ fn main() {
                 if lower.get(2).map(String::as_str) == Some("hash") && lower.get(3).map(String::as_str) == Some("value") {
                     if let Some(mb) = tokens.get(4).and_then(|v| v.parse::<usize>().ok()) {
                         searcher.set_hash_mb(mb.clamp(1, 4096));
+                    }
+                }
+                if lower.get(2).map(String::as_str) == Some("threads") && lower.get(3).map(String::as_str) == Some("value") {
+                    if let Some(n) = tokens.get(4).and_then(|v| v.parse::<usize>().ok()) {
+                        searcher.set_threads(n);
                     }
                 }
             }
