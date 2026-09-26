@@ -155,12 +155,22 @@ fn main() {
             "uci" => {
                 println!("id name {NAME}");
                 println!("id author {AUTHOR}");
+                println!("option name Hash type spin default {} min 1 max 4096", search::DEFAULT_HASH_MB);
                 println!("uciok");
             }
             "isready" => println!("readyok"),
             "ucinewgame" => {
                 game = Game::new();
                 searcher.clear();
+            }
+            "setoption" => {
+                // setoption name Hash value N
+                let lower: Vec<String> = tokens.iter().map(|t| t.to_ascii_lowercase()).collect();
+                if lower.get(2).map(String::as_str) == Some("hash") && lower.get(3).map(String::as_str) == Some("value") {
+                    if let Some(mb) = tokens.get(4).and_then(|v| v.parse::<usize>().ok()) {
+                        searcher.set_hash_mb(mb.clamp(1, 4096));
+                    }
+                }
             }
             "position" => game.set_position(&tokens[1..]),
             "go" => {

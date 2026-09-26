@@ -49,29 +49,195 @@
   },
   {
     "branch": "sep25-erik",
-    "commit": "0b5e357",
-    "kind": "ladder",
-    "subject": "[ladder] TARGET_ELO 1600 -> 1800 \u2014 proof games/proofs/beat-1600.pgn + beat-1700.pgn, tags beat-1600, beat-1700",
-    "host": "?",
+    "commit": "4c2ece5",
+    "kind": "keep",
+    "subject": "[keep] elo=1894\u00b193 W/D/L=34/7/19 @1800 wins@target=12 \u2014 search: transposition table 64MB + hash-move ordering + TT PV",
+    "host": "windows-i7-13700H",
     "files": [
-      "sep25-erik/proofs/beat-1600.pgn",
-      "sep25-erik/proofs/beat-1700.pgn"
+      "sep25-erik/7308d5b/",
+      "sep25-erik/7308d5b-s1/"
     ],
+    "claimed_elo": 1894.0,
+    "claimed_err": 93.0,
+    "recomputed_elo": 1893.5,
+    "recomputed_err": 93.1,
+    "wdl": [
+      34,
+      7,
+      19
+    ],
+    "games": 60,
+    "move_time": 0.25,
+    "slowest_move": 0.25,
     "problems": [],
-    "proofs": [
-      {
-        "file": "beat-1600.pgn",
-        "level": 1600,
-        "plies": 37,
-        "termination": "checkmate"
-      },
-      {
-        "file": "beat-1700.pgn",
-        "level": 1700,
-        "plies": 61,
-        "termination": "checkmate"
-      }
+    "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "64e5066",
+    "kind": "keep",
+    "subject": "[keep] elo=1985\u00b1144 W/D/L=21/2/7 @1800 wins@target=6 \u2014 eval: tapered evaluation by non-pawn material phase",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/c3a8a8b/"
     ],
+    "claimed_elo": 1985.0,
+    "claimed_err": 144.0,
+    "recomputed_elo": 1984.6,
+    "recomputed_err": 143.5,
+    "wdl": [
+      21,
+      2,
+      7
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.29,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "b46124c",
+    "kind": "keep",
+    "subject": "[keep] elo=2092\u00b1169 W/D/L=24/2/4 @1800 wins@target=7 \u2014 search: merge main (NMP + LMR + PVS + killers/history + check extension + in-check quiescence) onto tapered eval",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/73fbb69/"
+    ],
+    "claimed_elo": 2092.0,
+    "claimed_err": 169.0,
+    "recomputed_elo": 2092.2,
+    "recomputed_err": 169.3,
+    "wdl": [
+      24,
+      2,
+      4
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.25,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "4879996",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2197\u00b1209 W/D/L=25/4/1 @1800 wins@target=7 \u2014 confirm merged search + tapered eval at 5s/move",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/b46124c-full/"
+    ],
+    "claimed_elo": 2197.0,
+    "claimed_err": 209.0,
+    "recomputed_elo": 2196.8,
+    "recomputed_err": 209.2,
+    "wdl": [
+      25,
+      4,
+      1
+    ],
+    "games": 30,
+    "move_time": 5.0,
+    "slowest_move": 4.75,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "55375f9",
+    "kind": "keep",
+    "subject": "[keep] elo=2234\u00b1154 W/D/L=21/5/4 @2000 wins@target=5 \u2014 eval: king safety (pawn shield + king-zone attackers, only vs an enemy queen) + Kh1 = Kg1",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/03fdcdc/"
+    ],
+    "claimed_elo": 2234.0,
+    "claimed_err": 154.0,
+    "recomputed_elo": 2234.0,
+    "recomputed_err": 153.6,
+    "wdl": [
+      21,
+      5,
+      4
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.24,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "fff833a",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2397\u00b1209 W/D/L=27/0/3 @2000 wins@target=7 \u2014 confirm king safety at 5s/move",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/55375f9-full/"
+    ],
+    "claimed_elo": 2397.0,
+    "claimed_err": 209.0,
+    "recomputed_elo": 2396.8,
+    "recomputed_err": 209.2,
+    "wdl": [
+      27,
+      0,
+      3
+    ],
+    "games": 30,
+    "move_time": 5.0,
+    "slowest_move": 4.75,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "555bcaf",
+    "kind": "keep",
+    "subject": "[keep] elo=2400\u00b1146 W/D/L=21/3/6 @2200 wins@target=8 \u2014 time: soft limit 60%, keep best root move of an aborted iteration, reserve capped at 50ms",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/c9cb33a/"
+    ],
+    "claimed_elo": 2400.0,
+    "claimed_err": 146.0,
+    "recomputed_elo": 2400.4,
+    "recomputed_err": 146.4,
+    "wdl": [
+      21,
+      3,
+      6
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.24,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-erik",
+    "commit": "1e4f3da",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2400\u00b1146 W/D/L=19/7/4 @2200 wins@target=5 \u2014 confirm time manager at 5s/move",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/555bcaf-full/"
+    ],
+    "claimed_elo": 2400.0,
+    "claimed_err": 146.0,
+    "recomputed_elo": 2400.4,
+    "recomputed_err": 146.4,
+    "wdl": [
+      19,
+      7,
+      4
+    ],
+    "games": 30,
+    "move_time": 5.0,
+    "slowest_move": 4.96,
+    "problems": [],
     "verified": true
   },
   {
@@ -144,6 +310,239 @@
     "move_time": 0.25,
     "slowest_move": 0.25,
     "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-robin",
+    "commit": "fbc8c67",
+    "kind": "keep",
+    "subject": "[keep] elo=2326\u00b1486 W/D/L=29/1/0 @1600 wins@target=10 \u2014 search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep25-robin/aecf98e/"
+    ],
+    "claimed_elo": 2326.0,
+    "claimed_err": 486.0,
+    "recomputed_elo": 2326.4,
+    "recomputed_err": 486.4,
+    "wdl": [
+      29,
+      1,
+      0
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.27,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep26-robin",
+    "commit": "3896e6c",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2692\u00b1169 W/D/L=22/6/2 @2400 wins@target=7 \u2014 confirm frontier pruning + movetime + bucket TT at 5s/move",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/4340e04-dirty-full-r2/"
+    ],
+    "claimed_elo": 2692.0,
+    "claimed_err": 169.0,
+    "recomputed_elo": 2692.2,
+    "recomputed_err": 169.3,
+    "wdl": [
+      22,
+      6,
+      2
+    ],
+    "games": 30,
+    "move_time": 5.0,
+    "slowest_move": 5.03,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep26-robin",
+    "commit": "bba68b9",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2718\u00b1180 W/D/L=5/6/4 @2700 wins@target=1 \u2014 confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/stack-v2-full-t2700s100/"
+    ],
+    "claimed_elo": 2718.0,
+    "claimed_err": 180.0,
+    "recomputed_elo": 2717.5,
+    "recomputed_err": 180.5,
+    "wdl": [
+      5,
+      6,
+      4
+    ],
+    "games": 15,
+    "move_time": 5.0,
+    "slowest_move": 5.04,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep26-robin",
+    "commit": "e5d57de",
+    "kind": "FULL",
+    "subject": "[FULL] elo=3075\u00b1321 W/D/L=1/4/0 @3000 wins@target=0 \u2014 aim 888bd24 at 2900/3000/3100 at 5s/move (5 of 60 games, stopped for a stronger build)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/stack-v2-full-t3000s100/"
+    ],
+    "claimed_elo": 3075.0,
+    "claimed_err": 321.0,
+    "recomputed_elo": 3075.1,
+    "recomputed_err": 320.6,
+    "wdl": [
+      1,
+      4,
+      0
+    ],
+    "games": 5,
+    "move_time": 5.0,
+    "slowest_move": 4.92,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "main",
+    "commit": "c5aa1ed",
+    "kind": "ladder",
+    "subject": "[ladder] TARGET_ELO 1600 -> 2400 \u2014 proof games/proofs/beat-1600.pgn + games/proofs/beat-1700.pgn + games/proofs/beat-1800.pgn + games/proofs/beat-1900.pgn + games/proofs/beat-2000.pgn + games/proofs/beat-2100.pgn + games/proofs/beat-2200.pgn + games/proofs/beat-2300.pgn",
+    "host": "?",
+    "files": [
+      "main/proofs/beat-1600.pgn",
+      "main/proofs/beat-1700.pgn",
+      "main/proofs/beat-1800.pgn",
+      "main/proofs/beat-1900.pgn",
+      "main/proofs/beat-2000.pgn",
+      "main/proofs/beat-2100.pgn",
+      "main/proofs/beat-2200.pgn",
+      "main/proofs/beat-2300.pgn"
+    ],
+    "problems": [],
+    "proofs": [
+      {
+        "file": "beat-1600.pgn",
+        "level": 1600,
+        "plies": 37,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-1700.pgn",
+        "level": 1700,
+        "plies": 61,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-1800.pgn",
+        "level": 1800,
+        "plies": 46,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-1900.pgn",
+        "level": 1900,
+        "plies": 40,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2000.pgn",
+        "level": 2000,
+        "plies": 62,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2100.pgn",
+        "level": 2100,
+        "plies": 35,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2200.pgn",
+        "level": 2200,
+        "plies": 44,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2300.pgn",
+        "level": 2300,
+        "plies": 37,
+        "termination": "checkmate"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "branch": "main",
+    "commit": "d519e4e",
+    "kind": "ladder",
+    "subject": "[ladder] TARGET_ELO 2400 -> 2900 \u2014 proof games/proofs/beat-2400.pgn + games/proofs/beat-2500.pgn + games/proofs/beat-2600.pgn + games/proofs/beat-2700.pgn + games/proofs/beat-2800.pgn",
+    "host": "macos-m1pro",
+    "files": [
+      "main/proofs/beat-2400.pgn",
+      "main/proofs/beat-2500.pgn",
+      "main/proofs/beat-2600.pgn",
+      "main/proofs/beat-2700.pgn",
+      "main/proofs/beat-2800.pgn"
+    ],
+    "problems": [],
+    "proofs": [
+      {
+        "file": "beat-2400.pgn",
+        "level": 2400,
+        "plies": 125,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2500.pgn",
+        "level": 2500,
+        "plies": 195,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2600.pgn",
+        "level": 2600,
+        "plies": 71,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2700.pgn",
+        "level": 2700,
+        "plies": 190,
+        "termination": "checkmate"
+      },
+      {
+        "file": "beat-2800.pgn",
+        "level": 2800,
+        "plies": 207,
+        "termination": "checkmate"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "branch": "main",
+    "commit": "823c402",
+    "kind": "ladder",
+    "subject": "[ladder] TARGET_ELO 2900 -> 3000 \u2014 proof games/proofs/beat-2900.pgn",
+    "host": "macos-m1pro",
+    "files": [
+      "main/proofs/beat-2900.pgn"
+    ],
+    "problems": [],
+    "proofs": [
+      {
+        "file": "beat-2900.pgn",
+        "level": 2900,
+        "plies": 103,
+        "termination": "checkmate"
+      }
+    ],
     "verified": true
   }
 ]

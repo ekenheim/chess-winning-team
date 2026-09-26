@@ -3,7 +3,10 @@
 //! and an endgame score by the non-pawn material left on the board. From the
 //! side to move's point of view, in centipawns.
 
-use cozy_chess::{get_bishop_moves, get_king_moves, get_knight_moves, get_rook_moves, Board, Color, Piece, Square};
+use cozy_chess::{
+    get_bishop_moves, get_bishop_rays, get_king_moves, get_knight_moves, get_rook_moves, get_rook_rays, BitBoard, Board,
+    Color, File, Move, Piece, Rank, Square,
+};
 
 pub const PAWN: i32 = 100;
 pub const KNIGHT: i32 = 320;
@@ -168,24 +171,16 @@ const DANGER: [i32; 16] = [0, 0, 10, 22, 38, 58, 82, 110, 142, 178, 218, 262, 31
 fn king_danger(board: &Board, color: Color) -> i32 {
     let them = !color;
     let enemy = board.colors(them);
-    if (board.pieces(Piece::Queen) & enemy).is_empty() {
+    let queens = board.pieces(Piece::Queen);
+    if (queens & enemy).is_empty() {
         return 0;
     }
     let ksq = board.king(color);
-    let dir: i8 = if color == Color::White { 1 } else { -1 };
 
     let our_pawns = board.pieces(Piece::Pawn) & board.colors(color);
     let mut missing = 0;
-    for df in -1..=1 {
-        let mut found = false;
-        for dr in 1..=2 {
-            if let Some(sq) = ksq.try_offset(df, dr * dir) {
-                if our_pawns.has(sq) {
-                    found = true;
-                }
-            }
-        }
-        if !found {
+    for mask in &SHIELD[color as usize][ksq as usize] {
+        if (*mask & our_pawns).is_empty() {
             missing += 1;
         }
     }
@@ -200,20 +195,24 @@ fn king_danger(board: &Board, color: Color) -> i32 {
             attackers += 1;
         }
     }
+    // Sliders: the occupancy lookup is skipped when even the empty-board
+    // rays miss the zone (then the real attacks miss it too).
+    let diag_zone = |sq: Square| !(get_bishop_rays(sq) & zone).is_empty() && !(get_bishop_moves(sq, occ) & zone).is_empty();
+    let orth_zone = |sq: Square| !(get_rook_rays(sq) & zone).is_empty() && !(get_rook_moves(sq, occ) & zone).is_empty();
     for sq in board.pieces(Piece::Bishop) & enemy {
-        if !(get_bishop_moves(sq, occ) & zone).is_empty() {
+        if diag_zone(sq) {
             weight += 2;
             attackers += 1;
         }
     }
     for sq in board.pieces(Piece::Rook) & enemy {
-        if !(get_rook_moves(sq, occ) & zone).is_empty() {
+        if orth_zone(sq) {
             weight += 3;
             attackers += 1;
         }
     }
-    for sq in board.pieces(Piece::Queen) & enemy {
-        if !((get_rook_moves(sq, occ) | get_bishop_moves(sq, occ)) & zone).is_empty() {
+    for sq in queens & enemy {
+        if orth_zone(sq) || diag_zone(sq) {
             weight += 5;
             attackers += 1;
         }
@@ -222,8 +221,60 @@ fn king_danger(board: &Board, color: Color) -> i32 {
     missing * SHIELD_MISSING + danger
 }
 
-/// Score from the side to move's point of view (tapered evaluation).
-pub fn evaluate(board: &Board) -> i32 {
+/// Pawn-shield masks [color][king square][file offset -1..=1]: the one or two
+/// squares one and two ranks in front of the king on that file (empty off the
+/// board, which then counts as a missing shield pawn).
+static SHIELD: [[[BitBoard; 3]; 64]; 2] = build_shield();
+
+const fn build_shield() -> [[[BitBoard; 3]; 64]; 2] {
+    let mut t = [[[BitBoard::EMPTY; 3]; 64]; 2];
+    let mut c = 0;
+    while c < 2 {
+        let dir: i32 = if c == 0 { 1 } else { -1 };
+        let mut sq = 0;
+        while sq < 64 {
+            let (f, r) = ((sq % 8) as i32, (sq / 8) as i32);
+            let mut k = 0;
+            while k < 3 {
+                let file = f + k as i32 - 1;
+                let mut bits = 0u64;
+                let mut dr = 1;
+                while dr <= 2 {
+                    let rank = r + dr * dir;
+                    if file >= 0 && file < 8 && rank >= 0 && rank < 8 {
+                        bits |= 1u64 << (rank * 8 + file);
+                    }
+                    dr += 1;
+                }
+                t[c][sq][k] = BitBoard(bits);
+                k += 1;
+            }
+            sq += 1;
+        }
+        c += 1;
+    }
+    t
+}
+
+/// Material + piece-square sums (middlegame, endgame) of one piece, from
+/// White's point of view.
+#[inline(always)]
+fn psq_of(piece: Piece, color: Color, sq: Square) -> (i32, i32) {
+    let (mg_pst, eg_pst) = tables(piece);
+    let value = piece_value(piece);
+    let i = pst_index(color, sq);
+    let (mg, eg) = (value + mg_pst[i], value + eg_pst[i]);
+    if color == Color::White {
+        (mg, eg)
+    } else {
+        (-mg, -eg)
+    }
+}
+
+/// Material + piece-square (middlegame, endgame) sums from White's point of
+/// view, computed from scratch. The search keeps them incrementally with
+/// `psq_delta`.
+pub fn psq(board: &Board) -> (i32, i32) {
     let mut mg = 0;
     let mut eg = 0;
     for color in [Color::White, Color::Black] {
@@ -238,8 +289,55 @@ pub fn evaluate(board: &Board) -> i32 {
                 eg += sign * (value + eg_pst[i]);
             }
         }
-        mg -= sign * king_danger(board, color);
     }
+    (mg, eg)
+}
+
+/// Change of `psq` when the legal move `mv` is played on `board`.
+#[inline]
+pub fn psq_delta(board: &Board, mv: Move) -> (i32, i32) {
+    let us = board.side_to_move();
+    let piece = board.piece_on(mv.from).unwrap_or(Piece::Pawn);
+    let (mut mg, mut eg) = (0, 0);
+    let mut add = |p: Piece, c: Color, sq: Square, sign: i32| {
+        let (m, e) = psq_of(p, c, sq);
+        mg += sign * m;
+        eg += sign * e;
+    };
+    if piece == Piece::King && board.colors(us).has(mv.to) {
+        // Castling is encoded as king-takes-own-rook.
+        let back = Rank::First.relative_to(us);
+        let (king_file, rook_file) = if mv.to.file() > mv.from.file() { (File::G, File::F) } else { (File::C, File::D) };
+        add(Piece::King, us, mv.from, -1);
+        add(Piece::Rook, us, mv.to, -1);
+        add(Piece::King, us, Square::new(king_file, back), 1);
+        add(Piece::Rook, us, Square::new(rook_file, back), 1);
+        return (mg, eg);
+    }
+    add(piece, us, mv.from, -1);
+    add(mv.promotion.unwrap_or(piece), us, mv.to, 1);
+    if board.colors(!us).has(mv.to) {
+        if let Some(victim) = board.piece_on(mv.to) {
+            add(victim, !us, mv.to, -1);
+        }
+    } else if piece == Piece::Pawn && mv.from.file() != mv.to.file() {
+        // En passant: the captured pawn stands beside the destination.
+        add(Piece::Pawn, !us, Square::new(mv.to.file(), mv.from.rank()), -1);
+    }
+    (mg, eg)
+}
+
+/// Score from the side to move's point of view (tapered evaluation).
+pub fn evaluate(board: &Board) -> i32 {
+    let (mg, eg) = psq(board);
+    evaluate_with(board, mg, eg)
+}
+
+/// `evaluate` given the material + piece-square sums (`psq`) of `board`.
+#[inline]
+pub fn evaluate_with(board: &Board, mut mg: i32, eg: i32) -> i32 {
+    mg -= king_danger(board, Color::White);
+    mg += king_danger(board, Color::Black);
     let p = phase(board);
     let score = (mg * p + eg * (PHASE_MAX - p)) / PHASE_MAX;
     if board.side_to_move() == Color::White {

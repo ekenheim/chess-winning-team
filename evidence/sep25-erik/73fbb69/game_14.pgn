@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "windows-amd64-Regenr"]
+[Date "2026.09.25"]
+[Round "14"]
+[White "Stockfish 19"]
+[Black "chess-winning-team 73fbb69"]
+[Result "0-1"]
+[FEN "r1bqkbnr/1ppp1ppp/p1n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "1700"]
+[BlackElo "-"]
+[StockfishElo "1700"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "73fbb69"]
+[EngineColor "black"]
+[Opening "Ruy Lopez, Morphy Defence"]
+[Termination "checkmate"]
+[PlyCount "20"]
+
+1. Bc4 { [%eval 0.03,14] S d14 0.26s 214k } 1... Nf6 { [%eval 0.00,10] E d10 0.19s 833k } 2. d4 { [%eval -0.10,13] S d13 0.25s 225k } 2... exd4 { [%eval -0.50,9] E d9 0.14s 625k } 3. Nbd2 { [%eval -0.83,12] S d12 0.25s 223k } 3... d5 { [%eval -0.95,8] E d8 0.24s 307k } 4. Bb3 { [%eval -2.70,13] S d13 0.25s 215k } 4... dxe4 { [%eval -1.55,9] E d9 0.15s 713k } 5. Ng5 { [%eval -3.97,14] S d14 0.25s 191k } 5... Bg4 { [%eval -1.42,9] E d9 0.15s 699k } 6. Nxf7 { [%eval 0.00,13] S d13 0.25s 204k } 6... Qe7 { [%eval -2.80,11] E d11 0.15s 763k } 7. f3 { [%eval -7.75,12] S d12 0.25s 202k } 7... exf3+ { [%eval -7.80,9] E d9 0.24s 342k } 8. Kf2 { [%eval -7.73,13] S d13 0.25s 165k } 8... Qe3+ { [%eval -10.95,7] E d7 0.11s 410k } 9. Kg3 { [%eval -11.26,22] S d22 0.25s 142k } 9... fxg2+ { [%eval -10.95,7] E d7 0.12s 552k } 10. Kxg2 { [%eval #-1,20] S d20 0.25s 156k } 10... Bh3# { [%eval #-1,2] E d2 0.00s 0k } 0-1
+
