@@ -28,7 +28,7 @@
   --inaccuracy: oklch(0.8 0.14 95);
   --sq-light: #e7dcc4;
   --sq-dark: #9b7353;
-  --font-display: "Bricolage Grotesque", "Avenir Next Condensed", "Helvetica Neue", sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque", "Avenir Next Condensed", "Helvetica Neue", sans-serif;
   --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
 }

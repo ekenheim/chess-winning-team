@@ -12,5 +12,22 @@ export default defineConfig({
     port: 5173,
     proxy: { "/api": "http://127.0.0.1:8000" },
   },
-  build: { outDir: "dist", emptyOutDir: true },
+  build: {
+    outDir: "dist",
+    emptyOutDir: true,
+    chunkSizeWarningLimit: 1600,
+    // three + friends only load with the lazy Board3D chunk; the 2D bundle stays free of them.
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            {
+              name: "three-vendor",
+              test: /node_modules[\\/](three|@react-three|postprocessing|maath|three-stdlib|camera-controls|n8ao|troika[^\\/]*|meshline|stats-gl)[\\/]/,
+            },
+          ],
+        },
+      },
+    },
+  },
 });

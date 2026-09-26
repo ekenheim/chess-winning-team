@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { SPEEDS, useReplay, type Speed } from "@/store/replay";
+import { supportsWebGL2 } from "@/lib/three/flags";
+import { prefetch3D } from "@/components/BoardSwitch";
 
 function Btn({
   onClick,
@@ -8,6 +10,7 @@ function Btn({
   primary,
   active,
   disabled,
+  onPointerEnter,
 }: {
   onClick: () => void;
   title: string;
@@ -15,6 +18,7 @@ function Btn({
   primary?: boolean;
   active?: boolean;
   disabled?: boolean;
+  onPointerEnter?: () => void;
 }) {
   return (
     <button
@@ -23,6 +27,7 @@ function Btn({
       title={title}
       aria-label={title}
       disabled={disabled}
+      onPointerEnter={onPointerEnter}
       className={`grid h-9 min-w-9 place-items-center rounded-lg px-2 text-[15px] transition-colors disabled:opacity-40 ${
         primary
           ? "bg-accent text-accent-ink font-semibold hover:bg-accent-deep"
@@ -37,7 +42,7 @@ function Btn({
 }
 
 export default function Transport() {
-  const { ply, playing, speed, sound, arrows, game } = useReplay();
+  const { ply, playing, speed, sound, arrows, game, view } = useReplay();
   const goto = useReplay((s) => s.goto);
   const step = useReplay((s) => s.step);
   const togglePlaying = useReplay((s) => s.togglePlaying);
@@ -45,6 +50,8 @@ export default function Transport() {
   const flip = useReplay((s) => s.flip);
   const toggleSound = useReplay((s) => s.toggleSound);
   const toggleArrows = useReplay((s) => s.toggleArrows);
+  const toggleView = useReplay((s) => s.toggleView);
+  const webgl = supportsWebGL2();
   const n = game?.moves.length ?? 0;
 
   useEffect(() => {
@@ -81,11 +88,17 @@ export default function Transport() {
         case "a":
           toggleArrows();
           break;
+        case "v":
+          if (webgl) toggleView();
+          break;
+        case "t":
+          if (view === "3d") window.dispatchEvent(new CustomEvent("board3d:top"));
+          break;
       }
     };
     window.addEventListener("keydown", on);
     return () => window.removeEventListener("keydown", on);
-  }, [step, goto, togglePlaying, flip, toggleSound, toggleArrows, n]);
+  }, [step, goto, togglePlaying, flip, toggleSound, toggleArrows, toggleView, view, webgl, n]);
 
   return (
     <div className="flex flex-wrap items-center gap-1.5">
@@ -125,6 +138,17 @@ export default function Transport() {
       </div>
       <Btn onClick={flip} title="Flip board (f)">
         ⇅
+      </Btn>
+      <Btn
+        onClick={toggleView}
+        title={!webgl ? "3D needs WebGL2 (unavailable)" : view === "3d" ? "2D board (v)" : "3D board (v)"}
+        active={view === "3d"}
+        disabled={!webgl}
+        onPointerEnter={prefetch3D}
+      >
+        <span className="flex items-center gap-1">
+          ⬒<span className="text-[10px] font-semibold tracking-wide">3D</span>
+        </span>
       </Btn>
       <Btn onClick={toggleArrows} title="Best-move arrows (a)" active={arrows}>
         ➶

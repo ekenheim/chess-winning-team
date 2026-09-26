@@ -6,7 +6,7 @@ import { engineColor, gameResultFromData, judge, evalCp, shortName } from "@/lib
 import { useReplay } from "@/store/replay";
 import { sound } from "@/lib/sound";
 import { href } from "@/lib/router";
-import Board from "@/components/Board";
+import BoardSwitch from "@/components/BoardSwitch";
 import EvalBar from "@/components/EvalBar";
 import EvalGraph from "@/components/EvalGraph";
 import MoveList from "@/components/MoveList";
@@ -157,7 +157,7 @@ export default function Replay({ run, file, startPly }: { run: string; file: str
           <div className="flex items-stretch gap-2.5">
             <EvalBar />
             <div className="min-w-0 flex-1 rounded-md shadow-[0_18px_50px_-12px_rgb(0_0_0/0.7)]">
-              <Board />
+              <BoardSwitch />
             </div>
           </div>
           <PlayerRow name={names[bottom]} tag={tags[bottom]} side={bottom} active={turn === bottom && !finished} result={scoreOf(bottom)} />

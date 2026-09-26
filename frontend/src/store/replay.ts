@@ -2,6 +2,31 @@
 import { create } from "zustand";
 import type { GameData } from "@/lib/api";
 import { engineColor } from "@/lib/chess";
+import { supportsWebGL2, urlFlag } from "@/lib/three/flags";
+
+export type View = "2d" | "3d";
+
+/** `?view=3d|2d` wins, else the remembered choice, else 2D. Always 2D without WebGL2. */
+function initialView(): View {
+  try {
+    if (!supportsWebGL2()) return "2d";
+    const q = urlFlag("view");
+    if (q === "3d" || q === "2d") return q;
+    const saved = localStorage.getItem("cwt.view");
+    if (saved === "3d" || saved === "2d") return saved;
+  } catch {
+    /* no storage */
+  }
+  return "2d";
+}
+
+function rememberView(v: View) {
+  try {
+    localStorage.setItem("cwt.view", v);
+  } catch {
+    /* no storage */
+  }
+}
 
 export const SPEEDS = [0.25, 0.5, 1, 2, 4] as const;
 export type Speed = (typeof SPEEDS)[number];
@@ -17,6 +42,7 @@ interface ReplayState {
   sound: boolean;
   arrows: boolean;
   hoverPly: number | null;
+  view: View;
   load(run: string, file: string, game: GameData): void;
   goto(ply: number): void;
   step(delta: number): void;
@@ -27,6 +53,8 @@ interface ReplayState {
   toggleSound(): void;
   toggleArrows(): void;
   setHoverPly(p: number | null): void;
+  toggleView(): void;
+  setView(v: View): void;
 }
 
 export const useReplay = create<ReplayState>((set, get) => ({
@@ -40,6 +68,7 @@ export const useReplay = create<ReplayState>((set, get) => ({
   sound: true,
   arrows: true,
   hoverPly: null,
+  view: initialView(),
   load: (run, file, game) =>
     set({ game, run, file, ply: 0, playing: false, hoverPly: null, orientation: engineColor(game) }),
   goto: (ply) => {
@@ -62,4 +91,13 @@ export const useReplay = create<ReplayState>((set, get) => ({
   toggleSound: () => set({ sound: !get().sound }),
   toggleArrows: () => set({ arrows: !get().arrows }),
   setHoverPly: (hoverPly) => set({ hoverPly }),
+  toggleView: () => {
+    const view: View = get().view === "3d" ? "2d" : "3d";
+    rememberView(view);
+    set({ view });
+  },
+  setView: (view) => {
+    rememberView(view);
+    set({ view });
+  },
 }));
