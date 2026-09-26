@@ -1,0 +1,21 @@
+=== run summary ===
+elo:                    2978.0
+elo_err95:              141.7
+target_elo:             3190
+wins_at_target:         0
+score:                  0.267
+wins/draws/losses:      0/16/14
+per_level:              3090: 0/6/4  3190: 0/10/10
+games:                  30
+timeouts:               0
+illegal_moves:          0
+avg_move_seconds:       4.871
+max_move_seconds:       4.959
+avg_depth:              24.3
+avg_nodes_per_sec:      2588324
+peak_ram_mb:            133.5
+total_seconds:          4075.6
+move_time_s:            5.0
+opponent:               Stockfish 19 (UCI_LimitStrength)
+games_dir:              games/runs/2002feb-full-t3190s100/
+host:                   windows-amd64-Regenr

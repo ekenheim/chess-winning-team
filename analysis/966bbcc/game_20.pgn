@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "windows-amd64-Regenr"]
+[Date "2026.09.26"]
+[Round "20"]
+[White "Stockfish 19"]
+[Black "chess-winning-team 966bbcc"]
+[Result "0-1"]
+[FEN "r1bqkbnr/pppp1ppp/2n5/8/3NP3/8/PPP2PPP/RNBQKB1R b KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "2900"]
+[BlackElo "-"]
+[StockfishElo "2900"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "966bbcc"]
+[EngineColor "black"]
+[Opening "Scotch Game"]
+[Termination "checkmate"]
+[PlyCount "69"]
+
+1... Nf6 { E loss 0 d12 0.24s [%eval 0.07,14] } 2. Bb5 { S loss 50 best Nc3 d12 0.25s [%eval -0.43,14] } 2... Bc5 { E loss 39 d12 0.24s [%eval -0.04,14] } 3. Nxc6 { S loss 24 d15 0.25s [%eval -0.28,14] } 3... bxc6 { E loss 1 d13 0.24s [%eval -0.27,14] } 4. Be2 { S loss 109 best Bd3 d14 0.25s [%eval -1.36,14] } 4... Nxe4 { E loss 0 d13 0.24s [%eval -1.36,14] } 5. O-O { S loss 1 d15 0.25s [%eval -1.37,14] } 5... d5 { E loss 42 d13 0.24s [%eval -0.95,14] } 6. Nc3 { S loss 42 d14 0.25s [%eval -1.37,14] } 6... Nxc3 { E loss 6 d14 0.24s [%eval -1.31,14] } 7. bxc3 { S loss 0 d16 0.25s [%eval -1.27,14] } 7... Qf6 { E loss 0 d14 0.24s [%eval -1.38,14] } 8. Rb1 { S loss 0 d14 0.25s [%eval -1.37,14] } 8... Be6 { E loss 0 d11 0.24s [%eval -1.56,14] } 9. Rb3 { S loss 5 d14 0.25s [%eval -1.61,14] } 9... O-O { E loss 0 d13 0.24s [%eval -1.88,14] } 10. Bb2 { S loss 4 d14 0.25s [%eval -1.92,14] } 10... Rfd8 { E loss 0 d12 0.24s [%eval -1.92,14] } 11. Qe1 { S loss 50 best Qc1 d13 0.25s [%eval -2.42,14] } 11... Bd6 { E loss 23 d13 0.24s [%eval -2.19,14] } 12. Qd2 { S loss 84 best f4 d13 0.25s [%eval -3.03,14] } 12... Bf4 { E loss 94 best Qg6 d13 0.24s [%eval -2.09,14] } 13. Qd4 { S loss 0 d14 0.25s [%eval -2.09,14] } 13... Be5 { E loss 5 d14 0.24s [%eval -2.04,14] } 14. Qd1 { S loss 113 best Qe3 d13 0.25s [%eval -3.17,14] } 14... a5 { E loss 0 d13 0.24s [%eval -3.19,14] } 15. f4 { S loss 27 d13 0.25s [%eval -3.46,14] } 15... Bd6 { E loss 16 d15 0.24s [%eval -3.30,14] } 16. a4 { S loss 0 d14 0.25s [%eval -3.03,14] } 16... Qh6 { E loss 0 d13 0.24s [%eval -3.04,14] } 17. Bc1 { S loss 3 d15 0.25s [%eval -3.07,14] } 17... c5 { E loss 133 best Bf5 d13 0.24s [%eval -1.74,14] } 18. Kh1 { S loss 170 best c4 d13 0.25s [%eval -3.44,14] } 18... d4 { E loss 115 best c4 d12 0.24s [%eval -2.29,14] } 19. Ra3 { S loss 186 best c4 d13 0.25s [%eval -4.15,14] } 19... c4 { E loss 45 d15 0.24s [%eval -3.70,14] } 20. Bd2 { S loss 198 best Ra1 d14 0.25s [%eval -5.68,14] } 20... dxc3 { E loss 23 d14 0.24s [%eval -5.45,14] } 21. Rxc3 { S loss 0 d15 0.25s [%eval -5.23,14] } 21... Bb4 { E loss 0 d15 0.24s [%eval -5.78,14] } 22. Qe1 { S loss 24 d14 0.25s [%eval -6.02,14] } 22... Qf6 { E loss 89 best Rd6 d15 0.24s [%eval -5.13,14] } 23. f5 { S loss 107 d15 0.25s [%eval -6.20,14] } 23... Rxd2 { E loss 3 d16 0.24s [%eval -6.17,14] } 24. fxe6 { S loss 0 d14 0.25s [%eval -6.15,14] } 24... Qxc3 { E loss 0 d16 0.24s [%eval -7.22,14] } 25. Bd3 { S loss 87 best exf7+ d13 0.25s [%eval -8.09,14] } 25... cxd3 { E loss 0 d14 0.24s [%eval -9.07,14] } 26. exf7+ { S loss 20 d14 0.25s [%eval -9.27,14] } 26... Kf8 { E loss 0 d16 0.24s [%eval -9.27,14] } 27. Qe4 { S loss 0 d14 0.25s [%eval -9.27,14] } 27... Rd8 { E loss 2 d17 0.24s [%eval -9.25,14] } 28. cxd3 { S loss 88 best Qxh7 d14 0.25s [%eval -10.13,14] } 28... Qxd3 { E loss 23 d18 0.24s [%eval -9.90,14] } 29. Qf3 { S loss 286 best Qxd3 d13 0.25s [%eval -12.76,14] } 29... Rd1 { E loss 36 d14 0.24s [%eval -12.40,14] } 30. Qxd3 { S loss 53 d34 0.25s [%eval -12.93,14] } 30... R8xd3 { E loss 21 d14 0.07s [%eval -12.72,14] } 31. g3 { S loss 0 d41 0.25s [%eval -9.92,14] } 31... Rxf1+ { E loss 0 d12 0.00s [%eval -9.94,14] } 32. Kg2 { S loss 0 d59 0.25s [%eval -9.94,14] } 32... Rxf7 { E loss 0 d10 0.00s [%eval -9.95,14] } 33. h3 { S loss 2 d101 0.25s [%eval -9.97,14] } 33... Rd2+ { E loss 0 d6 0.00s [%eval -9.98,14] } 34. Kg1 { S loss 0 d245 0.02s [%eval -9.98,14] } 34... Bc5+ { E loss 0 d4 0.00s [%eval -9.99,14] } 35. Kh1 { S loss 0 d245 0.01s [%eval -9.99,14] } 35... Rf1# { E loss 0 d2 0.00s [%eval -10.00,14] } 0-1
+
