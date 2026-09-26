@@ -9,6 +9,7 @@ Being benched right now. Don't start the same idea on the other branch.
 | Since | Who | Branch | Trying | Hypothesis |
 |---|---|---|---|---|
 | Sep 25 10:33 UTC (stale? no result after 4 h) | Erik Adolfsson | `sep25-erik` @`36032fd` | speed: incremental tapered evaluation (O(1) eval update per move) |  |
+| Sep 26 07:03 UTC | Erik Adolfsson | `sep25-erik` @`1517c7b` | eval: king danger v3 (attacked zone squares, storm pawns 4 ranks, open king files, no 2-attacker gate) | the c9cb33a and 555bcaf-full reviews found 9 of 12 and all 4 |
 
 ## Champion engine on main
 
@@ -16,7 +17,7 @@ Engine code moves between the branches only through main: a `[keep]` is `[promot
 
 | When | Who | Event | From | Elo | Host | What |
 |---|---|---|---|---|---|---|
-| — | | nothing promoted yet: main has the baseline engine | | | | |
+| Sep 26 07:05 UTC | chopsting | promote `bb884cc` | `sep25-robin@fbc8c67` | 2326 ±486 | macos-m1pro | search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes) |
 
 ## Every result
 
@@ -37,14 +38,14 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 | Sep 25 13:37 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **keep** | 2092 ±169 | 24/2/4 @1800 (7 wins) | search: merge main (NMP + LMR + PVS + killers/history + check extension + in-check quiescence) onto tapered eval | branch | `b46124c` |
 | Sep 25 13:32 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **discard** | 1920 ±95 | 36/7/17 @1800 (13 wins) | speed: incremental tapered eval (pooled 2 runs; identical eval, +1.2 ply, but below best 1985+30) | reverted | `3f28668` |
 | Sep 25 10:28 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **keep** | 1985 ±144 | 21/2/7 @1800 (6 wins) | eval: tapered evaluation by non-pawn material phase | branch | `64e5066` |
-| Sep 25 10:26 UTC | chopsting | `sep25-robin` | macos-m1pro | **keep** | 2326 ±486 | 29/1/0 @1600 (10 wins) | search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes) | branch | `fbc8c67` |
+| Sep 25 10:26 UTC | chopsting | `sep25-robin` | macos-m1pro | **keep** | 2326 ±486 | 29/1/0 @1600 (10 wins) | search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes) | in main | `fbc8c67` |
 | Sep 25 10:19 UTC | chopsting | `sep25-robin` | macos-m1pro | **discard** | 2075 ±251 | 28/0/2 @1600 (9 wins) | eval: king safety v2 — king-zone attackers, shelter, king table tapered by opponent material | reverted | `c4bf447` |
 | Sep 25 10:18 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **keep** | 1894 ±93 | 34/7/19 @1800 (12 wins) | search: transposition table 64MB + hash-move ordering + TT PV | branch | `4c2ece5` |
-| Sep 25 10:13 UTC | chopsting | `sep25-robin` | macos-m1pro | **keep** | 2203 ±348 | 28/2/0 @1600 (9 wins) | search: null-move pruning + late-move reductions | branch | `8e592f4` |
+| Sep 25 10:13 UTC | chopsting | `sep25-robin` | macos-m1pro | **keep** | 2203 ±348 | 28/2/0 @1600 (9 wins) | search: null-move pruning + late-move reductions | in main | `8e592f4` |
 | Sep 25 10:12 UTC | Erik Adolfsson | `sep25-erik` | ? | **ladder** | — | → 1800 | proof games/proofs/beat-1600.pgn + beat-1700.pgn, tags beat-1600, beat-1700 |  | `0b5e357` |
 | Sep 25 10:10 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **FULL** | 1785 ±144 | 21/2/7 @1600 (8 wins) | confirm baseline at 5s/move | 5 s run | `39030e4` |
-| Sep 25 10:07 UTC | chopsting | `sep25-robin` | macos-m1pro | **keep** | 2075 ±251 | 27/2/1 @1600 (8 wins) | search: move ordering package — TT kept across moves + killers + history + PVS | branch | `c764cdb` |
+| Sep 25 10:07 UTC | chopsting | `sep25-robin` | macos-m1pro | **keep** | 2075 ±251 | 27/2/1 @1600 (8 wins) | search: move ordering package — TT kept across moves + killers + history + PVS | in main | `c764cdb` |
 | Sep 25 10:01 UTC | chopsting | `sep25-robin` | macos-m1pro | **discard** | 1892 ±169 | 23/4/3 @1600 (8 wins) | eval: king table tapered by material + king safety (shelter, open files, king in centre) | reverted | `a1004d8` |
 | Sep 25 09:53 UTC | chopsting | `sep25-robin` | macos-m1pro | **discard** | 1915 ±176 | 24/3/3 @1600 (7 wins) | search: transposition table 48MB kept across moves + hash-move ordering | reverted | `3a5b460` |
 | Sep 25 09:51 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **keep** | 1800 ±146 | 20/5/5 @1600 (7 wins) | baseline | branch | `cc2d447` |
-| Sep 25 09:37 UTC | chopsting | `sep25-robin` | macos-m1pro | **keep** | 1915 ±176 | 25/1/4 @1600 (9 wins) | baseline | branch | `81396e0` |
+| Sep 25 09:37 UTC | chopsting | `sep25-robin` | macos-m1pro | **keep** | 1915 ±176 | 25/1/4 @1600 (9 wins) | baseline | in main | `81396e0` |

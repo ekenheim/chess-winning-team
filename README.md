@@ -15,7 +15,7 @@ Two people work on this repo, one on macOS and one on Windows, each on their own
 | `sep25-robin` | chopsting | macos-m1pro | 7 | 4 | **2326** ±486 (search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes)) | — | 1600 | 0 | 0 |
 | `sep26-robin` | chopsting | macos-m1pro | 0 | 0 | — | 2718 ±180 | 2700 | 7 | 0 |
 
-**Champion engine on main**: the baseline (nothing promoted yet)
+**Champion engine on main**: `sep25-robin@fbc8c67` by chopsting, 2326 ±486 on macos-m1pro — search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes)
 
 Every experiment by both of us, what it tried and where its engine went: [LEDGER.md](LEDGER.md). Elo is only comparable within one host (the Mac and the Windows PC reach different depths). Rebuilt from the git log by `python tools/progress.py` on main.
 <!-- progress:end -->
