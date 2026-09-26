@@ -9,7 +9,7 @@ Being benched right now. Don't start the same idea on the other branch.
 | Since | Who | Branch | Trying | Hypothesis |
 |---|---|---|---|---|
 | Sep 25 10:33 UTC (stale? no result after 4 h) | Erik Adolfsson | `sep25-erik` @`36032fd` | speed: incremental tapered evaluation (O(1) eval update per move) |  |
-| Sep 26 08:01 UTC | Erik Adolfsson | `sep25-erik` @`966bbcc` | eval: tapered mobility (N/B/R/Q safe squares, zero-mean per piece type) | the engine's own score is optimistic by +110 cp (middlegame) and +140 cp (endgame) against Stockfish with no pessimism at all (analysis/579a92f/engine-dev.md section 2), and the residual grows monotonically with the mobility we lack (+174 at -15 squares to +74 at +15, about 3 cp per square). Every middlegame mate (games 5, 20, 21, 30) had undeveloped or offside pieces that no king-danger term prices. Mobility is the standard published term the eval lacks: squares a knight/bishop/rook/queen attacks that are not its own pieces and not attacked by enemy pawns, centred on the usual count per piece type so it does not double-count material, weighted 4/5/2/1 mg and 3/4/4/2 eg per square. Static gate: g5 p37 +243 -&gt; +222, g20 p19 +138 -&gt; +117, g30 p34 +133 -&gt; +123; bench 10 nps unchanged within noise. |
+| Sep 26 08:16 UTC | Erik Adolfsson | `sep25-erik` @`b78c197` | full: confirm main@2002feb at 2900/3000/3100 at 5s/move | the champion engine (main's engine, identical to the [sync] 1c096d5 tree) has no [FULL] at TARGET_ELO 3000 on this host; Robin's 5 s run of the same engine (e5d57de) drew 4 of 5 games and was stopped. At 5 s the search reaches depth 20+ and the 0.25 s optimism halves (analysis/579a92f/engine-dev.md section 4), so a win at 3000 or 3100 is possible; a win at 3100 would ladder TARGET_ELO to 3200. Runs on windows-i7-13700H with WORKERS=6 in a detached worktree of origin/main. |
 
 ## Champion engine on main
 
@@ -31,6 +31,13 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 09:24 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±482 | 0/2/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, one game at a time (in progress) | 5 s run | `325e399` |
+| Sep 26 09:09 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±482 | 0/2/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, 2 games in parallel (switched to 1 at a time) | 5 s run | `864982e` |
+| Sep 26 08:56 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±681 | 0/1/0 @3190 (0 wins) | 92521ec (8 threads, contempt 120) at 3190, 2 games in parallel (in progress) | 5 s run | `df3b787` |
+| Sep 26 08:35 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2790 ±999 | 0/0/1 @3190 (0 wins) | 139c887 (contempt 50) at 3190, side-by-side run A (1 game) | 5 s run | `a87b376` |
+| Sep 26 08:35 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3190 ±681 | 0/1/0 @3190 (0 wins) | 9492e36 (contempt 120) at 3190, side-by-side run B (1 game) | 5 s run | `480ae8c` |
+| Sep 26 08:22 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3043 ±332 | 0/3/2 @3190 (0 wins) | 139c887 at Stockfish 3190 only (win-ratio rule), 5 games, then split with contempt 120 | 5 s run | `aff77a3` |
+| Sep 26 08:07 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **discard** | 2873 ±135 | 2/16/12 @3000 (0 wins) | eval: tapered mobility (N/B/R/Q safe squares, zero-mean); Elo unchanged, draws 10 -&gt; 16, wins 5 -&gt; 2 | reverted | `ea0e9a4` |
 | Sep 26 08:05 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3010 ±681 | 0/1/0 @3010 (0 wins) | aim ead1002 (4 threads) at 3010/3100/3190 at 5s/move (1 game, restarted with 2 threads x 4 games) | 5 s run | `e93a0ba` |
 | Sep 26 08:05 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2965 ±354 | 0/3/1 @3100 (0 wins) | aim 139c887 (2 threads) at 3010/3100/3190 at 5s/move (4 games, stopped for the 3190-only rule) | 5 s run | `14e5fe2` |
 | Sep 26 07:37 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **sync** | 2873 ±135 | 5/10/15 @3000 (2 wins) | adopt main@3e2bf9b | champion | `1c096d5` |
