@@ -1,0 +1,21 @@
+[Event "autoresearch fast run"]
+[Site "windows-amd64-Regenr"]
+[Date "2026.09.26"]
+[Round "1"]
+[White "chess-winning-team 579a92f"]
+[Black "Stockfish 19"]
+[Result "0-1"]
+[WhiteElo "-"]
+[BlackElo "2900"]
+[StockfishElo "2900"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "579a92f"]
+[EngineColor "white"]
+[Opening "Start position"]
+[Termination "checkmate"]
+[PlyCount "68"]
+
+1. Nc3 { [%eval 0.10,14] E d14 0.25s 276k } 1... c5 { [%eval 0.16,14] S d14 0.26s 259k } 2. e4 { [%eval 0.45,15] E d15 0.24s 441k } 2... Nc6 { [%eval 0.17,15] S d15 0.25s 269k } 3. Nf3 { [%eval 0.45,15] E d15 0.24s 409k } 3... e5 { [%eval 0.30,14] S d14 0.25s 257k } 4. Bb5 { [%eval 0.32,15] E d15 0.24s 339k } 4... d6 { [%eval 0.20,14] S d14 0.25s 260k } 5. O-O { [%eval 0.20,15] E d15 0.24s 594k } 5... a6 { [%eval -0.04,16] S d16 0.25s 278k } 6. Bxc6+ { [%eval 0.25,15] E d15 0.24s 650k } 6... bxc6 { [%eval -0.05,15] S d15 0.25s 244k } 7. d3 { [%eval 0.20,16] E d16 0.24s 572k } 7... Ne7 { [%eval -0.22,15] S d15 0.25s 273k } 8. a3 { [%eval 0.67,12] E d12 0.24s 270k } 8... a5 { [%eval -0.46,14] S d14 0.25s 270k } 9. Be3 { [%eval 0.63,14] E d14 0.24s 566k } 9... Rb8 { [%eval -0.34,14] S d14 0.25s 263k } 10. Rb1 { [%eval 0.69,14] E d14 0.24s 320k } 10... f5 { [%eval -0.45,14] S d14 0.25s 259k } 11. Re1 { [%eval 0.77,11] E d11 0.24s 162k } 11... f4 { [%eval -0.75,13] S d13 0.25s 248k } 12. Bd2 { [%eval 0.50,14] E d14 0.24s 509k } 12... h5 { [%eval 0.00,13] S d13 0.25s 253k } 13. h3 { [%eval 0.67,14] E d14 0.24s 289k } 13... Rb7 { [%eval -1.25,13] S d13 0.25s 243k } 14. Ne2 { [%eval 0.96,13] E d13 0.24s 381k } 14... g5 { [%eval -1.35,13] S d13 0.25s 255k } 15. Nxg5 { [%eval 1.36,14] E d14 0.24s 638k } 15... Ng6 { [%eval -2.40,15] S d15 0.25s 278k } 16. Nf3 { [%eval 0.91,14] E d14 0.24s 555k } 16... Nh4 { [%eval -2.40,14] S d14 0.25s 267k } 17. Nxf4 { [%eval 0.58,14] E d14 0.24s 508k } 17... Rg7 { [%eval -2.80,14] S d14 0.25s 257k } 18. Bxa5 { [%eval 0.77,14] E d14 0.24s 462k } 18... Qe7 { [%eval -3.15,13] S d13 0.25s 235k } 19. Nxh4 { [%eval 1.25,15] E d15 0.24s 537k } 19... Qxh4 { [%eval -3.38,14] S d14 0.25s 251k } 20. Qf3 { [%eval 1.25,16] E d16 0.24s 361k } 20... Be7 { [%eval -3.40,13] S d13 0.25s 238k } 21. Ne2 { [%eval 1.89,13] E d13 0.24s 180k } 21... Rf8 { [%eval -5.53,15] S d15 0.25s 266k } 22. Qe3 { [%eval -0.17,17] E d17 0.24s 644k } 22... Bxh3 { [%eval -5.15,16] S d16 0.25s 246k } 23. g3 { [%eval -0.31,16] E d16 0.24s 213k } 23... Qg4 { [%eval -6.04,15] S d15 0.25s 235k } 24. d4 { [%eval -0.81,13] E d13 0.24s 289k } 24... Rf3 { [%eval -7.26,15] S d15 0.25s 233k } 25. Qh6 { [%eval -3.18,12] E d12 0.24s 576k } 25... h4 { [%eval -9.09,13] S d13 0.25s 253k } 26. Qxg7 { [%eval -3.97,11] E d11 0.24s 69k } 26... Qxg7 { [%eval -11.24,14] S d14 0.25s 253k } 27. Kh1 { [%eval -7.92,13] E d13 0.24s 806k } 27... Qg4 { [%eval -14.42,14] S d14 0.25s 272k } 28. Nf4 { [%eval -11.58,11] E d11 0.24s 545k } 28... Rxf2 { [%eval #-6,14] S d14 0.25s 261k } 29. Re3 { [%eval #-5,16] E d16 0.24s 617k } 29... hxg3 { [%eval #-5,15] S d15 0.25s 268k } 30. Nd3 { [%eval #-4,16] E d16 0.24s 652k } 30... Rf1+ { [%eval #-4,56] S d56 0.25s 888k } 31. Rxf1 { [%eval #-3,18] E d18 0.24s 646k } 31... g2+ { [%eval #-3,15] S d15 0.25s 251k } 32. Kh2 { [%eval #-2,20] E d20 0.24s 718k } 32... gxf1=Q { [%eval #-3,21] S d21 0.25s 252k } 33. Rg3 { [%eval #-2,16] E d16 0.24s 797k } 33... Qg2+ { [%eval #-2,73] S d73 0.25s 1217k } 34. Rxg2 { [%eval #-1,29] E d29 0.24s 789k } 34... Qxg2# { [%eval #-1,14] S d14 0.25s 268k } 0-1
+
