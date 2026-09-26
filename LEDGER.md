@@ -19,6 +19,7 @@ Engine code moves between the branches only through main: a `[keep]` is `[promot
 |---|---|---|---|---|---|---|
 | Sep 26 07:05 UTC | chopsting | promote `bb884cc` | `sep25-robin@fbc8c67` | 2326 ±486 | macos-m1pro | search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes) |
 | Sep 26 07:05 UTC | chopsting | promote `3e3b483` | `sep25-erik@555bcaf` | 2400 ±146 | windows-i7-13700H | time: soft limit 60%, keep best root move of an aborted iteration, reserve capped at 50ms |
+| Sep 26 07:06 UTC | chopsting | promote `6d40457` | `sep26-robin@bba68b9` | 2718 ±180 | macos-m1pro | confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher) |
 
 ## Every result
 
