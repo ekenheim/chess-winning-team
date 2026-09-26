@@ -158,15 +158,12 @@ pub fn phase(board: &Board) -> i32 {
     (minors + 2 * rooks + 4 * queens).min(PHASE_MAX)
 }
 
-/// King danger (middlegame only, and only while the opponent still has a
-/// queen). Attack units per attacked king-zone square (N2 B2 R3 Q5 each),
-/// storm pawns up to four ranks ahead (2/2/1/1), and open or half-open files
-/// through the king's three files (2 / 1, doubled with an enemy rook or
-/// queen on that file) are summed and squared, so one attacker already
-/// counts and a full-scale attack counts a lot. Missing shield pawns cost
-/// extra, but only for a king on its first two ranks.
-const SHIELD_MISSING: i32 = 15;
-const DANGER_MAX: i32 = 700;
+/// King safety (middlegame only, and only while the opponent still has a
+/// queen): a penalty per missing pawn in the shield in front of the king,
+/// and a convex penalty for enemy pieces attacking the king zone once at
+/// least two of them do. Every review of our games found the losses here.
+const SHIELD_MISSING: i32 = 18;
+const DANGER: [i32; 16] = [0, 0, 10, 22, 38, 58, 82, 110, 142, 178, 218, 262, 310, 360, 410, 460];
 
 fn king_danger(board: &Board, color: Color) -> i32 {
     let them = !color;
@@ -176,58 +173,53 @@ fn king_danger(board: &Board, color: Color) -> i32 {
     }
     let ksq = board.king(color);
     let dir: i8 = if color == Color::White { 1 } else { -1 };
-    let pawns = board.pieces(Piece::Pawn);
-    let our_pawns = pawns & board.colors(color);
-    let their_pawns = pawns & enemy;
-    let heavy = (board.pieces(Piece::Rook) | board.pieces(Piece::Queen)) & enemy;
-    let king_home = (ksq.rank().relative_to(color) as usize) < 2;
 
-    let mut units = 0;
-    let mut shield_missing = 0;
+    let our_pawns = board.pieces(Piece::Pawn) & board.colors(color);
+    let mut missing = 0;
     for df in -1..=1 {
-        let Some(fsq) = ksq.try_offset(df, 0) else { continue };
-        let file = fsq.file().bitboard();
-        // Shield and storm: the three ranks in front of the king on this file.
-        let mut shield = false;
-        for dr in 1..=4 {
+        let mut found = false;
+        for dr in 1..=2 {
             if let Some(sq) = ksq.try_offset(df, dr * dir) {
-                if dr <= 2 && our_pawns.has(sq) {
-                    shield = true;
-                }
-                if their_pawns.has(sq) {
-                    units += if dr <= 2 { 2 } else { 1 };
+                if our_pawns.has(sq) {
+                    found = true;
                 }
             }
         }
-        if king_home && !shield {
-            shield_missing += 1;
+        if !found {
+            missing += 1;
         }
-        // Open / half-open file through the king.
-        let file_units = if (file & pawns).is_empty() {
-            2
-        } else if (file & our_pawns).is_empty() {
-            1
-        } else {
-            0
-        };
-        units += if !(file & heavy).is_empty() { 2 * file_units } else { file_units };
     }
 
     let zone = get_king_moves(ksq) | ksq.bitboard();
     let occ = board.occupied();
+    let mut weight = 0;
+    let mut attackers = 0;
     for sq in board.pieces(Piece::Knight) & enemy {
-        units += 2 * (get_knight_moves(sq) & zone).len() as i32;
+        if !(get_knight_moves(sq) & zone).is_empty() {
+            weight += 2;
+            attackers += 1;
+        }
     }
     for sq in board.pieces(Piece::Bishop) & enemy {
-        units += 2 * (get_bishop_moves(sq, occ) & zone).len() as i32;
+        if !(get_bishop_moves(sq, occ) & zone).is_empty() {
+            weight += 2;
+            attackers += 1;
+        }
     }
     for sq in board.pieces(Piece::Rook) & enemy {
-        units += 3 * (get_rook_moves(sq, occ) & zone).len() as i32;
+        if !(get_rook_moves(sq, occ) & zone).is_empty() {
+            weight += 3;
+            attackers += 1;
+        }
     }
     for sq in board.pieces(Piece::Queen) & enemy {
-        units += 5 * ((get_rook_moves(sq, occ) | get_bishop_moves(sq, occ)) & zone).len() as i32;
+        if !((get_rook_moves(sq, occ) | get_bishop_moves(sq, occ)) & zone).is_empty() {
+            weight += 5;
+            attackers += 1;
+        }
     }
-    (3 * units * units).min(DANGER_MAX) + shield_missing * SHIELD_MISSING
+    let danger = if attackers >= 2 { DANGER[(weight as usize).min(15)] } else { 0 };
+    missing * SHIELD_MISSING + danger
 }
 
 /// Score from the side to move's point of view (tapered evaluation).
