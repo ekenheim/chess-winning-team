@@ -179,11 +179,35 @@ def mark_state(name, rows, promotions):
             r["state"] = ""
 
 
+def branch_logs():
+    """{branch: result rows}, each commit credited to exactly one branch.
+    A branch started from another branch's tip shares that branch's line; a
+    shared commit belongs to the branch whose own (unshared) commits have the
+    same author, else to the branch with the shorter line (the original)."""
+    exclude = main_line()
+    lines = {name: experiments(ref, exclude) for name, ref in sorted(branches().items())}
+    shas = {name: {r["full"] for r in rows} for name, rows in lines.items()}
+    owner = {}
+    for name, rows in lines.items():
+        for r in rows:
+            owner.setdefault(r["full"], []).append(name)
+    authors = {name: {r["who"] for r in rows if len(owner[r["full"]]) == 1}
+               for name, rows in lines.items()}
+
+    def pick(sha, who):
+        cands = owner[sha]
+        if len(cands) == 1:
+            return cands[0]
+        same = [c for c in cands if who in authors[c]]
+        return min(same or cands, key=lambda c: len(shas[c]))
+
+    return {name: [r for r in rows if pick(r["full"], r["who"]) == name]
+            for name, rows in lines.items()}
+
+
 def load():
     """Everything the outputs need, from one pass over the log."""
-    exclude = main_line()
-    series = [(name, experiments(ref, exclude))
-              for name, ref in sorted(branches().items())]
+    series = sorted(branch_logs().items())
     series = [(name, rows) for name, rows in series if rows]
     promotions = [r for r in champion() if r["status"] == "promote"]
     for name, rows in series:

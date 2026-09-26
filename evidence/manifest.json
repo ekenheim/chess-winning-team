@@ -443,5 +443,53 @@
     "slowest_move": 0.27,
     "problems": [],
     "verified": true
+  },
+  {
+    "branch": "sep26-robin",
+    "commit": "3896e6c",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2692\u00b1169 W/D/L=22/6/2 @2400 wins@target=7 \u2014 confirm frontier pruning + movetime + bucket TT at 5s/move",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/4340e04-dirty-full-r2/"
+    ],
+    "claimed_elo": 2692.0,
+    "claimed_err": 169.0,
+    "recomputed_elo": 2692.2,
+    "recomputed_err": 169.3,
+    "wdl": [
+      22,
+      6,
+      2
+    ],
+    "games": 30,
+    "move_time": 5.0,
+    "slowest_move": 5.03,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep26-robin",
+    "commit": "bba68b9",
+    "kind": "FULL",
+    "subject": "[FULL] elo=2718\u00b1180 W/D/L=5/6/4 @2700 wins@target=1 \u2014 confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/stack-v2-full-t2700s100/"
+    ],
+    "claimed_elo": 2718.0,
+    "claimed_err": 180.0,
+    "recomputed_elo": 2717.5,
+    "recomputed_err": 180.5,
+    "wdl": [
+      5,
+      6,
+      4
+    ],
+    "games": 15,
+    "move_time": 5.0,
+    "slowest_move": 5.04,
+    "problems": [],
+    "verified": true
   }
 ]

@@ -24,6 +24,8 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 07:01 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2718 ±180 | 5/6/4 @2700 (1 wins) | confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher) | 5 s run | `bba68b9` |
+| Sep 26 07:01 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2692 ±169 | 22/6/2 @2400 (7 wins) | confirm frontier pruning + movetime + bucket TT at 5s/move | 5 s run | `3896e6c` |
 | Sep 25 16:38 UTC | Erik Adolfsson | `sep25-erik` | ? | **ladder** | — | → 2400 | proof games/proofs/beat-2200.pgn + beat-2300.pgn, tags beat-2200, beat-2300 |  | `4340e04` |
 | Sep 25 16:38 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **FULL** | 2400 ±146 | 19/7/4 @2200 (5 wins) | confirm time manager at 5s/move | 5 s run | `1e4f3da` |
 | Sep 25 15:25 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **keep** | 2400 ±146 | 21/3/6 @2200 (8 wins) | time: soft limit 60%, keep best root move of an aborted iteration, reserve capped at 50ms | branch | `555bcaf` |

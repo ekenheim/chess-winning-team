@@ -31,7 +31,7 @@ import chess.pgn
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "arena"))
-from progress import branches, champion, experiments, git, main_line  # noqa: E402
+from progress import branch_logs, champion, git  # noqa: E402
 from util import MOVE_TIME_S, REQUIRED_PGN_HEADERS, TIME_TOLERANCE_S, estimate_elo  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -124,15 +124,14 @@ def main():
     if OUT.exists():
         shutil.rmtree(OUT)
     manifest = []
-    exclude = main_line()
     main_claims = claims(champion())
     # A branch [ladder] whose levels were all laddered again on main is not a
     # second claim.
     relaid = {lvl for c in main_claims for lvl in re.findall(r"beat-(\d+)", c["subject"])}
-    logs = [(name, [c for c in claims(experiments(ref, exclude))
+    logs = [(name, [c for c in claims(rows)
                     if not (c["kind"] == "ladder"
                             and set(re.findall(r"beat-(\d+)", c["subject"])) <= relaid)])
-            for name, ref in sorted(branches().items())]
+            for name, rows in sorted(branch_logs().items())]
     logs.append(("main", main_claims))
     for name, cs in logs:
         for c in cs:

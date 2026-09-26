@@ -13,6 +13,7 @@ Two people work on this repo, one on macOS and one on Windows, each on their own
 |---|---|---|---|---|---|---|---|---|---|
 | `sep25-erik` | Erik Adolfsson | windows-i7-13700H | 7 | 6 | **2400** ±146 (time: soft limit 60%, keep best root move of an aborted iteration, reserve capped at 50ms) | 2400 ±146 | 2400 | 8 | 8 |
 | `sep25-robin` | chopsting | macos-m1pro | 7 | 4 | **2326** ±486 (search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes)) | — | 1600 | 0 | 0 |
+| `sep26-robin` | chopsting | macos-m1pro | 0 | 0 | — | 2718 ±180 | 2700 | 7 | 0 |
 
 **Champion engine on main**: the baseline (nothing promoted yet)
 

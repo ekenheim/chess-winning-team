@@ -1,0 +1,21 @@
+=== run summary ===
+elo:                    2692.2
+elo_err95:              169.3
+target_elo:             2400
+wins_at_target:         7
+score:                  0.833
+wins/draws/losses:      22/6/2
+per_level:              2300: 8/2/0  2400: 7/3/0  2500: 7/1/2
+games:                  30
+timeouts:               0
+illegal_moves:          0
+avg_move_seconds:       4.588
+max_move_seconds:       5.033
+avg_depth:              18.6
+avg_nodes_per_sec:      2055567
+peak_ram_mb:            130.9
+total_seconds:          7507.9
+move_time_s:            5.0
+opponent:               Stockfish 19 (UCI_LimitStrength)
+games_dir:              games/runs/4340e04-dirty-full-r2/
+host:                   darwin-arm64-MacBook-Pro-som-tillhor-Regent.local
