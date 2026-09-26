@@ -1,5 +1,5 @@
 // The only place that asks fiber for frames: store changes, held animation keys and (via drei) camera transitions.
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useReplay } from "@/store/replay";
 import { bindInvalidate, endAnimsWithPrefix, frameStats, isAnimating } from "@/lib/three/animating";
@@ -26,9 +26,18 @@ export default function SceneInvalidator() {
     };
   }, [invalidate]);
 
+  // Two settle frames after the last animation ends: ContactShadows renders in its own useFrame, which can run
+  // before the piece hooks on a given frame, so the final tween frame would leave the shadow one step behind.
+  const settle = useRef(0);
   useFrame(() => {
     frameStats.count++;
-    if (isAnimating()) invalidate();
+    if (isAnimating()) {
+      settle.current = 2;
+      invalidate();
+    } else if (settle.current > 0) {
+      settle.current--;
+      invalidate();
+    }
   });
   return null;
 }

@@ -61,7 +61,8 @@ export default function Studio({ tier }: { tier: Tier }) {
       />
       <hemisphereLight intensity={0.15} color="#fff4e6" groundColor="#2a1a10" />
       <ContactShadows position={[0, 0.002, 0]} scale={8.4} far={1.2} blur={2} opacity={0.5} resolution={512} color="#1a1008" />
-      <ContactShadows position={[0, -0.419, 0]} scale={14} far={1.5} blur={2.4} opacity={0.6} resolution={512} frames={1} color="#000000" />
+      {/* baked once: only the board frame (y -0.425..-0.005) may fall into it, never the pieces, or their start-position shadows would stay forever */}
+      <ContactShadows position={[0, -0.419, 0]} scale={14} far={0.5} blur={2.4} opacity={0.6} resolution={512} frames={1} color="#000000" />
     </>
   );
 }
