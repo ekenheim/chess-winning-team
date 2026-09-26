@@ -9,6 +9,7 @@ Being benched right now. Don't start the same idea on the other branch.
 | Since | Who | Branch | Trying | Hypothesis |
 |---|---|---|---|---|
 | Sep 25 10:33 UTC (stale? no result after 4 h) | Erik Adolfsson | `sep25-erik` @`36032fd` | speed: incremental tapered evaluation (O(1) eval update per move) |  |
+| Sep 26 07:12 UTC | chopsting | `sep26-robin` @`ead1002` | search: Lazy SMP (4 threads, shared lockless TT) + contempt 50 (draws score nothing here) + eval: endgame draw scaling, passed pawns, fifty-move taper | at 2900-3100 the engine draws (4 of 5 games at 5 s) instead of |
 
 ## Champion engine on main
 
@@ -21,7 +22,6 @@ Engine code moves between the branches only through main: a `[keep]` is `[promot
 | Sep 26 07:06 UTC | chopsting | promote `6d40457` | `sep26-robin@bba68b9` | 2718 ±180 | macos-m1pro | confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher) |
 | Sep 26 07:07 UTC | chopsting | ladder `c5aa1ed` | `sep25-erik` | — | ? | proof games/proofs/beat-1600.pgn + games/proofs/beat-1700.pgn + games/proofs/beat-1800.pgn + games/proofs/beat-1900.pgn + games/proofs/beat-2000.pgn + games/proofs/beat-2100.pgn + games/proofs/beat-2200.pgn + games/proofs/beat-2300.pgn |
 | Sep 26 07:08 UTC | chopsting | ladder `d519e4e` | `sep26-robin` | — | macos-m1pro | proof games/proofs/beat-2400.pgn + games/proofs/beat-2500.pgn + games/proofs/beat-2600.pgn + games/proofs/beat-2700.pgn + games/proofs/beat-2800.pgn |
-| Sep 26 07:11 UTC | chopsting | ladder `823c402` | `sep26-robin` | — | macos-m1pro | proof games/proofs/beat-2900.pgn |
 
 ## Every result
 
