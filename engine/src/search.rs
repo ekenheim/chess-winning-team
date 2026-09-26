@@ -295,7 +295,7 @@ const HELPER_STACK: usize = 32 << 20;
 
 /// Contempt: a draw is worth nothing in this competition (only wins count),
 /// so the side the engine plays scores every draw as this much below equal.
-const CONTEMPT: i32 = 50;
+const CONTEMPT: i32 = 120;
 
 pub struct Searcher {
     /// The side this search plays for (set per search), for contempt.
