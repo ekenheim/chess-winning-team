@@ -1,0 +1,249 @@
+@import "tailwindcss";
+@import "@lichess-org/chessground/assets/chessground.base.css";
+@import "@lichess-org/chessground/assets/chessground.cburnett.css";
+
+/* ------------------------------------------------------------------
+   Design tokens. Dark-first, warm near-black, cream ink, one amber
+   accent, semantic green/red reserved for results and move badges.
+   ------------------------------------------------------------------ */
+:root {
+  color-scheme: dark;
+  --bg: oklch(0.165 0.012 60);
+  --bg-2: oklch(0.205 0.014 60);
+  --bg-3: oklch(0.25 0.016 60);
+  --bg-4: oklch(0.3 0.018 60);
+  --line: oklch(0.31 0.018 60);
+  --line-2: oklch(0.38 0.02 60);
+  --ink: oklch(0.935 0.018 82);
+  --ink-2: oklch(0.74 0.02 78);
+  --ink-3: oklch(0.56 0.018 72);
+  --accent: oklch(0.82 0.155 78);
+  --accent-deep: oklch(0.68 0.16 62);
+  --accent-ink: oklch(0.2 0.03 70);
+  --win: oklch(0.74 0.15 150);
+  --win-deep: oklch(0.55 0.13 150);
+  --loss: oklch(0.66 0.19 27);
+  --loss-deep: oklch(0.5 0.16 27);
+  --draw: oklch(0.6 0.015 70);
+  --inaccuracy: oklch(0.8 0.14 95);
+  --sq-light: #e7dcc4;
+  --sq-dark: #9b7353;
+  --font-display: "Bricolage Grotesque", "Avenir Next Condensed", "Helvetica Neue", sans-serif;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-bg-4: var(--bg-4);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-ink: var(--accent-ink);
+  --color-win: var(--win);
+  --color-win-deep: var(--win-deep);
+  --color-loss: var(--loss);
+  --color-loss-deep: var(--loss-deep);
+  --color-draw: var(--draw);
+  --color-inaccuracy: var(--inaccuracy);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* film grain, one layer over everything, very low contrast */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+button,
+select,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+}
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.panel {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) transparent;
+}
+
+/* ------------------------------------------------------------------
+   chessground: our own board colours + highlights
+   ------------------------------------------------------------------ */
+.cg-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 6px;
+  overflow: hidden;
+}
+cg-board {
+  background-color: var(--sq-light);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cg fill='%239b7353'%3E%3Crect x='1' y='0' width='1' height='1'/%3E%3Crect x='3' y='0' width='1' height='1'/%3E%3Crect x='5' y='0' width='1' height='1'/%3E%3Crect x='7' y='0' width='1' height='1'/%3E%3Crect x='0' y='1' width='1' height='1'/%3E%3Crect x='2' y='1' width='1' height='1'/%3E%3Crect x='4' y='1' width='1' height='1'/%3E%3Crect x='6' y='1' width='1' height='1'/%3E%3Crect x='1' y='2' width='1' height='1'/%3E%3Crect x='3' y='2' width='1' height='1'/%3E%3Crect x='5' y='2' width='1' height='1'/%3E%3Crect x='7' y='2' width='1' height='1'/%3E%3Crect x='0' y='3' width='1' height='1'/%3E%3Crect x='2' y='3' width='1' height='1'/%3E%3Crect x='4' y='3' width='1' height='1'/%3E%3Crect x='6' y='3' width='1' height='1'/%3E%3Crect x='1' y='4' width='1' height='1'/%3E%3Crect x='3' y='4' width='1' height='1'/%3E%3Crect x='5' y='4' width='1' height='1'/%3E%3Crect x='7' y='4' width='1' height='1'/%3E%3Crect x='0' y='5' width='1' height='1'/%3E%3Crect x='2' y='5' width='1' height='1'/%3E%3Crect x='4' y='5' width='1' height='1'/%3E%3Crect x='6' y='5' width='1' height='1'/%3E%3Crect x='1' y='6' width='1' height='1'/%3E%3Crect x='3' y='6' width='1' height='1'/%3E%3Crect x='5' y='6' width='1' height='1'/%3E%3Crect x='7' y='6' width='1' height='1'/%3E%3Crect x='0' y='7' width='1' height='1'/%3E%3Crect x='2' y='7' width='1' height='1'/%3E%3Crect x='4' y='7' width='1' height='1'/%3E%3Crect x='6' y='7' width='1' height='1'/%3E%3C/g%3E%3C/svg%3E");
+}
+cg-board square.last-move {
+  background-color: oklch(0.82 0.155 78 / 0.45);
+}
+cg-board square.check {
+  background: radial-gradient(ellipse at center, oklch(0.66 0.19 27 / 0.95) 0%, oklch(0.66 0.19 27 / 0.8) 25%, oklch(0.66 0.19 27 / 0) 89%);
+}
+.cg-wrap piece {
+  filter: drop-shadow(0 2px 2px rgb(0 0 0 / 0.35));
+}
+.cg-wrap coords {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+}
+.orientation-white .ranks :nth-child(odd),
+.orientation-white .files :nth-child(even),
+.orientation-black .ranks :nth-child(even),
+.orientation-black .files :nth-child(odd) {
+  color: rgb(60 40 25 / 0.75);
+}
+.orientation-white .ranks :nth-child(even),
+.orientation-white .files :nth-child(odd),
+.orientation-black .ranks :nth-child(odd),
+.orientation-black .files :nth-child(even) {
+  color: rgb(255 245 225 / 0.85);
+}
+
+/* the hero number on the ladder */
+.hero-number {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -0.06em;
+  line-height: 0.85;
+  background: linear-gradient(160deg, var(--ink) 30%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glow-accent {
+  box-shadow:
+    0 0 0 1px oklch(0.82 0.155 78 / 0.6),
+    0 0 28px oklch(0.82 0.155 78 / 0.28),
+    inset 0 0 40px oklch(0.82 0.155 78 / 0.06);
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1px oklch(0.82 0.155 78 / 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 1px oklch(0.82 0.155 78 / 0.9), 0 0 18px oklch(0.82 0.155 78 / 0.25);
+  }
+}
+.pulse-ring {
+  animation: pulse-ring 2.4s ease-in-out infinite;
+}
+
+.prose-report {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.prose-report h1,
+.prose-report h2,
+.prose-report h3 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin: 1.2em 0 0.4em;
+  line-height: 1.15;
+}
+.prose-report h1 { font-size: 20px; }
+.prose-report h2 { font-size: 16px; }
+.prose-report h3 { font-size: 14px; }
+.prose-report p { margin: 0.5em 0; }
+.prose-report ul, .prose-report ol { padding-left: 1.2em; margin: 0.5em 0; }
+.prose-report li { margin: 0.2em 0; }
+.prose-report strong { color: var(--ink); font-weight: 600; }
+.prose-report code { font-family: var(--font-mono); font-size: 12px; background: var(--bg-3); padding: 1px 4px; border-radius: 4px; color: var(--ink); }
+.prose-report pre { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; overflow-x: auto; }
+.prose-report pre code { background: none; padding: 0; }
+.prose-report table { border-collapse: collapse; width: 100%; margin: 0.6em 0; font-size: 12px; display: block; overflow-x: auto; }
+.prose-report th, .prose-report td { border-bottom: 1px solid var(--line); padding: 4px 8px; text-align: left; white-space: nowrap; }
+.prose-report th { color: var(--ink-3); font-weight: 500; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+.prose-report a { color: var(--accent); }
+.prose-report hr { border: 0; border-top: 1px solid var(--line); margin: 1em 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
