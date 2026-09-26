@@ -59,10 +59,18 @@
   .badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 11px; font-weight: 600; }
   .badge.win { background: var(--win); color: #fff; } .badge.loss { background: var(--loss); color: #fff; } .badge.draw { background: #555; color: #fff; }
   a { color: var(--accent); }
+  .top { margin: 16px 20px 0; padding: 14px 16px; background: var(--panel); border: 1px solid var(--accent); border-radius: 10px; }
+  .top .big { font-size: 30px; font-weight: 700; margin: 4px 0; }
+  .top .row { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14px; color: var(--muted); }
+  .top .row b { color: var(--text); }
+  .top table { border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+  .top th, .top td { padding: 3px 12px 3px 0; text-align: left; border-bottom: 1px solid #2c3038; }
+  .top th { color: var(--muted); font-weight: 500; }
 </style>
 </head>
 <body>
 <header><h1>♟ Chess Winning Team</h1><span class="sub">every game our engine played against Stockfish, replayable move by move</span></header>
+<section class="top" id="top"><h2>3190 scoreboard</h2><div class="row">loading…</div></section>
 <main>
   <section class="panel">
     <h2>Runs</h2>
@@ -230,6 +238,28 @@ async function init() {
     else if (e.key === " ") { e.preventDefault(); togglePlay(); } else if (e.key === "f") { state.flipped = !state.flipped; renderBoard(); }
   });
 }
+async function loadTop() {
+  const el = $("top");
+  try {
+    const lv = new URLSearchParams(location.search).get("level");
+    const t = await api("/api/top" + (lv ? "?level=" + encodeURIComponent(lv) : ""));
+    const pct = r => r == null ? "—" : (r * 100).toFixed(1) + "%";
+    const mv = m => m == null ? "—" : (Number.isInteger(m) ? m : m.toFixed(1));
+    const link = g => `?run=${encodeURIComponent(g.run)}&game=${encodeURIComponent(g.file)}`;
+    if (!t.games) { el.innerHTML = `<h2>${t.level} scoreboard</h2><div class="big">No games at ${t.level} yet</div>`; return; }
+    const f = t.fastest_win;
+    el.innerHTML = `<h2>${t.level} scoreboard · ${t.move_time} s per move · win ratio = wins / all games</h2>
+      <div class="big">Win ratio at ${t.level}: ${t.wins} / ${t.games} = ${pct(t.win_ratio)}</div>
+      <div class="row"><span>W/D/L <b>${t.wins}/${t.draws}/${t.losses}</b></span>
+        <span>Average moves per game <b>${mv(t.avg_moves)}</b></span>
+        <span>Average moves in wins <b>${mv(t.avg_moves_wins)}</b></span>
+        <span>Fastest win ${f ? `<a href="${link(f)}"><b>${mv(f.moves)} moves</b> (${f.run}/${f.file})</a>` : "<b>—</b>"}</span></div>
+      <table><tr><th>engine</th><th>win ratio</th><th>W/D/L</th><th>avg moves</th><th>avg moves in wins</th></tr>
+        ${t.engines.map(e => `<tr><td>${e.commit}</td><td>${e.wins}/${e.games} = ${pct(e.win_ratio)}</td><td>${e.wins}/${e.draws}/${e.losses}</td><td>${mv(e.avg_moves)}</td><td>${mv(e.avg_moves_wins)}</td></tr>`).join("")}</table>
+      ${t.win_games.length ? `<div class="row" style="margin-top:8px">Wins: ${t.win_games.map(g => `<a href="${link(g)}">${g.run}/${g.file} (${mv(g.moves)})</a>`).join(" · ")}</div>` : ""}`;
+  } catch (e) { el.innerHTML = `<h2>3190 scoreboard</h2><div class="row">could not load: ${e.message}</div>`; }
+}
+loadTop();
 init().catch(e => { $("status").textContent = "Error: " + e.message; });
 </script>
 </body>

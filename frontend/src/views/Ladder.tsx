@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { api, type Ladder as LadderData, type Rung, type WDL } from "@/lib/api";
+import { api, type Ladder as LadderData, type Rung, type Top, type WDL } from "@/lib/api";
+import TopBoard from "@/components/TopBoard";
 import { href } from "@/lib/router";
 
 function Bar({ wdl, tall }: { wdl: WDL; tall?: boolean }) {
@@ -103,9 +104,13 @@ function RungRow({ r, highest, target, i }: { r: Rung; highest: number | null; t
 
 export default function Ladder() {
   const [data, setData] = useState<LadderData | null>(null);
+  const [top, setTop] = useState<Top | null>(null);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     api.ladder().then(setData).catch((e) => setError(String(e.message ?? e)));
+    // ?level=NNNN in the page URL shows the scoreboard for another level (default: the top one, 3190)
+    const lv = parseInt(new URLSearchParams(window.location.search).get("level") ?? "", 10);
+    api.top(Number.isFinite(lv) ? lv : undefined).then(setTop).catch(() => {});
   }, []);
   if (error) return <div className="panel m-6 p-6 text-ink-2">Could not load the ladder: <span className="mono text-loss">{error}</span></div>;
   if (!data) return <div className="grid h-[60vh] place-items-center text-ink-3">Loading…</div>;
@@ -115,7 +120,15 @@ export default function Ladder() {
   const fullWins = data.rungs.reduce((s, r) => s + r.full.w, 0);
   const allGames = fullGames + data.rungs.reduce((s, r) => s + r.fast.w + r.fast.d + r.fast.l, 0);
 
+  const board = top ?? data.top ?? null;
+
   return (
+    <>
+    {board && (
+      <div className="relative z-10 mx-auto w-full max-w-[1500px] px-6 pt-8">
+        <TopBoard top={board} />
+      </div>
+    )}
     <div className="relative mx-auto grid w-full max-w-[1500px] grid-cols-1 gap-10 px-6 pb-16 pt-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
       <div
         aria-hidden
@@ -173,5 +186,6 @@ export default function Ladder() {
         </ol>
       </section>
     </div>
+    </>
   );
 }

@@ -122,7 +122,47 @@ export interface Rung {
   status: "beaten" | "contested" | "locked";
 }
 
+export interface TopFastestWin {
+  run: string;
+  file: string;
+  plies: number;
+  moves: number;
+  termination: string;
+  engine: string;
+}
+
+export interface TopStats {
+  games: number;
+  wins: number;
+  draws: number;
+  losses: number;
+  win_ratio: number | null; // wins / all games; draws and losses are non-wins
+  avg_moves: number | null; // full moves (PlyCount / 2) over every game
+  avg_moves_wins: number | null; // full moves over the won games
+  fastest_win: TopFastestWin | null;
+}
+
+export interface TopWin {
+  run: string;
+  file: string;
+  plies: number | null;
+  moves: number | null;
+  termination: string;
+  date: string;
+  engine: string;
+  commit: string;
+}
+
+export interface Top extends TopStats {
+  level: number;
+  move_time: number;
+  opponent: string;
+  engines: (TopStats & { commit: string; runs: string[] })[];
+  win_games: TopWin[];
+}
+
 export interface Ladder {
+  top?: Top;
   rungs: Rung[];
   highest_beaten: number | null;
   target: number;
@@ -151,4 +191,5 @@ export const api = {
   game: (run: string, file: string) =>
     get<GameData>(`/api/game?run=${encodeURIComponent(run)}&file=${encodeURIComponent(file)}`),
   ladder: () => get<Ladder>("/api/ladder"),
+  top: (level?: number) => get<Top>(level != null ? `/api/top?level=${level}` : "/api/top"),
 };

@@ -4,6 +4,8 @@
     GET /api/games?run=<name>           games of one run
     GET /api/game?run=<name>&file=<f>   moves, FENs, evals, per-move analysis and comments of one game
     GET /api/ladder                     beaten Stockfish levels (proofs) + W/D/L per level over every run
+    GET /api/top[?level=3190]           the 3190 scoreboard: win ratio at the top level (5 s/move games),
+                                        average game length, fastest win, per-engine breakdown, list of wins
 
 Serves frontend/dist (the Vite build, `make app-build`) when it exists, else the plain app/ page.
 """
@@ -28,6 +30,7 @@ DIST_DIR = util.ROOT / "frontend" / "dist"
 APP_DIR = DIST_DIR if (DIST_DIR / "index.html").exists() else util.ROOT / "app"
 PORT = int(os.environ.get("PORT", "8000"))
 EVIDENCE_MANIFEST = util.ROOT / "evidence" / "manifest.json"
+TOP_LEVEL = 3190  # Stockfish's maximum UCI_Elo; the winner is decided by the win ratio here
 
 _cache = {}
 
@@ -298,7 +301,116 @@ def _api_ladder():
                       "status": "beaten" if level in proofs else ("contested" if row["full"]["w"] + row["full"]["d"] + row["full"]["l"] + row["fast"]["w"] + row["fast"]["d"] + row["fast"]["l"] else "locked")})
     highest = max(proofs) if proofs else None
     return {"rungs": rungs, "highest_beaten": highest, "target": util.TARGET_ELO, "step": util.LADDER_STEP,
-            "move_time": util.MOVE_TIME_S, "opponent": util.OPPONENT}
+            "move_time": util.MOVE_TIME_S, "opponent": util.OPPONENT, "top": _api_top()}
+
+
+def _runs_signature():
+    """(name, mtime) of every run dir: changes whenever a run dir or a game in it appears."""
+    sig = []
+    if util.RUNS_DIR.exists():
+        for d in util.RUNS_DIR.iterdir():
+            try:
+                if d.is_dir():
+                    sig.append((d.name, d.stat().st_mtime_ns))
+            except OSError:
+                continue
+    return tuple(sorted(sig))
+
+
+def _outcome(headers):
+    """'w' / 'd' / 'l' from our engine's point of view, or None for an unfinished game."""
+    res, colour = headers.get("Result"), headers.get("EngineColor")
+    if res == "1/2-1/2":
+        return "d"
+    if res in ("1-0", "0-1"):
+        return "w" if (res == "1-0") == (colour == "white") else "l"
+    return None
+
+
+def _top_stats(rows):
+    games = len(rows)
+    w = sum(1 for r in rows if r["k"] == "w")
+    d = sum(1 for r in rows if r["k"] == "d")
+    lengths = [r["plies"] / 2 for r in rows if r["plies"] is not None]
+    win_lengths = [r["plies"] / 2 for r in rows if r["k"] == "w" and r["plies"] is not None]
+    wins = sorted((r for r in rows if r["k"] == "w"), key=lambda r: (r["plies"] is None, r["plies"] or 0))
+    fastest = None
+    if wins and wins[0]["plies"] is not None:
+        f = wins[0]
+        fastest = {"run": f["run"], "file": f["file"], "plies": f["plies"], "moves": f["plies"] / 2,
+                   "termination": f["termination"], "engine": f["engine"]}
+    return {"games": games, "wins": w, "draws": d, "losses": games - w - d,
+            "win_ratio": w / games if games else None,
+            "avg_moves": round(sum(lengths) / len(lengths), 1) if lengths else None,
+            "avg_moves_wins": round(sum(win_lengths) / len(win_lengths), 1) if win_lengths else None,
+            "fastest_win": fastest}
+
+
+def _api_top(level=None):
+    """The 3190 scoreboard: every full-rule (5 s/move) game against one Stockfish level, over all runs.
+
+    win_ratio = wins / all games (draws and losses are non-wins). Lengths are in full moves (PlyCount / 2).
+    Only games/runs/* are counted, not games/proofs (those are copies of run games).
+    """
+    level = TOP_LEVEL if level is None else int(level)
+
+    def build():
+        rows = []
+        if not util.RUNS_DIR.exists():
+            return rows
+        for d in util.RUNS_DIR.iterdir():
+            if not d.is_dir():
+                continue
+            for p in d.glob("*.pgn"):
+                try:
+                    with open(p, encoding="utf-8") as f:
+                        h = chess.pgn.read_headers(f)
+                except (OSError, ValueError):
+                    continue
+                if not h:
+                    continue
+                try:
+                    if int(h.get("StockfishElo", "")) != level:
+                        continue
+                except ValueError:
+                    continue
+                if not (h.get("MoveTimeS") == "5" or h.get("TimeControl") == "5s/move"):
+                    continue
+                k = _outcome(h)
+                if k is None:
+                    continue
+                try:
+                    plies = int(h.get("PlyCount", ""))
+                except ValueError:
+                    plies = None
+                commit = (h.get("EngineCommit") or "?").replace("-dirty", "") or "?"
+                rows.append({"run": d.name, "file": p.name, "k": k, "plies": plies, "commit": commit,
+                             "engine": h.get("EngineColor", "?"), "termination": h.get("Termination", ""),
+                             "date": h.get("Date", "")})
+        return rows
+
+    sig = _runs_signature()
+    hit = _cache.get(("top", level))
+    if hit and hit[0] == sig:
+        rows = hit[1]
+    else:
+        rows = build()
+        _cache[("top", level)] = (sig, rows)
+
+    out = {"level": level, "move_time": util.MOVE_TIME_S, "opponent": util.OPPONENT, **_top_stats(rows)}
+    by_commit = {}
+    for r in rows:
+        by_commit.setdefault(r["commit"], []).append(r)
+    engines = [{"commit": c, "runs": sorted({r["run"] for r in rs}), **_top_stats(rs)} for c, rs in by_commit.items()]
+    engines.sort(key=lambda e: (-(e["win_ratio"] or 0), -e["games"], e["commit"]))
+    out["engines"] = engines
+    out["win_games"] = [{"run": r["run"], "file": r["file"], "plies": r["plies"],
+                         "moves": r["plies"] / 2 if r["plies"] is not None else None,
+                         "termination": r["termination"], "date": r["date"], "engine": r["engine"],
+                         "commit": r["commit"]}
+                        for r in sorted((r for r in rows if r["k"] == "w"),
+                                        key=lambda r: (r["date"], r["run"], r["file"]), reverse=True)]
+    return out
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -331,6 +443,12 @@ class Handler(SimpleHTTPRequestHandler):
                 return self._json(data if data is not None else {"error": "no such game"}, 200 if data is not None else 404)
             if url.path == "/api/ladder":
                 return self._json(_api_ladder())
+            if url.path == "/api/top":
+                try:
+                    level = int(q["level"]) if q.get("level") else None
+                except ValueError:
+                    return self._json({"error": "level must be an integer"}, 400)
+                return self._json(_api_top(level))
         except Exception as exc:  # keep the server up; show the error in the UI
             return self._json({"error": str(exc)}, 500)
         if not url.path.startswith("/api/") and "." not in url.path.rsplit("/", 1)[-1] and url.path != "/":
