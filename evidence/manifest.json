@@ -347,5 +347,101 @@
       }
     ],
     "verified": true
+  },
+  {
+    "branch": "sep25-robin",
+    "commit": "81396e0",
+    "kind": "keep",
+    "subject": "[keep] elo=1915\u00b1176 W/D/L=25/1/4 @1600 wins@target=9 \u2014 baseline",
+    "host": "macos-m1pro",
+    "files": [
+      "sep25-robin/63ccb08/"
+    ],
+    "claimed_elo": 1915.0,
+    "claimed_err": 176.0,
+    "recomputed_elo": 1914.6,
+    "recomputed_err": 176.4,
+    "wdl": [
+      25,
+      1,
+      4
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.24,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-robin",
+    "commit": "c764cdb",
+    "kind": "keep",
+    "subject": "[keep] elo=2075\u00b1251 W/D/L=27/2/1 @1600 wins@target=8 \u2014 search: move ordering package \u2014 TT kept across moves + killers + history + PVS",
+    "host": "macos-m1pro",
+    "files": [
+      "sep25-robin/97aee56/"
+    ],
+    "claimed_elo": 2075.0,
+    "claimed_err": 251.0,
+    "recomputed_elo": 2074.7,
+    "recomputed_err": 250.8,
+    "wdl": [
+      27,
+      2,
+      1
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.27,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-robin",
+    "commit": "8e592f4",
+    "kind": "keep",
+    "subject": "[keep] elo=2203\u00b1348 W/D/L=28/2/0 @1600 wins@target=9 \u2014 search: null-move pruning + late-move reductions",
+    "host": "macos-m1pro",
+    "files": [
+      "sep25-robin/1a24270/"
+    ],
+    "claimed_elo": 2203.0,
+    "claimed_err": 348.0,
+    "recomputed_elo": 2202.5,
+    "recomputed_err": 347.5,
+    "wdl": [
+      28,
+      2,
+      0
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.25,
+    "problems": [],
+    "verified": true
+  },
+  {
+    "branch": "sep25-robin",
+    "commit": "fbc8c67",
+    "kind": "keep",
+    "subject": "[keep] elo=2326\u00b1486 W/D/L=29/1/0 @1600 wins@target=10 \u2014 search: check extension + all evasions in quiescence when in check (+ mate-break and null-move repetition fixes)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep25-robin/aecf98e/"
+    ],
+    "claimed_elo": 2326.0,
+    "claimed_err": 486.0,
+    "recomputed_elo": 2326.4,
+    "recomputed_err": 486.4,
+    "wdl": [
+      29,
+      1,
+      0
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.27,
+    "problems": [],
+    "verified": true
   }
 ]

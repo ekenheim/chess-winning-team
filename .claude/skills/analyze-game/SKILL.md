@@ -31,4 +31,4 @@ Start its prompt with the body of `skills/chess-engine-expert.md` (everything af
 
 ## 3. Synthesis
 
-Read both reports. Look for patterns the two agree on, and for anything one saw that the other missed. Decide the next experiment from that evidence (see program.md, loop step 10): structural change over knob-tuning; ask whether the last failure was "slower" or "wrong idea". Commit the three reports together with the run's games in the experiment's commit.
+Read both reports. Look for patterns the two agree on, and for anything one saw that the other missed. Decide the next experiment from that evidence (see program.md, loop step 10): structural change over knob-tuning; ask whether the last failure was "slower" or "wrong idea". Commit the reports on their own: `git add analysis/<run>/ && git commit -m "analysis: <run> — <takeaway>" && git push` (program.md step 10). Never amend them into the `[exp]` or the result commit. If the run's engine has since been reverted, tell the engine-developer agent to read the code that played with `git show <exp-sha>:engine/src/<file>` instead of `engine/src/*.rs`.

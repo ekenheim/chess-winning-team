@@ -1,18 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="1200" height="620" fill="#ffffff"/>
-<text x="80" y="36" font-size="20" font-weight="600" fill="#1d1f23">Elo vs Stockfish 19: 10 experiments, 7 kept</text>
+<text x="80" y="36" font-size="20" font-weight="600" fill="#1d1f23">Elo vs Stockfish 19: 14 experiments, 10 kept</text>
 <line x1="80" x2="1160" y1="550.0" y2="550.0" stroke="#e6e8eb"/>
 <text x="70" y="554.0" font-size="12" text-anchor="end" fill="#6b7078">1400</text>
-<line x1="80" x2="1160" y1="454.0" y2="454.0" stroke="#e6e8eb"/>
-<text x="70" y="458.0" font-size="12" text-anchor="end" fill="#6b7078">1600</text>
-<line x1="80" x2="1160" y1="358.0" y2="358.0" stroke="#e6e8eb"/>
-<text x="70" y="362.0" font-size="12" text-anchor="end" fill="#6b7078">1800</text>
-<line x1="80" x2="1160" y1="262.0" y2="262.0" stroke="#e6e8eb"/>
-<text x="70" y="266.0" font-size="12" text-anchor="end" fill="#6b7078">2000</text>
-<line x1="80" x2="1160" y1="166.0" y2="166.0" stroke="#e6e8eb"/>
-<text x="70" y="170.0" font-size="12" text-anchor="end" fill="#6b7078">2200</text>
+<line x1="80" x2="1160" y1="470.0" y2="470.0" stroke="#e6e8eb"/>
+<text x="70" y="474.0" font-size="12" text-anchor="end" fill="#6b7078">1600</text>
+<line x1="80" x2="1160" y1="390.0" y2="390.0" stroke="#e6e8eb"/>
+<text x="70" y="394.0" font-size="12" text-anchor="end" fill="#6b7078">1800</text>
+<line x1="80" x2="1160" y1="310.0" y2="310.0" stroke="#e6e8eb"/>
+<text x="70" y="314.0" font-size="12" text-anchor="end" fill="#6b7078">2000</text>
+<line x1="80" x2="1160" y1="230.0" y2="230.0" stroke="#e6e8eb"/>
+<text x="70" y="234.0" font-size="12" text-anchor="end" fill="#6b7078">2200</text>
+<line x1="80" x2="1160" y1="150.0" y2="150.0" stroke="#e6e8eb"/>
+<text x="70" y="154.0" font-size="12" text-anchor="end" fill="#6b7078">2400</text>
 <line x1="80" x2="1160" y1="70.0" y2="70.0" stroke="#e6e8eb"/>
-<text x="70" y="74.0" font-size="12" text-anchor="end" fill="#6b7078">2400</text>
+<text x="70" y="74.0" font-size="12" text-anchor="end" fill="#6b7078">2600</text>
 <text x="157.1" y="570" font-size="12" text-anchor="middle" fill="#6b7078">1</text>
 <text x="311.4" y="570" font-size="12" text-anchor="middle" fill="#6b7078">2</text>
 <text x="465.7" y="570" font-size="12" text-anchor="middle" fill="#6b7078">3</text>
@@ -23,31 +25,41 @@
 <line x1="80" x2="1160" y1="550" y2="550" stroke="#6b7078"/>
 <text x="620.0" y="598" font-size="13" text-anchor="middle" fill="#6b7078">Experiment #</text>
 <text x="22" y="310.0" font-size="13" text-anchor="middle" fill="#6b7078" transform="rotate(-90 22 310.0)">Elo (higher is better)</text>
-<line x1="80" x2="1160" y1="358.0" y2="358.0" stroke="#1d1f23" stroke-dasharray="6 5" opacity="0.6"/>
-<text x="84" y="352.0" font-size="12" fill="#1d1f23">TARGET_ELO 1800</text>
+<line x1="80" x2="1160" y1="150.0" y2="150.0" stroke="#1d1f23" stroke-dasharray="6 5" opacity="0.6"/>
+<text x="84" y="144.0" font-size="12" fill="#1d1f23">TARGET_ELO 2400</text>
 <circle cx="600" cy="31" r="5" fill="#2a78d6"/>
 <text x="610" y="35" font-size="13" fill="#1d1f23">sep25-erik</text>
-<path d="M157.1,358.0 L311.4,358.0 L311.4,312.9 L465.7,312.9 L465.7,269.2 L465.7,269.2" fill="none" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="157.1" cy="358.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<text x="164.1" y="351.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 164.1 351.0)">baseline</text>
-<circle cx="311.4" cy="312.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<text x="318.4" y="305.9" font-size="10.5" fill="#2a78d6" transform="rotate(-28 318.4 305.9)">search: transposition table 64MB + hash-m…</text>
-<circle cx="465.7" cy="269.2" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<text x="472.7" y="262.2" font-size="10.5" fill="#2a78d6" transform="rotate(-28 472.7 262.2)">eval: tapered evaluation by non-pawn mate…</text>
-<path d="M157.1,358.2 L164.1,365.2 L157.1,372.2 L150.1,365.2 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="620.0" cy="342.0" r="3.5" fill="#c4c7cc"/>
+<path d="M157.1,390.0 L311.4,390.0 L311.4,352.4 L465.7,352.4 L465.7,316.0 L774.3,316.0 L774.3,273.2 L928.6,273.2 L928.6,216.4 L1082.9,216.4 L1082.9,150.0 L1082.9,150.0" fill="none" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="157.1" cy="390.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="164.1" y="383.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 164.1 383.0)">baseline</text>
+<circle cx="311.4" cy="352.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="318.4" y="345.4" font-size="10.5" fill="#2a78d6" transform="rotate(-28 318.4 345.4)">search: transposition table 64MB + hash-m…</text>
+<circle cx="465.7" cy="316.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="472.7" y="309.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 472.7 309.0)">eval: tapered evaluation by non-pawn mate…</text>
+<circle cx="774.3" cy="273.2" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="781.3" y="266.2" font-size="10.5" fill="#2a78d6" transform="rotate(-28 781.3 266.2)">search: merge main (NMP + LMR + PVS + kil…</text>
+<circle cx="928.6" cy="216.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="935.6" y="209.4" font-size="10.5" fill="#2a78d6" transform="rotate(-28 935.6 209.4)">eval: king safety (pawn shield + king-zon…</text>
+<circle cx="1082.9" cy="150.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<text x="1089.9" y="143.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 1089.9 143.0)">time: soft limit 60%, keep best root move…</text>
+<path d="M157.1,389.0 L164.1,396.0 L157.1,403.0 L150.1,396.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M774.3,224.2 L781.3,231.2 L774.3,238.2 L767.3,231.2 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M928.6,144.2 L935.6,151.2 L928.6,158.2 L921.6,151.2 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M1082.9,143.0 L1089.9,150.0 L1082.9,157.0 L1075.9,150.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
 <circle cx="710" cy="31" r="5" fill="#d9622b"/>
 <text x="720" y="35" font-size="13" fill="#1d1f23">sep25-robin</text>
-<circle cx="311.4" cy="302.8" r="3.5" fill="#c4c7cc"/>
-<circle cx="465.7" cy="313.8" r="3.5" fill="#c4c7cc"/>
-<circle cx="928.6" cy="226.0" r="3.5" fill="#c4c7cc"/>
-<path d="M157.1,302.8 L620.0,302.8 L620.0,226.0 L774.3,226.0 L774.3,164.6 L1082.9,164.6 L1082.9,105.5 L1082.9,105.5" fill="none" stroke="#d9622b" stroke-width="2"/>
-<circle cx="157.1" cy="302.8" r="5" fill="#d9622b" stroke="#ffffff" stroke-width="1.5"/>
-<text x="164.1" y="295.8" font-size="10.5" fill="#d9622b" transform="rotate(-28 164.1 295.8)">baseline</text>
-<circle cx="620.0" cy="226.0" r="5" fill="#d9622b" stroke="#ffffff" stroke-width="1.5"/>
-<text x="627.0" y="219.0" font-size="10.5" fill="#d9622b" transform="rotate(-28 627.0 219.0)">search: move ordering package — TT kept a…</text>
-<circle cx="774.3" cy="164.6" r="5" fill="#d9622b" stroke="#ffffff" stroke-width="1.5"/>
-<text x="781.3" y="157.6" font-size="10.5" fill="#d9622b" transform="rotate(-28 781.3 157.6)">search: null-move pruning + late-move red…</text>
-<circle cx="1082.9" cy="105.5" r="5" fill="#d9622b" stroke="#ffffff" stroke-width="1.5"/>
-<text x="1089.9" y="98.5" font-size="10.5" fill="#d9622b" transform="rotate(-28 1089.9 98.5)">search: check extension + all evasions in…</text>
+<circle cx="311.4" cy="344.0" r="3.5" fill="#c4c7cc"/>
+<circle cx="465.7" cy="353.2" r="3.5" fill="#c4c7cc"/>
+<circle cx="928.6" cy="280.0" r="3.5" fill="#c4c7cc"/>
+<path d="M157.1,344.0 L620.0,344.0 L620.0,280.0 L774.3,280.0 L774.3,228.8 L1082.9,228.8 L1082.9,179.6 L1082.9,179.6" fill="none" stroke="#d9622b" stroke-width="2"/>
+<circle cx="157.1" cy="344.0" r="5" fill="#d9622b" stroke="#ffffff" stroke-width="1.5"/>
+<text x="164.1" y="337.0" font-size="10.5" fill="#d9622b" transform="rotate(-28 164.1 337.0)">baseline</text>
+<circle cx="620.0" cy="280.0" r="5" fill="#d9622b" stroke="#ffffff" stroke-width="1.5"/>
+<text x="627.0" y="273.0" font-size="10.5" fill="#d9622b" transform="rotate(-28 627.0 273.0)">search: move ordering package — TT kept a…</text>
+<circle cx="774.3" cy="228.8" r="5" fill="#d9622b" stroke="#ffffff" stroke-width="1.5"/>
+<text x="781.3" y="221.8" font-size="10.5" fill="#d9622b" transform="rotate(-28 781.3 221.8)">search: null-move pruning + late-move red…</text>
+<circle cx="1082.9" cy="179.6" r="5" fill="#d9622b" stroke="#ffffff" stroke-width="1.5"/>
+<text x="1089.9" y="172.6" font-size="10.5" fill="#d9622b" transform="rotate(-28 1089.9 172.6)">search: check extension + all evasions in…</text>
 <text x="1160" y="598" font-size="11" text-anchor="end" fill="#6b7078">grey = discarded · dot = kept (0.25 s/move) · ◇ = FULL (5 s/move) · line = running best</text>
 </svg>

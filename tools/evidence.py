@@ -1,13 +1,15 @@
 """Evidence for every claimed Elo, collected on main from the git log.
 
-A claim is a `[keep]`, `[FULL]` or `[ladder]` result commit on any
-`autoresearch/*` branch (local, or origin's copy). For each claim this copies
+A claim is a `[keep]`, `[FULL]`, `[sync]` or `[ladder]` result commit on any
+`autoresearch/*` branch (its own first-parent line, as in progress.py), or a
+`[ladder]` commit on main. For each claim this copies
 the games it rests on into `evidence/<branch>/`, re-verifies them and writes
 `evidence/README.md` (the table) and `evidence/manifest.json`:
 
-- `[keep]` / `[FULL]`: every game of the run the commit added (all of them:
-  the Elo is computed from the whole run, so a subset would be cherry-picked)
-  plus its `summary.txt`. Each game must replay legally to its recorded
+- `[keep]` / `[FULL]` / `[sync]`: every game of every run the commit added
+  (all of them: the Elo is computed from the whole run, so a subset would be
+  cherry-picked, and a SEED=1 re-run is pooled with the first run) plus each
+  run's `summary.txt`. Each game must replay legally to its recorded
   result, and the Elo recomputed from the PGNs must match the commit line.
 - `[ladder]`: the proof PGNs the commit added. Each must be a win for our
   engine, at 5 s/move, against the Stockfish level it claims.
@@ -29,7 +31,7 @@ import chess.pgn
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "arena"))
-from progress import LADDER_RE, RESULT_RE, branches, git  # noqa: E402
+from progress import branches, champion, experiments, git, main_line  # noqa: E402
 from util import MOVE_TIME_S, REQUIRED_PGN_HEADERS, TIME_TOLERANCE_S, estimate_elo  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,23 +40,19 @@ TIME_RE = re.compile(r"\bE d\S+ ([\d.]+)s")
 PROOF_RE = re.compile(r"beat-(\d+)\.pgn$")
 
 
-def claims(ref):
-    """Result commits on a branch that claim something, oldest first."""
-    out = git("log", "--reverse", "--format=%H%x1f%B%x1e", f"main..{ref}")
-    rows = []
-    for entry in out.split("\x1e"):
-        if not entry.strip():
-            continue
-        sha, body = entry.strip().split("\x1f", 1)
-        subject = body.splitlines()[0]
-        m = RESULT_RE.match(subject)
-        if m and m["status"] in ("keep", "FULL") and m["elo"]:
-            rows.append({"sha": sha, "kind": m["status"], "subject": subject,
-                         "elo": float(m["elo"]), "err": float(m["err"]),
-                         "wdl": [int(m["w"]), int(m["d"]), int(m["l"])]})
-        elif LADDER_RE.match(subject):
-            rows.append({"sha": sha, "kind": "ladder", "subject": subject})
-    return rows
+def claims(rows):
+    """The rows of a result log that claim something, oldest first."""
+    out = []
+    for r in rows:
+        if r["status"] in ("keep", "FULL", "sync") and r["elo"] is not None:
+            m = re.search(r"W/D/L=(\d+)/(\d+)/(\d+)", r["subject"])
+            out.append({"sha": r["full"], "kind": r["status"], "subject": r["subject"],
+                        "host": r["host"], "elo": r["elo"], "err": r["err"],
+                        "wdl": [int(x) for x in m.groups()]})
+        elif r["status"] == "ladder":
+            out.append({"sha": r["full"], "kind": "ladder", "subject": r["subject"],
+                        "host": r["host"]})
+    return out
 
 
 def added(sha, prefix):
@@ -126,12 +124,21 @@ def main():
     if OUT.exists():
         shutil.rmtree(OUT)
     manifest = []
-    for name, ref in sorted(branches().items()):
-        for c in claims(ref):
+    exclude = main_line()
+    main_claims = claims(champion())
+    # A branch [ladder] whose levels were all laddered again on main is not a
+    # second claim.
+    relaid = {lvl for c in main_claims for lvl in re.findall(r"beat-(\d+)", c["subject"])}
+    logs = [(name, [c for c in claims(experiments(ref, exclude))
+                    if not (c["kind"] == "ladder"
+                            and set(re.findall(r"beat-(\d+)", c["subject"])) <= relaid)])
+            for name, ref in sorted(branches().items())]
+    logs.append(("main", main_claims))
+    for name, cs in logs:
+        for c in cs:
             sha = c["sha"]
-            host = re.search(r"^host:\s*(\S+)", git("show", "-s", "--format=%B", sha), re.M)
             row = {"branch": name, "commit": sha[:7], "kind": c["kind"],
-                   "subject": c["subject"], "host": host[1] if host else "?"}
+                   "subject": c["subject"], "host": c["host"] or "?"}
             if c["kind"] == "ladder":
                 proofs = [p for p in added(sha, "games/proofs/") if p.endswith(".pgn")]
                 row["files"], row["problems"] = [], []
@@ -164,28 +171,23 @@ def main():
                     per_run.append(g)
                     problems += [f"{run}/{b}" for b in bad]
                     row["files"].append(f"{name}/{run}/")
+                # A SEED=1 re-run is pooled with the first run (program.md); older
+                # claims may be the first run's alone, so either must match.
                 games = [g for run in per_run for g in run]
-                # A SEED re-run is extra evidence: the claimed Elo may be the
-                # first run's alone or the pooled result over every run added.
-                first = per_run[0] if per_run else []
-                candidates = [first] + ([games] if len(per_run) > 1 else [])
-                elo, err, wdl = 0.0, 0.0, [0, 0, 0]
-                matched = False
-                for cand in candidates:
+                for cand in ([games, per_run[0]] if len(per_run) > 1 else [games]):
                     elo, err = estimate_elo([(g["level"], g["score"]) for g in cand])
                     wdl = [sum(g["score"] == s for g in cand) for s in (1.0, 0.5, 0.0)]
                     if abs(elo - c["elo"]) <= 1.0 and wdl == c["wdl"]:
-                        matched = True
-                        first = cand
+                        games = cand
                         break
                 if not runs:
                     problems.append("commit adds no games")
-                elif not matched:
+                elif abs(elo - c["elo"]) > 1.0 or wdl != c["wdl"]:
                     problems.append(f"games give elo={elo:.0f} W/D/L={'/'.join(map(str, wdl))}, "
                                     f"commit claims elo={c['elo']:.0f} W/D/L={'/'.join(map(str, c['wdl']))}")
                 row.update({"claimed_elo": c["elo"], "claimed_err": c["err"], "recomputed_elo": elo,
-                            "recomputed_err": err, "wdl": wdl, "games": len(first),
-                            "move_time": first[0]["move_time"] if first else None,
+                            "recomputed_err": err, "wdl": wdl, "games": len(games),
+                            "move_time": games[0]["move_time"] if games else None,
                             "slowest_move": max((g["slowest"] for g in games), default=None),
                             "problems": problems})
             row["verified"] = not row["problems"]
@@ -208,8 +210,8 @@ def write_readme(manifest):
         "The games behind every claimed Elo, rebuilt from the git log by "
         "`git fetch origin && python tools/evidence.py`. Don't edit by hand.",
         "",
-        "Every `[keep]` and `[FULL]` claim keeps **all** the games of its run, because the Elo is "
-        "computed from the whole run. Each game is replayed move by move to its recorded result, "
+        "Every `[keep]`, `[FULL]` and `[sync]` claim keeps **all** the games of its runs, because "
+        "the Elo is computed from the whole run (a SEED=1 re-run is pooled with the first). Each game is replayed move by move to its recorded result, "
         "the engine's slowest move is checked against the time budget, and the Elo is recomputed "
         "from the PGNs with the arena's own `estimate_elo`. A `[ladder]` claim keeps its proof "
         "games, and each must be a win at 5 s/move against the Stockfish level it names. "

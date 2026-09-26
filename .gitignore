@@ -3,3 +3,4 @@ __pycache__/
 engine/target/
 run.log
 *.pyc
+gauntlet.log

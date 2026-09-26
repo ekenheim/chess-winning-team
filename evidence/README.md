@@ -2,7 +2,7 @@
 
 The games behind every claimed Elo, rebuilt from the git log by `git fetch origin && python tools/evidence.py`. Don't edit by hand.
 
-Every `[keep]` and `[FULL]` claim keeps **all** the games of its run, because the Elo is computed from the whole run. Each game is replayed move by move to its recorded result, the engine's slowest move is checked against the time budget, and the Elo is recomputed from the PGNs with the arena's own `estimate_elo`. A `[ladder]` claim keeps its proof games, and each must be a win at 5 s/move against the Stockfish level it names. Discarded and crashed runs are not claims; their games stay in branch history.
+Every `[keep]`, `[FULL]` and `[sync]` claim keeps **all** the games of its runs, because the Elo is computed from the whole run (a SEED=1 re-run is pooled with the first). Each game is replayed move by move to its recorded result, the engine's slowest move is checked against the time budget, and the Elo is recomputed from the PGNs with the arena's own `estimate_elo`. A `[ladder]` claim keeps its proof games, and each must be a win at 5 s/move against the Stockfish level it names. Discarded and crashed runs are not claims; their games stay in branch history.
 
 ## Beaten Stockfish levels (5 s/move)
 
@@ -31,3 +31,7 @@ Every `[keep]` and `[FULL]` claim keeps **all** the games of its run, because th
 | sep25-erik | `fff833a` | FULL | windows-i7-13700H | 5 | 2397 ± 209 | 2397 ([55375f9-full](sep25-erik/55375f9-full/)) | 27/0/3 | 30 | 4.75 s | yes |
 | sep25-erik | `555bcaf` | keep | windows-i7-13700H | 0.25 | 2400 ± 146 | 2400 ([c9cb33a](sep25-erik/c9cb33a/)) | 21/3/6 | 30 | 0.24 s | yes |
 | sep25-erik | `1e4f3da` | FULL | windows-i7-13700H | 5 | 2400 ± 146 | 2400 ([555bcaf-full](sep25-erik/555bcaf-full/)) | 19/7/4 | 30 | 4.96 s | yes |
+| sep25-robin | `81396e0` | keep | macos-m1pro | 0.25 | 1915 ± 176 | 1915 ([63ccb08](sep25-robin/63ccb08/)) | 25/1/4 | 30 | 0.24 s | yes |
+| sep25-robin | `c764cdb` | keep | macos-m1pro | 0.25 | 2075 ± 251 | 2075 ([97aee56](sep25-robin/97aee56/)) | 27/2/1 | 30 | 0.27 s | yes |
+| sep25-robin | `8e592f4` | keep | macos-m1pro | 0.25 | 2203 ± 348 | 2202 ([1a24270](sep25-robin/1a24270/)) | 28/2/0 | 30 | 0.25 s | yes |
+| sep25-robin | `fbc8c67` | keep | macos-m1pro | 0.25 | 2326 ± 486 | 2326 ([aecf98e](sep25-robin/aecf98e/)) | 29/1/0 | 30 | 0.27 s | yes |
