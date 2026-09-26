@@ -13,7 +13,7 @@ use search::{SearchLimits, Searcher};
 const NAME: &str = "chess-winning-team";
 const AUTHOR: &str = "Erik Adolfsson + Claude";
 /// Search threads when the GUI sends no `setoption name Threads` (the arena never does).
-const DEFAULT_THREADS: usize = 4;
+const DEFAULT_THREADS: usize = 2;
 
 struct Game {
     board: Board,
