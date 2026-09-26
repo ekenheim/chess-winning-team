@@ -38,6 +38,7 @@ Every `[keep]`, `[FULL]` and `[sync]` claim keeps **all** the games of its runs,
 | sep25-erik | `555bcaf` | keep | windows-i7-13700H | 0.25 | 2400 ± 146 | 2400 ([c9cb33a](sep25-erik/c9cb33a/)) | 21/3/6 | 30 | 0.24 s | yes |
 | sep25-erik | `1e4f3da` | FULL | windows-i7-13700H | 5 | 2400 ± 146 | 2400 ([555bcaf-full](sep25-erik/555bcaf-full/)) | 19/7/4 | 30 | 4.96 s | yes |
 | sep25-erik | `1c096d5` | sync | windows-i7-13700H | 0.25 | 2873 ± 135 | 2873 ([579a92f](sep25-erik/579a92f/)) | 5/10/15 | 30 | 0.25 s | yes |
+| sep25-erik | `8de95ba` | FULL | windows-i7-13700H | 5 | 2978 ± 142 | 2978 ([2002feb-full-t3190s100](sep25-erik/2002feb-full-t3190s100/)) | 0/16/14 | 30 | 4.96 s | yes |
 | sep25-robin | `81396e0` | keep | macos-m1pro | 0.25 | 1915 ± 176 | 1915 ([63ccb08](sep25-robin/63ccb08/)) | 25/1/4 | 30 | 0.24 s | yes |
 | sep25-robin | `c764cdb` | keep | macos-m1pro | 0.25 | 2075 ± 251 | 2075 ([97aee56](sep25-robin/97aee56/)) | 27/2/1 | 30 | 0.27 s | yes |
 | sep25-robin | `8e592f4` | keep | macos-m1pro | 0.25 | 2203 ± 348 | 2202 ([1a24270](sep25-robin/1a24270/)) | 28/2/0 | 30 | 0.25 s | yes |
