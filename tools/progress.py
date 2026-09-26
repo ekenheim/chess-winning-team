@@ -298,7 +298,7 @@ def render_svg(series, main_rows=()):
     W, H = 1200, 620
     L, R, T, B = 80, 40, 70, 70
     pw, ph = W - L - R, H - T - B
-    TEAM, PROOF = "#2a78d6", "#1f9e6e"
+    TEAM = "#2a78d6"
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
            f'viewBox="0 0 {W} {H}" font-family="-apple-system,Segoe UI,'
            f'Helvetica,Arial,sans-serif">',
@@ -314,7 +314,6 @@ def render_svg(series, main_rows=()):
                f'fill="{INK}">{html.escape(title)}</text>')
 
     elos = [r["elo"] for r, _ in pts if r["elo"] is not None and r["status"] != "crash"]
-    elos += [pv for _, pv in pts if pv]
     lo, hi = (min(elos) - 60, max(elos) + 80) if elos else (1000, 2000)
     yt = nice_ticks(lo, hi)
     lo, hi = yt[0], yt[-1]
@@ -340,22 +339,6 @@ def render_svg(series, main_rows=()):
                f'text-anchor="middle" fill="{MUTED}">Team attempt # (both branches, in time order)</text>')
     out.append(f'<text x="22" y="{T + ph / 2}" font-size="13" text-anchor="middle" '
                f'fill="{MUTED}" transform="rotate(-90 22 {T + ph / 2})">Elo (higher is better)</text>')
-
-    # proven level: a step line, the competition's actual score
-    path, last = [], None
-    for i, (_, pv) in enumerate(pts, 1):
-        if pv is None:
-            continue
-        if last is not None and pv != last:
-            path.append((X(i), Y(last)))
-        path.append((X(i), Y(pv)))
-        last = pv
-    if path:
-        d = " ".join(f"{'M' if j == 0 else 'L'}{x:.1f},{y:.1f}" for j, (x, y) in enumerate(path))
-        out.append(f'<path d="{d}" fill="none" stroke="{PROOF}" stroke-width="3" opacity="0.85"/>')
-        out.append(f'<text x="{path[-1][0] - 4:.1f}" y="{path[-1][1] - 8:.1f}" font-size="12" '
-                   f'font-weight="600" text-anchor="end" fill="{PROOF}">proven: beat {last}</text>'.replace(
-                       f'y="{path[-1][1] - 8:.1f}"', f'y="{path[-1][1] + 18:.1f}"'))
 
     # team running best (estimated Elo) and the dots
     best, bpath, labels = None, [], []
@@ -392,8 +375,8 @@ def render_svg(series, main_rows=()):
                    f'transform="rotate(-28 {x + 7:.1f} {y - 9:.1f})">{html.escape(short)}</text>')
 
     out.append(f'<text x="{L}" y="58" font-size="12" '
-               f'fill="{MUTED}">blue line = team best Elo · green steps = highest Stockfish level '
-               f'beaten at 5 s · ◇ = 5 s run · grey = discarded</text>')
+               f'fill="{MUTED}">line = team best Elo · ◇ = 5 s run · grey = discarded · '
+               f'title = highest Stockfish level beaten at 5 s</text>')
     out.append("</svg>")
     return "\n".join(out) + "\n"
 

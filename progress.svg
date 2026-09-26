@@ -3,14 +3,20 @@
 <text x="80" y="36" font-size="20" font-weight="600" fill="#1d1f23">Team vs Stockfish 19: 23 attempts, 18 kept or confirmed · proven win at 2900</text>
 <line x1="80" x2="1160" y1="550.0" y2="550.0" stroke="#e6e8eb"/>
 <text x="70" y="554.0" font-size="12" text-anchor="end" fill="#6b7078">1500</text>
-<line x1="80" x2="1160" y1="430.0" y2="430.0" stroke="#e6e8eb"/>
-<text x="70" y="434.0" font-size="12" text-anchor="end" fill="#6b7078">2000</text>
-<line x1="80" x2="1160" y1="310.0" y2="310.0" stroke="#e6e8eb"/>
-<text x="70" y="314.0" font-size="12" text-anchor="end" fill="#6b7078">2500</text>
-<line x1="80" x2="1160" y1="190.0" y2="190.0" stroke="#e6e8eb"/>
-<text x="70" y="194.0" font-size="12" text-anchor="end" fill="#6b7078">3000</text>
+<line x1="80" x2="1160" y1="481.4" y2="481.4" stroke="#e6e8eb"/>
+<text x="70" y="485.4" font-size="12" text-anchor="end" fill="#6b7078">1750</text>
+<line x1="80" x2="1160" y1="412.9" y2="412.9" stroke="#e6e8eb"/>
+<text x="70" y="416.9" font-size="12" text-anchor="end" fill="#6b7078">2000</text>
+<line x1="80" x2="1160" y1="344.3" y2="344.3" stroke="#e6e8eb"/>
+<text x="70" y="348.3" font-size="12" text-anchor="end" fill="#6b7078">2250</text>
+<line x1="80" x2="1160" y1="275.7" y2="275.7" stroke="#e6e8eb"/>
+<text x="70" y="279.7" font-size="12" text-anchor="end" fill="#6b7078">2500</text>
+<line x1="80" x2="1160" y1="207.1" y2="207.1" stroke="#e6e8eb"/>
+<text x="70" y="211.1" font-size="12" text-anchor="end" fill="#6b7078">2750</text>
+<line x1="80" x2="1160" y1="138.6" y2="138.6" stroke="#e6e8eb"/>
+<text x="70" y="142.6" font-size="12" text-anchor="end" fill="#6b7078">3000</text>
 <line x1="80" x2="1160" y1="70.0" y2="70.0" stroke="#e6e8eb"/>
-<text x="70" y="74.0" font-size="12" text-anchor="end" fill="#6b7078">3500</text>
+<text x="70" y="74.0" font-size="12" text-anchor="end" fill="#6b7078">3250</text>
 <text x="103.5" y="570" font-size="12" text-anchor="middle" fill="#6b7078">1</text>
 <text x="197.4" y="570" font-size="12" text-anchor="middle" fill="#6b7078">3</text>
 <text x="291.3" y="570" font-size="12" text-anchor="middle" fill="#6b7078">5</text>
@@ -26,38 +32,36 @@
 <line x1="80" x2="1160" y1="550" y2="550" stroke="#6b7078"/>
 <text x="620.0" y="598" font-size="13" text-anchor="middle" fill="#6b7078">Team attempt # (both branches, in time order)</text>
 <text x="22" y="310.0" font-size="13" text-anchor="middle" fill="#6b7078" transform="rotate(-90 22 310.0)">Elo (higher is better)</text>
-<path d="M385.2,502.0 L432.2,502.0 L479.1,502.0 L526.1,502.0 L573.0,502.0 L620.0,502.0 L667.0,502.0 L713.9,502.0 L760.9,502.0 L760.9,454.0 L807.8,454.0 L854.8,454.0 L854.8,406.0 L901.7,406.0 L948.7,406.0 L948.7,358.0 L995.7,358.0 L1042.6,358.0 L1089.6,358.0 L1089.6,238.0 L1136.5,238.0 L1136.5,214.0" fill="none" stroke="#1f9e6e" stroke-width="3" opacity="0.85"/>
-<text x="1132.5" y="232.0" font-size="12" font-weight="600" text-anchor="end" fill="#1f9e6e">proven: beat 2900</text>
-<circle cx="103.5" cy="450.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="150.4" cy="478.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="197.4" cy="450.4" r="3.5" fill="#c4c7cc"/>
-<circle cx="244.3" cy="455.9" r="3.5" fill="#c4c7cc"/>
-<circle cx="291.3" cy="412.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<path d="M338.3,474.6 L345.3,481.6 L338.3,488.6 L331.3,481.6 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="385.2" cy="381.3" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="432.2" cy="455.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="479.1" cy="412.0" r="3.5" fill="#c4c7cc"/>
-<circle cx="526.1" cy="351.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="573.0" cy="433.6" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="620.0" cy="449.2" r="3.5" fill="#c4c7cc"/>
-<circle cx="667.0" cy="407.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<path d="M713.9,375.7 L720.9,382.7 L713.9,389.7 L706.9,382.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="760.9" cy="373.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<path d="M807.8,327.7 L814.8,334.7 L807.8,341.7 L800.8,334.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="854.8" cy="334.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<path d="M901.7,327.0 L908.7,334.0 L901.7,341.0 L894.7,334.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M948.7,256.9 L955.7,263.9 L948.7,270.9 L941.7,263.9 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M995.7,250.7 L1002.7,257.7 L995.7,264.7 L988.7,257.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="1042.6" cy="351.8" r="3.5" fill="#c4c7cc"/>
-<path d="M1089.6,165.0 L1096.6,172.0 L1089.6,179.0 L1082.6,172.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="1136.5" cy="220.5" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<path d="M103.5,450.4 L291.3,450.4 L291.3,412.0 L385.2,412.0 L385.2,381.3 L526.1,381.3 L526.1,351.8 L807.8,351.8 L807.8,334.7 L854.8,334.7 L854.8,334.0 L948.7,334.0 L948.7,263.9 L995.7,263.9 L995.7,257.7 L1089.6,257.7 L1089.6,172.0 L1136.5,172.0" fill="none" stroke="#2a78d6" stroke-width="2"/>
-<text x="1096.6" y="163.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 1096.6 163.0)">aim 888bd24 at 2900/3000/3100 at 5s/move …</text>
-<text x="1002.7" y="248.7" font-size="10.5" fill="#2a78d6" transform="rotate(-28 1002.7 248.7)">confirm SEE + log-LMR + staged picker at …</text>
-<text x="861.8" y="325.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 861.8 325.0)">time: soft limit 60%, keep best root move…</text>
-<text x="533.1" y="342.8" font-size="10.5" fill="#2a78d6" transform="rotate(-28 533.1 342.8)">search: check extension + all evasions in…</text>
-<text x="392.2" y="372.3" font-size="10.5" fill="#2a78d6" transform="rotate(-28 392.2 372.3)">search: null-move pruning + late-move red…</text>
-<text x="298.3" y="403.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 298.3 403.0)">search: move ordering package — TT kept a…</text>
-<text x="110.5" y="441.4" font-size="10.5" fill="#2a78d6" transform="rotate(-28 110.5 441.4)">baseline</text>
-<text x="80" y="58" font-size="12" fill="#6b7078">blue line = team best Elo · green steps = highest Stockfish level beaten at 5 s · ◇ = 5 s run · grey = discarded</text>
+<circle cx="103.5" cy="436.2" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="150.4" cy="467.7" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="197.4" cy="436.2" r="3.5" fill="#c4c7cc"/>
+<circle cx="244.3" cy="442.5" r="3.5" fill="#c4c7cc"/>
+<circle cx="291.3" cy="392.3" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<path d="M338.3,464.8 L345.3,471.8 L338.3,478.8 L331.3,471.8 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="385.2" cy="357.2" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="432.2" cy="441.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="479.1" cy="392.3" r="3.5" fill="#c4c7cc"/>
+<circle cx="526.1" cy="323.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="573.0" cy="417.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="620.0" cy="434.8" r="3.5" fill="#c4c7cc"/>
+<circle cx="667.0" cy="387.6" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<path d="M713.9,351.8 L720.9,358.8 L713.9,365.8 L706.9,358.8 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="760.9" cy="348.7" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<path d="M807.8,297.0 L814.8,304.0 L807.8,311.0 L800.8,304.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="854.8" cy="303.1" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<path d="M901.7,296.1 L908.7,303.1 L901.7,310.1 L894.7,303.1 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M948.7,216.1 L955.7,223.1 L948.7,230.1 L941.7,223.1 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M995.7,208.9 L1002.7,215.9 L995.7,222.9 L988.7,215.9 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="1042.6" cy="323.4" r="3.5" fill="#c4c7cc"/>
+<path d="M1089.6,111.0 L1096.6,118.0 L1089.6,125.0 L1082.6,118.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="1136.5" cy="173.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<path d="M103.5,436.2 L291.3,436.2 L291.3,392.3 L385.2,392.3 L385.2,357.2 L526.1,357.2 L526.1,323.4 L807.8,323.4 L807.8,304.0 L854.8,304.0 L854.8,303.1 L948.7,303.1 L948.7,223.1 L995.7,223.1 L995.7,215.9 L1089.6,215.9 L1089.6,118.0 L1136.5,118.0" fill="none" stroke="#2a78d6" stroke-width="2"/>
+<text x="1096.6" y="109.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 1096.6 109.0)">aim 888bd24 at 2900/3000/3100 at 5s/move …</text>
+<text x="1002.7" y="206.9" font-size="10.5" fill="#2a78d6" transform="rotate(-28 1002.7 206.9)">confirm SEE + log-LMR + staged picker at …</text>
+<text x="861.8" y="294.1" font-size="10.5" fill="#2a78d6" transform="rotate(-28 861.8 294.1)">time: soft limit 60%, keep best root move…</text>
+<text x="533.1" y="314.4" font-size="10.5" fill="#2a78d6" transform="rotate(-28 533.1 314.4)">search: check extension + all evasions in…</text>
+<text x="392.2" y="348.2" font-size="10.5" fill="#2a78d6" transform="rotate(-28 392.2 348.2)">search: null-move pruning + late-move red…</text>
+<text x="298.3" y="383.3" font-size="10.5" fill="#2a78d6" transform="rotate(-28 298.3 383.3)">search: move ordering package — TT kept a…</text>
+<text x="110.5" y="427.2" font-size="10.5" fill="#2a78d6" transform="rotate(-28 110.5 427.2)">baseline</text>
+<text x="80" y="58" font-size="12" fill="#6b7078">line = team best Elo · ◇ = 5 s run · grey = discarded · title = highest Stockfish level beaten at 5 s</text>
 </svg>
