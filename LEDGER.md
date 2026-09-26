@@ -10,6 +10,7 @@ Being benched right now. Don't start the same idea on the other branch.
 |---|---|---|---|---|
 | Sep 25 10:33 UTC (stale? no result after 4 h) | Erik Adolfsson | `sep25-erik` @`36032fd` | speed: incremental tapered evaluation (O(1) eval update per move) |  |
 | Sep 26 07:12 UTC | chopsting | `sep26-robin` @`ead1002` | search: Lazy SMP (4 threads, shared lockless TT) + contempt 50 (draws score nothing here) + eval: endgame draw scaling, passed pawns, fifty-move taper | at 2900-3100 the engine draws (4 of 5 games at 5 s) instead of |
+| Sep 26 07:34 UTC | chopsting | `sep26-robin` @`139c887` | speed: 2 search threads by default, so 4 games can play in parallel at 5 s/move | under load 2 -&gt; 4 threads added no depth (Lazy SMP agent: 23.58 vs 23.58 at 5 s), so 4 games x 2 threads doubles the proof attempts per hour at about the same strength. |
 
 ## Champion engine on main
 
@@ -30,6 +31,7 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 07:37 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **sync** | 2873 ±135 | 5/10/15 @3000 (2 wins) | adopt main@3e2bf9b | champion | `1c096d5` |
 | Sep 26 07:11 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3075 ±321 | 1/4/0 @3000 (0 wins) | aim 888bd24 at 2900/3000/3100 at 5s/move (5 of 60 games, stopped for a stronger build) | 5 s run | `e5d57de` |
 | Sep 26 07:07 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **discard** | 2326 ±130 | 9/6/15 @2400 (2 wins) | eval: king danger v3 (attacked zone squares, storm pawns, open king files) | reverted | `6f37ca4` |
 | Sep 26 07:01 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2718 ±180 | 5/6/4 @2700 (1 wins) | confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher) | 5 s run | `bba68b9` |

@@ -241,6 +241,30 @@
     "verified": true
   },
   {
+    "branch": "sep25-erik",
+    "commit": "1c096d5",
+    "kind": "sync",
+    "subject": "[sync] elo=2873\u00b1135 W/D/L=5/10/15 @3000 wins@target=2 \u2014 adopt main@3e2bf9b",
+    "host": "windows-i7-13700H",
+    "files": [
+      "sep25-erik/579a92f/"
+    ],
+    "claimed_elo": 2873.0,
+    "claimed_err": 135.0,
+    "recomputed_elo": 2873.2,
+    "recomputed_err": 135.0,
+    "wdl": [
+      5,
+      10,
+      15
+    ],
+    "games": 30,
+    "move_time": 0.25,
+    "slowest_move": 0.25,
+    "problems": [],
+    "verified": true
+  },
+  {
     "branch": "sep25-robin",
     "commit": "81396e0",
     "kind": "keep",
