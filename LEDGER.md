@@ -9,6 +9,7 @@ Being benched right now. Don't start the same idea on the other branch.
 | Since | Who | Branch | Trying | Hypothesis |
 |---|---|---|---|---|
 | Sep 25 10:33 UTC (stale? no result after 4 h) | Erik Adolfsson | `sep25-erik` @`36032fd` | speed: incremental tapered evaluation (O(1) eval update per move) |  |
+| Sep 26 09:51 UTC | chopsting | `sep26-robin` @`7894d25` | search: repetition only draws a pre-root position when threefold is claimable | Erik's engine-dev review of 2002feb-full-t3190s100: is_repetition treated a single earlier occurrence in the game history as a draw, gluing the root score at the (contempt) draw value in lost positions. Inside the search tree one repetition still scores as a draw; positions played before the root need two earlier occurrences. Game 3 of that run after 96 plies: old -120 (the contempt draw score) at depth 37, fixed -350 at depth 21. |
 
 ## Champion engine on main
 
