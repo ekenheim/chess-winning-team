@@ -420,6 +420,12 @@ class Handler(SimpleHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass
 
+    def end_headers(self):
+        # The Vite bundle is content-hashed, but index.html is not: never let the browser cache it.
+        if self.path.split("?")[0].rstrip("/") in ("", "/index.html"):
+            self.send_header("Cache-Control", "no-store")
+        super().end_headers()
+
     def _json(self, obj, status=200):
         body = json.dumps(obj).encode("utf-8")
         self.send_response(status)
