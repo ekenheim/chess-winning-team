@@ -6,7 +6,7 @@ Engine code never moves branch -> branch. A kept result is promoted to main
 re-benched on its own host (Elo is only comparable within one host).
 
     python tools/team.py sync              # loop step 1, in your branch worktree
-    python tools/team.py promote <sha>     # a pushed [keep] result -> main's engine
+    python tools/team.py promote <sha>     # a pushed [keep] (or [FULL]) result -> main's engine
     python tools/team.py publish           # rebuild LEDGER/scoreboard/evidence on main
     python tools/team.py ladder <sha>:<pgn> [<sha>:<pgn> ...]
                                            # 5 s wins -> proofs on main, tagged, and
@@ -28,7 +28,7 @@ from pathlib import Path
 HERE = Path(subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True,
                            encoding="utf-8").stdout.strip() or ".")
 HOST_RE = re.compile(r"^host:\s*([\w.-]+)", re.M)
-KEEP_RE = re.compile(r"^\[keep\]\s+elo=(?P<elo>-?[\d.]+)±(?P<err>[\d.]+)\s+"
+KEEP_RE = re.compile(r"^\[(?:keep|FULL)\]\s+elo=(?P<elo>-?[\d.]+)±(?P<err>[\d.]+)\s+"
                      r"W/D/L=\S+\s+@(?P<target>\d+)\s+wins@target=\d+\s+"
                      r"(?:—|-{1,2})\s*(?P<desc>.*)$")
 TARGET_RE = re.compile(r"^TARGET_ELO = (\d+)", re.M)
@@ -182,7 +182,13 @@ def cmd_promote(args):
     body = git("show", "-s", "--format=%B", sha)
     m, host = KEEP_RE.match(body.splitlines()[0]), HOST_RE.search(body)
     if not m:
-        die(f"{sha[:7]} is not a [keep] result line: {body.splitlines()[0]}")
+        die(f"{sha[:7]} is not a [keep] or [FULL] result line: {body.splitlines()[0]}")
+    if body.startswith("[FULL]"):
+        # A [FULL] may sit on a later tip than the engine it confirmed: only
+        # promote it when its tree's engine is exactly the `engine:` it names.
+        eng = re.search(r"^engine:\s*([0-9a-f]{7,40})", body, re.M)
+        if not eng or git("diff", eng[1], sha, "--", "engine"):
+            die(f"{sha[:7]}: a [FULL] needs an `engine: <sha>` line equal to its own engine/")
     if not host:
         die(f"{sha[:7]}: its body needs a `host:` line")
     branch = owner(sha)
