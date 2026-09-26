@@ -268,33 +268,57 @@ def nice_ticks(lo, hi, count=6):
     return ticks
 
 
-def render_svg(series):
+def team_attempts(series, main_rows):
+    """Every attempt by the team (both branches), oldest first, plus the
+    highest proven Stockfish level after each one."""
+    attempts = sorted((r for _, rows in series for r in rows
+                       if r["status"] in RUNS + ("FULL",)), key=lambda r: r["time"])
+    ladders = sorted([r for _, rows in series for r in rows if r["status"] == "ladder"]
+                     + [r for r in main_rows if r["status"] == "ladder"],
+                     key=lambda r: r["time"])
+    proven, out, k = None, [], 0
+    for r in attempts:
+        while k < len(ladders) and ladders[k]["time"] <= r["time"]:
+            levels = [int(x) for x in re.findall(r"beat-(\d+)", ladders[k]["subject"])]
+            if levels:
+                proven = max(proven or 0, max(levels))
+            k += 1
+        out.append((r, proven))
+    for lad in ladders[k:]:  # ladders after the last attempt
+        levels = [int(x) for x in re.findall(r"beat-(\d+)", lad["subject"])]
+        if levels and out:
+            proven = max(proven or 0, max(levels))
+            out[-1] = (out[-1][0], proven)
+    return out
+
+
+def render_svg(series, main_rows=()):
+    """One team chart: every attempt in time order, the team's running best
+    Elo, and the highest Stockfish level the team has proven with a 5 s win."""
     W, H = 1200, 620
     L, R, T, B = 80, 40, 70, 70
     pw, ph = W - L - R, H - T - B
+    TEAM, PROOF = "#2a78d6", "#1f9e6e"
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
            f'viewBox="0 0 {W} {H}" font-family="-apple-system,Segoe UI,'
            f'Helvetica,Arial,sans-serif">',
            f'<rect width="{W}" height="{H}" fill="#ffffff"/>']
-
-    points = [r for _, rows in series for r in rows if r["elo"] is not None
-              and r["status"] != "crash"]
-    n_max = max((sum(r["status"] in RUNS for r in rows)
-                 for _, rows in series), default=0)
-    total = sum(sum(r["status"] in RUNS for r in rows)
-                for _, rows in series)
-    kept = sum(r["status"] == "keep" for _, rows in series for r in rows)
-    title = (f"Elo vs Stockfish 19: {total} experiments, {kept} kept"
-             if total else "Elo vs Stockfish 19: no experiments yet")
+    pts = team_attempts(series, main_rows)
+    n = len(pts)
+    proven_now = max((pv for _, pv in pts if pv), default=None)
+    kept = sum(r["status"] in ("keep", "sync", "FULL") for r, _ in pts)
+    title = (f"Team vs Stockfish 19: {n} attempts, {kept} kept or confirmed"
+             + (f" · proven win at {proven_now}" if proven_now else "")) if n \
+        else "Team vs Stockfish 19: no attempts yet"
     out.append(f'<text x="{L}" y="36" font-size="20" font-weight="600" '
-               f'fill="{INK}">{title}</text>')
+               f'fill="{INK}">{html.escape(title)}</text>')
 
-    targets = [r["target"] for _, rows in series for r in rows if r["target"]]
-    elos = [r["elo"] for r in points] + targets
-    lo, hi = (min(elos) - 40, max(elos) + 60) if elos else (1000, 2000)
+    elos = [r["elo"] for r, _ in pts if r["elo"] is not None and r["status"] != "crash"]
+    elos += [pv for _, pv in pts if pv]
+    lo, hi = (min(elos) - 60, max(elos) + 80) if elos else (1000, 2000)
     yt = nice_ticks(lo, hi)
     lo, hi = yt[0], yt[-1]
-    xmax = max(n_max, 1)
+    xmax = max(n, 1)
 
     def X(i):
         return L + pw * (i - 0.5) / xmax if xmax > 1 else L + pw / 2
@@ -311,77 +335,65 @@ def render_svg(series):
     for i in range(1, xmax + 1, step):
         out.append(f'<text x="{X(i):.1f}" y="{T + ph + 20}" font-size="12" '
                    f'text-anchor="middle" fill="{MUTED}">{i}</text>')
-    out.append(f'<line x1="{L}" x2="{L + pw}" y1="{T + ph}" y2="{T + ph}" '
-               f'stroke="{MUTED}"/>')
+    out.append(f'<line x1="{L}" x2="{L + pw}" y1="{T + ph}" y2="{T + ph}" stroke="{MUTED}"/>')
     out.append(f'<text x="{L + pw / 2}" y="{H - 22}" font-size="13" '
-               f'text-anchor="middle" fill="{MUTED}">Experiment #</text>')
+               f'text-anchor="middle" fill="{MUTED}">Team attempt # (both branches, in time order)</text>')
     out.append(f'<text x="22" y="{T + ph / 2}" font-size="13" text-anchor="middle" '
-               f'fill="{MUTED}" transform="rotate(-90 22 {T + ph / 2})">'
-               f'Elo (higher is better)</text>')
+               f'fill="{MUTED}" transform="rotate(-90 22 {T + ph / 2})">Elo (higher is better)</text>')
 
-    if targets:
-        t = max(targets)
-        out.append(f'<line x1="{L}" x2="{L + pw}" y1="{Y(t):.1f}" y2="{Y(t):.1f}" '
-                   f'stroke="{INK}" stroke-dasharray="6 5" opacity="0.6"/>')
-        out.append(f'<text x="{L + 4}" y="{Y(t) - 6:.1f}" font-size="12" '
-                   f'fill="{INK}">TARGET_ELO {t}</text>')
+    # proven level: a step line, the competition's actual score
+    path, last = [], None
+    for i, (_, pv) in enumerate(pts, 1):
+        if pv is None:
+            continue
+        if last is not None and pv != last:
+            path.append((X(i), Y(last)))
+        path.append((X(i), Y(pv)))
+        last = pv
+    if path:
+        d = " ".join(f"{'M' if j == 0 else 'L'}{x:.1f},{y:.1f}" for j, (x, y) in enumerate(path))
+        out.append(f'<path d="{d}" fill="none" stroke="{PROOF}" stroke-width="3" opacity="0.85"/>')
+        out.append(f'<text x="{path[-1][0] - 4:.1f}" y="{path[-1][1] - 8:.1f}" font-size="12" '
+                   f'font-weight="600" text-anchor="end" fill="{PROOF}">proven: beat {last}</text>'.replace(
+                       f'y="{path[-1][1] - 8:.1f}"', f'y="{path[-1][1] + 18:.1f}"'))
 
-    legend_x = L + 520
-    for k, (name, rows) in enumerate(series):
-        color = COLORS[k % len(COLORS)]
-        out.append(f'<circle cx="{legend_x}" cy="31" r="5" fill="{color}"/>')
-        out.append(f'<text x="{legend_x + 10}" y="35" font-size="13" fill="{INK}">'
-                   f'{html.escape(name)}</text>')
-        legend_x += 30 + 8 * len(name)
-
-        i, best, path = 0, None, []
-        fulls, labels = [], []
-        for r in rows:
-            if r["status"] in RUNS:
-                i += 1
-            if r["status"] == "crash" or r["elo"] is None:
-                continue
-            x, y = X(max(i, 1)), Y(r["elo"])
-            if r["status"] == "discard":
-                out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.5" '
-                           f'fill="{GREY}"/>')
-            elif r["status"] == "sync":
-                # a sync adopts main's engine: the running best restarts here
-                if best is not None:
-                    path.append((x, Y(best)))
-                best = r["elo"]
-                path.append((x, y))
-                labels.append((x, y, r["desc"]))
-            elif r["status"] == "keep":
-                if best is None or r["elo"] > best:
-                    if best is not None:
-                        path.append((x, Y(best)))
-                    best = r["elo"]
-                    path.append((x, Y(best)))
-                labels.append((x, y, r["desc"]))
-            elif r["status"] == "FULL":
-                fulls.append((x, y))
-        if path:
-            path.append((X(i) if i else path[-1][0], path[-1][1]))
-            d = " ".join(f"{'M' if j == 0 else 'L'}{px:.1f},{py:.1f}"
-                         for j, (px, py) in enumerate(path))
-            out.append(f'<path d="{d}" fill="none" stroke="{color}" '
-                       f'stroke-width="2"/>')
-        for x, y, desc in labels:
-            out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}" '
+    # team running best (estimated Elo) and the dots
+    best, bpath, labels = None, [], []
+    for i, (r, _) in enumerate(pts, 1):
+        if r["elo"] is None or r["status"] == "crash":
+            continue
+        x, y = X(i), Y(r["elo"])
+        if r["status"] == "discard":
+            out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.5" fill="{GREY}"/>')
+            continue
+        if best is None or r["elo"] > best:
+            if best is not None:
+                bpath.append((x, Y(best)))
+            best = r["elo"]
+            bpath.append((x, Y(best)))
+            labels.append((x, y, r["desc"]))
+        if r["status"] == "FULL":
+            out.append(f'<path d="M{x:.1f},{y - 7:.1f} L{x + 7:.1f},{y:.1f} L{x:.1f},{y + 7:.1f} '
+                       f'L{x - 7:.1f},{y:.1f} Z" fill="#ffffff" stroke="{TEAM}" stroke-width="2"/>')
+        else:
+            out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{TEAM}" '
                        f'stroke="#ffffff" stroke-width="1.5"/>')
-            short = desc if len(desc) <= 42 else desc[:41] + "…"
-            out.append(f'<text x="{x + 7:.1f}" y="{y - 7:.1f}" font-size="10.5" '
-                       f'fill="{color}" transform="rotate(-28 {x + 7:.1f} '
-                       f'{y - 7:.1f})">{html.escape(short)}</text>')
-        for x, y in fulls:
-            out.append(f'<path d="M{x:.1f},{y - 7:.1f} L{x + 7:.1f},{y:.1f} '
-                       f'L{x:.1f},{y + 7:.1f} L{x - 7:.1f},{y:.1f} Z" '
-                       f'fill="#ffffff" stroke="{color}" stroke-width="2"/>')
+    if bpath:
+        bpath.append((X(n), bpath[-1][1]))
+        d = " ".join(f"{'M' if j == 0 else 'L'}{x:.1f},{y:.1f}" for j, (x, y) in enumerate(bpath))
+        out.append(f'<path d="{d}" fill="none" stroke="{TEAM}" stroke-width="2"/>')
+    last_x = 1e9
+    for x, y, desc in reversed(labels):  # newest first; skip labels that would collide
+        if last_x - x < 60:
+            continue
+        last_x = x
+        short = desc if len(desc) <= 42 else desc[:41] + "…"
+        out.append(f'<text x="{x + 7:.1f}" y="{y - 9:.1f}" font-size="10.5" fill="{TEAM}" '
+                   f'transform="rotate(-28 {x + 7:.1f} {y - 9:.1f})">{html.escape(short)}</text>')
 
-    out.append(f'<text x="{L + pw}" y="{H - 22}" font-size="11" text-anchor="end" '
-               f'fill="{MUTED}">grey = discarded · dot = kept (0.25 s/move) · '
-               f'◇ = FULL (5 s/move) · line = running best</text>')
+    out.append(f'<text x="{L}" y="58" font-size="12" '
+               f'fill="{MUTED}">blue line = team best Elo · green steps = highest Stockfish level '
+               f'beaten at 5 s · ◇ = 5 s run · grey = discarded</text>')
     out.append("</svg>")
     return "\n".join(out) + "\n"
 
@@ -506,7 +518,7 @@ def main():
         sys.stdout.buffer.write(ledger.encode("utf-8"))
         return
     LEDGER_PATH.write_text(ledger, encoding="utf-8", newline="\n")
-    SVG_PATH.write_text(render_svg(series), encoding="utf-8", newline="\n")
+    SVG_PATH.write_text(render_svg(series, main_rows), encoding="utf-8", newline="\n")
     stats = [summarize(name, rows, main_rows) for name, rows in series]
     update_readme(render_table(stats, main_rows))
     for s in stats:
