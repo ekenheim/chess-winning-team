@@ -1,0 +1,23 @@
+[Event "autoresearch fast run"]
+[Site "windows-amd64-Regenr"]
+[Date "2026.09.25"]
+[Round "12"]
+[White "Stockfish 19"]
+[Black "chess-winning-team 36032fd"]
+[Result "1-0"]
+[FEN "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1"]
+[SetUp "1"]
+[WhiteElo "1900"]
+[BlackElo "-"]
+[StockfishElo "1900"]
+[TimeControl "0.25s/move"]
+[MoveTimeS "0.25"]
+[Opponent "Stockfish 19"]
+[EngineCommit "36032fd"]
+[EngineColor "black"]
+[Opening "Italian Game"]
+[Termination "checkmate"]
+[PlyCount "35"]
+
+1. d3 { [%eval 0.11,13] S d13 0.26s 191k } 1... Nf6 { [%eval 0.15,6] E d6 0.19s 795k } 2. O-O { [%eval 0.13,17] S d17 0.25s 205k } 2... d5 { [%eval -0.10,6] E d6 0.24s 490k } 3. Bxd5 { [%eval -0.19,13] S d13 0.25s 216k } 3... Nxd5 { [%eval -0.01,7] E d7 0.11s 870k } 4. exd5 { [%eval -0.13,16] S d16 0.25s 211k } 4... Qxd5 { [%eval -0.03,7] E d7 0.22s 1551k } 5. Nc3 { [%eval -0.16,14] S d14 0.25s 213k } 5... Qe6 { [%eval 0.05,6] E d6 0.15s 722k } 6. Nb5 { [%eval -0.15,13] S d13 0.25s 208k } 6... Qd7 { [%eval -0.07,6] E d6 0.24s 510k } 7. d4 { [%eval -0.14,13] S d13 0.25s 233k } 7... Nxd4 { [%eval -0.99,6] E d6 0.24s 130k } 8. Nbxd4 { [%eval -0.11,14] S d14 0.25s 215k } 8... exd4 { [%eval -0.85,6] E d6 0.24s 140k } 9. Re1+ { [%eval 0.64,13] S d13 0.25s 205k } 9... Kf8 { [%eval -0.96,6] E d6 0.24s 162k } 10. Rb1 { [%eval 0.00,11] S d11 0.25s 164k } 10... Qd6 { [%eval -1.30,6] E d6 0.16s 595k } 11. b4 { [%eval 0.70,12] S d12 0.25s 204k } 11... Bxb4 { [%eval -1.81,7] E d7 0.14s 816k } 12. Bf4 { [%eval 0.08,11] S d11 0.25s 209k } 12... Qxf4 { [%eval -1.91,7] E d7 0.24s 513k } 13. Rxb4 { [%eval -0.16,14] S d14 0.25s 195k } 13... c5 { [%eval -1.32,7] E d7 0.11s 827k } 14. Qe2 { [%eval -0.29,12] S d12 0.25s 237k } 14... Be6 { [%eval -1.17,7] E d7 0.16s 963k } 15. Rb3 { [%eval -1.54,15] S d15 0.25s 219k } 15... Bxb3 { [%eval -3.89,6] E d6 0.24s 381k } 16. Qe7+ { [%eval #3,16] S d16 0.25s 212k } 16... Kg8 { [%eval #2,5] E d5 0.00s 9k } 17. Qe8+ { [%eval #2,15] S d15 0.25s 200k } 17... Rxe8 { [%eval #1,2] E d2 0.00s 0k } 18. Rxe8# { [%eval #1,15] S d15 0.25s 245k } 1-0
+

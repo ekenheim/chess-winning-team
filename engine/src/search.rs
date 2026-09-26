@@ -148,12 +148,15 @@ impl Searcher {
         self.stopped = false;
         self.node_limit = limits.nodes;
         // Time manager: reserve a slice for pipe latency and the granularity
-        // of the node-count clock check, and only start an iteration when
-        // less than 40% of the budget is gone.
+        // of the node-count clock check. A new iteration starts while less
+        // than 60% of the budget is gone; an iteration cut off by the hard
+        // limit still contributes its best root move so far (see negamax),
+        // so time spent past the soft limit is not wasted.
         if let Some(t) = limits.move_time {
-            let reserve = Duration::from_millis(15).max(t / 20);
+            // 5% of the budget, between 15 ms and 50 ms (measured pipe overhead is ~5 ms).
+            let reserve = (t / 20).clamp(Duration::from_millis(15), Duration::from_millis(50));
             self.hard_limit = Some(t.saturating_sub(reserve));
-            self.soft_limit = Some(t.mul_f64(0.4));
+            self.soft_limit = Some(t.mul_f64(0.6));
         } else {
             self.hard_limit = None;
             self.soft_limit = None;
@@ -175,6 +178,12 @@ impl Searcher {
             self.root_move = None;
             let score = self.negamax(board, depth as i32, -INF, INF, 0, true);
             if self.stopped {
+                // Aborted iteration: a root move that was fully searched and
+                // beat the previous best at this depth is better information
+                // than the last completed depth's choice.
+                if let Some(mv) = self.root_move {
+                    best_move = Some(mv);
+                }
                 break;
             }
             completed_depth = depth;
@@ -357,6 +366,10 @@ impl Searcher {
                 best_move = Some(mv);
                 if score > alpha {
                     alpha = score;
+                    if ply == 0 {
+                        // Fully searched (not stopped) and it raised alpha.
+                        self.root_move = Some(mv);
+                    }
                     if alpha >= beta {
                         if quiet {
                             let k = &mut self.killers[ply];

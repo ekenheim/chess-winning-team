@@ -1,8 +1,9 @@
-//! Static evaluation: material + piece-square tables
-//! (Tomasz Michniewski's "Simplified Evaluation Function"), from the side to
-//! move's point of view, in centipawns.
+//! Static evaluation: material + piece-square tables (Michniewski's
+//! "Simplified Evaluation Function" tables), tapered between a middlegame
+//! and an endgame score by the non-pawn material left on the board. From the
+//! side to move's point of view, in centipawns.
 
-use cozy_chess::{Board, Color, Piece, Square};
+use cozy_chess::{get_bishop_moves, get_king_moves, get_knight_moves, get_rook_moves, Board, Color, Piece, Square};
 
 pub const PAWN: i32 = 100;
 pub const KNIGHT: i32 = 320;
@@ -92,7 +93,7 @@ const KING_MG_PST: [i32; 64] = [
     -20,-30,-30,-40,-40,-30,-30,-20,
     -10,-20,-20,-20,-20,-20,-20,-10,
      20, 20,  0,  0,  0,  0, 20, 20,
-     20, 30, 10,  0,  0, 10, 30, 20,
+     30, 30, 10,  0,  0, 10, 30, 30,
 ];
 
 #[rustfmt::skip]
@@ -118,58 +119,129 @@ fn pst_index(color: Color, sq: Square) -> usize {
     }
 }
 
-fn table(piece: Piece, endgame: bool) -> &'static [i32; 64] {
+/// Endgame pawn table: advancement is what matters once the pieces are off.
+#[rustfmt::skip]
+const PAWN_EG_PST: [i32; 64] = [
+     0,  0,  0,  0,  0,  0,  0,  0,
+    90, 90, 90, 90, 90, 90, 90, 90,
+    55, 55, 55, 55, 55, 55, 55, 55,
+    30, 30, 30, 30, 30, 30, 30, 30,
+    15, 15, 15, 15, 15, 15, 15, 15,
+     5,  5,  5,  5,  5,  5,  5,  5,
+     0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,
+];
+
+fn tables(piece: Piece) -> (&'static [i32; 64], &'static [i32; 64]) {
     match piece {
-        Piece::Pawn => &PAWN_PST,
-        Piece::Knight => &KNIGHT_PST,
-        Piece::Bishop => &BISHOP_PST,
-        Piece::Rook => &ROOK_PST,
-        Piece::Queen => &QUEEN_PST,
-        Piece::King => {
-            if endgame {
-                &KING_EG_PST
-            } else {
-                &KING_MG_PST
-            }
-        }
+        Piece::Pawn => (&PAWN_PST, &PAWN_EG_PST),
+        Piece::Knight => (&KNIGHT_PST, &KNIGHT_PST),
+        Piece::Bishop => (&BISHOP_PST, &BISHOP_PST),
+        Piece::Rook => (&ROOK_PST, &ROOK_PST),
+        Piece::Queen => (&QUEEN_PST, &QUEEN_PST),
+        Piece::King => (&KING_MG_PST, &KING_EG_PST),
     }
 }
 
-/// Michniewski's endgame rule: no queens, or every side that has a queen has
-/// no rook and at most one minor piece besides it.
-fn is_endgame(board: &Board) -> bool {
-    let queens = board.pieces(Piece::Queen);
-    if queens.is_empty() {
-        return true;
-    }
-    for color in [Color::White, Color::Black] {
-        let side = board.colors(color);
-        if !(queens & side).is_empty() {
-            let rooks = (board.pieces(Piece::Rook) & side).len();
-            let minors = ((board.pieces(Piece::Knight) | board.pieces(Piece::Bishop)) & side).len();
-            if rooks > 0 || minors > 1 {
-                return false;
-            }
-        }
-    }
-    true
+/// Total phase weight of all non-pawn material at the start of the game:
+/// 4 minors x1 + 4 rooks x2 + 2 queens x4 per both sides.
+pub const PHASE_MAX: i32 = 24;
+
+/// Game phase from remaining non-pawn material: PHASE_MAX at the start,
+/// 0 with only pawns and kings. Middlegame and endgame scores are blended by
+/// this weight, so the king only creeps out as material actually comes off
+/// (rather than the moment the queens are traded).
+pub fn phase(board: &Board) -> i32 {
+    let minors = (board.pieces(Piece::Knight) | board.pieces(Piece::Bishop)).len() as i32;
+    let rooks = board.pieces(Piece::Rook).len() as i32;
+    let queens = board.pieces(Piece::Queen).len() as i32;
+    (minors + 2 * rooks + 4 * queens).min(PHASE_MAX)
 }
 
-/// Score from the side to move's point of view.
+/// King safety (middlegame only, and only while the opponent still has a
+/// queen): a penalty per missing pawn in the shield in front of the king,
+/// and a convex penalty for enemy pieces attacking the king zone once at
+/// least two of them do. Every review of our games found the losses here.
+const SHIELD_MISSING: i32 = 18;
+const DANGER: [i32; 16] = [0, 0, 10, 22, 38, 58, 82, 110, 142, 178, 218, 262, 310, 360, 410, 460];
+
+fn king_danger(board: &Board, color: Color) -> i32 {
+    let them = !color;
+    let enemy = board.colors(them);
+    if (board.pieces(Piece::Queen) & enemy).is_empty() {
+        return 0;
+    }
+    let ksq = board.king(color);
+    let dir: i8 = if color == Color::White { 1 } else { -1 };
+
+    let our_pawns = board.pieces(Piece::Pawn) & board.colors(color);
+    let mut missing = 0;
+    for df in -1..=1 {
+        let mut found = false;
+        for dr in 1..=2 {
+            if let Some(sq) = ksq.try_offset(df, dr * dir) {
+                if our_pawns.has(sq) {
+                    found = true;
+                }
+            }
+        }
+        if !found {
+            missing += 1;
+        }
+    }
+
+    let zone = get_king_moves(ksq) | ksq.bitboard();
+    let occ = board.occupied();
+    let mut weight = 0;
+    let mut attackers = 0;
+    for sq in board.pieces(Piece::Knight) & enemy {
+        if !(get_knight_moves(sq) & zone).is_empty() {
+            weight += 2;
+            attackers += 1;
+        }
+    }
+    for sq in board.pieces(Piece::Bishop) & enemy {
+        if !(get_bishop_moves(sq, occ) & zone).is_empty() {
+            weight += 2;
+            attackers += 1;
+        }
+    }
+    for sq in board.pieces(Piece::Rook) & enemy {
+        if !(get_rook_moves(sq, occ) & zone).is_empty() {
+            weight += 3;
+            attackers += 1;
+        }
+    }
+    for sq in board.pieces(Piece::Queen) & enemy {
+        if !((get_rook_moves(sq, occ) | get_bishop_moves(sq, occ)) & zone).is_empty() {
+            weight += 5;
+            attackers += 1;
+        }
+    }
+    let danger = if attackers >= 2 { DANGER[(weight as usize).min(15)] } else { 0 };
+    missing * SHIELD_MISSING + danger
+}
+
+/// Score from the side to move's point of view (tapered evaluation).
 pub fn evaluate(board: &Board) -> i32 {
-    let endgame = is_endgame(board);
-    let mut score = 0;
+    let mut mg = 0;
+    let mut eg = 0;
     for color in [Color::White, Color::Black] {
         let sign = if color == Color::White { 1 } else { -1 };
         let side = board.colors(color);
         for piece in Piece::ALL {
-            let pst = table(piece, endgame);
+            let (mg_pst, eg_pst) = tables(piece);
             let value = piece_value(piece);
             for sq in board.pieces(piece) & side {
-                score += sign * (value + pst[pst_index(color, sq)]);
+                let i = pst_index(color, sq);
+                mg += sign * (value + mg_pst[i]);
+                eg += sign * (value + eg_pst[i]);
             }
         }
+        mg -= sign * king_danger(board, color);
     }
+    let p = phase(board);
+    let score = (mg * p + eg * (PHASE_MAX - p)) / PHASE_MAX;
     if board.side_to_move() == Color::White {
         score
     } else {

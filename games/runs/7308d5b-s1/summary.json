@@ -1,0 +1,378 @@
+{
+  "elo": 1969.5,
+  "elo_err95": 141.0,
+  "target_elo": 1800,
+  "wins_at_target": 6,
+  "score": 0.717,
+  "wins": 20,
+  "draws": 3,
+  "losses": 7,
+  "per_level": {
+    "1700": {
+      "wins": 8,
+      "draws": 1,
+      "losses": 1
+    },
+    "1800": {
+      "wins": 6,
+      "draws": 0,
+      "losses": 4
+    },
+    "1900": {
+      "wins": 6,
+      "draws": 2,
+      "losses": 2
+    }
+  },
+  "games": 30,
+  "timeouts": 0,
+  "illegal_moves": 0,
+  "avg_move_seconds": 0.174,
+  "max_move_seconds": 0.244,
+  "avg_depth": 7.9,
+  "avg_nodes_per_sec": 3906245,
+  "peak_ram_mb": 36.6,
+  "total_seconds": 154.0,
+  "move_time_s": 0.25,
+  "opponent": "Stockfish 19 (UCI_LimitStrength)",
+  "games_dir": "games/runs/7308d5b-s1/",
+  "host": "windows-amd64-Regenr",
+  "seed": 1,
+  "run": "7308d5b-s1",
+  "terminations": {
+    "checkmate": 27,
+    "threefold repetition": 3
+  },
+  "results": [
+    {
+      "game": 1,
+      "level": 1700,
+      "engine": "white",
+      "opening": "Sicilian, Open",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 57,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_01.pgn"
+    },
+    {
+      "game": 2,
+      "level": 1700,
+      "engine": "black",
+      "opening": "Sicilian, Open",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 50,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_02.pgn"
+    },
+    {
+      "game": 3,
+      "level": 1800,
+      "engine": "white",
+      "opening": "Sicilian, Open",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 105,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_03.pgn"
+    },
+    {
+      "game": 4,
+      "level": 1800,
+      "engine": "black",
+      "opening": "Sicilian, Open",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 64,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_04.pgn"
+    },
+    {
+      "game": 5,
+      "level": 1900,
+      "engine": "white",
+      "opening": "Sicilian, Open",
+      "result": "1/2-1/2",
+      "score": 0.5,
+      "plies": 79,
+      "termination": "threefold repetition",
+      "pgn": "games/runs/7308d5b-s1/game_05.pgn"
+    },
+    {
+      "game": 6,
+      "level": 1900,
+      "engine": "black",
+      "opening": "Sicilian, Open",
+      "result": "1-0",
+      "score": 0.0,
+      "plies": 107,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_06.pgn"
+    },
+    {
+      "game": 7,
+      "level": 1700,
+      "engine": "white",
+      "opening": "Sicilian, Sveshnikov",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 45,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_07.pgn"
+    },
+    {
+      "game": 8,
+      "level": 1700,
+      "engine": "black",
+      "opening": "Sicilian, Sveshnikov",
+      "result": "1/2-1/2",
+      "score": 0.5,
+      "plies": 78,
+      "termination": "threefold repetition",
+      "pgn": "games/runs/7308d5b-s1/game_08.pgn"
+    },
+    {
+      "game": 9,
+      "level": 1800,
+      "engine": "white",
+      "opening": "Sicilian, Sveshnikov",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 39,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_09.pgn"
+    },
+    {
+      "game": 10,
+      "level": 1800,
+      "engine": "black",
+      "opening": "Sicilian, Sveshnikov",
+      "result": "1-0",
+      "score": 0.0,
+      "plies": 223,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_10.pgn"
+    },
+    {
+      "game": 11,
+      "level": 1900,
+      "engine": "white",
+      "opening": "Sicilian, Sveshnikov",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 61,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_11.pgn"
+    },
+    {
+      "game": 12,
+      "level": 1900,
+      "engine": "black",
+      "opening": "Sicilian, Sveshnikov",
+      "result": "1-0",
+      "score": 0.0,
+      "plies": 167,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_12.pgn"
+    },
+    {
+      "game": 13,
+      "level": 1700,
+      "engine": "white",
+      "opening": "French Defence, Classical",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 47,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_13.pgn"
+    },
+    {
+      "game": 14,
+      "level": 1700,
+      "engine": "black",
+      "opening": "French Defence, Classical",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 90,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_14.pgn"
+    },
+    {
+      "game": 15,
+      "level": 1800,
+      "engine": "white",
+      "opening": "French Defence, Classical",
+      "result": "0-1",
+      "score": 0.0,
+      "plies": 166,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_15.pgn"
+    },
+    {
+      "game": 16,
+      "level": 1800,
+      "engine": "black",
+      "opening": "French Defence, Classical",
+      "result": "1-0",
+      "score": 0.0,
+      "plies": 75,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_16.pgn"
+    },
+    {
+      "game": 17,
+      "level": 1900,
+      "engine": "white",
+      "opening": "French Defence, Classical",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 83,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_17.pgn"
+    },
+    {
+      "game": 18,
+      "level": 1900,
+      "engine": "black",
+      "opening": "French Defence, Classical",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 76,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_18.pgn"
+    },
+    {
+      "game": 19,
+      "level": 1700,
+      "engine": "white",
+      "opening": "Caro-Kann, Classical",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 45,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_19.pgn"
+    },
+    {
+      "game": 20,
+      "level": 1700,
+      "engine": "black",
+      "opening": "Caro-Kann, Classical",
+      "result": "1-0",
+      "score": 0.0,
+      "plies": 167,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_20.pgn"
+    },
+    {
+      "game": 21,
+      "level": 1800,
+      "engine": "white",
+      "opening": "Caro-Kann, Classical",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 53,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_21.pgn"
+    },
+    {
+      "game": 22,
+      "level": 1800,
+      "engine": "black",
+      "opening": "Caro-Kann, Classical",
+      "result": "1-0",
+      "score": 0.0,
+      "plies": 59,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_22.pgn"
+    },
+    {
+      "game": 23,
+      "level": 1900,
+      "engine": "white",
+      "opening": "Caro-Kann, Classical",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 87,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_23.pgn"
+    },
+    {
+      "game": 24,
+      "level": 1900,
+      "engine": "black",
+      "opening": "Caro-Kann, Classical",
+      "result": "1/2-1/2",
+      "score": 0.5,
+      "plies": 84,
+      "termination": "threefold repetition",
+      "pgn": "games/runs/7308d5b-s1/game_24.pgn"
+    },
+    {
+      "game": 25,
+      "level": 1700,
+      "engine": "white",
+      "opening": "Scandinavian Defence",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 69,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_25.pgn"
+    },
+    {
+      "game": 26,
+      "level": 1700,
+      "engine": "black",
+      "opening": "Scandinavian Defence",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 90,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_26.pgn"
+    },
+    {
+      "game": 27,
+      "level": 1800,
+      "engine": "white",
+      "opening": "Scandinavian Defence",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 37,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_27.pgn"
+    },
+    {
+      "game": 28,
+      "level": 1800,
+      "engine": "black",
+      "opening": "Scandinavian Defence",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 140,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_28.pgn"
+    },
+    {
+      "game": 29,
+      "level": 1900,
+      "engine": "white",
+      "opening": "Scandinavian Defence",
+      "result": "1-0",
+      "score": 1.0,
+      "plies": 95,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_29.pgn"
+    },
+    {
+      "game": 30,
+      "level": 1900,
+      "engine": "black",
+      "opening": "Scandinavian Defence",
+      "result": "0-1",
+      "score": 1.0,
+      "plies": 118,
+      "termination": "checkmate",
+      "pgn": "games/runs/7308d5b-s1/game_30.pgn"
+    }
+  ]
+}
