@@ -385,6 +385,30 @@
     "verified": true
   },
   {
+    "branch": "sep26-robin",
+    "commit": "e5d57de",
+    "kind": "FULL",
+    "subject": "[FULL] elo=3075\u00b1321 W/D/L=1/4/0 @3000 wins@target=0 \u2014 aim 888bd24 at 2900/3000/3100 at 5s/move (5 of 60 games, stopped for a stronger build)",
+    "host": "macos-m1pro",
+    "files": [
+      "sep26-robin/stack-v2-full-t3000s100/"
+    ],
+    "claimed_elo": 3075.0,
+    "claimed_err": 321.0,
+    "recomputed_elo": 3075.1,
+    "recomputed_err": 320.6,
+    "wdl": [
+      1,
+      4,
+      0
+    ],
+    "games": 5,
+    "move_time": 5.0,
+    "slowest_move": 4.92,
+    "problems": [],
+    "verified": true
+  },
+  {
     "branch": "main",
     "commit": "c5aa1ed",
     "kind": "ladder",
@@ -496,6 +520,26 @@
         "file": "beat-2800.pgn",
         "level": 2800,
         "plies": 207,
+        "termination": "checkmate"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "branch": "main",
+    "commit": "823c402",
+    "kind": "ladder",
+    "subject": "[ladder] TARGET_ELO 2900 -> 3000 \u2014 proof games/proofs/beat-2900.pgn",
+    "host": "macos-m1pro",
+    "files": [
+      "main/proofs/beat-2900.pgn"
+    ],
+    "problems": [],
+    "proofs": [
+      {
+        "file": "beat-2900.pgn",
+        "level": 2900,
+        "plies": 103,
         "termination": "checkmate"
       }
     ],

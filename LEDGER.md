@@ -21,6 +21,7 @@ Engine code moves between the branches only through main: a `[keep]` is `[promot
 | Sep 26 07:06 UTC | chopsting | promote `6d40457` | `sep26-robin@bba68b9` | 2718 ±180 | macos-m1pro | confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher) |
 | Sep 26 07:07 UTC | chopsting | ladder `c5aa1ed` | `sep25-erik` | — | ? | proof games/proofs/beat-1600.pgn + games/proofs/beat-1700.pgn + games/proofs/beat-1800.pgn + games/proofs/beat-1900.pgn + games/proofs/beat-2000.pgn + games/proofs/beat-2100.pgn + games/proofs/beat-2200.pgn + games/proofs/beat-2300.pgn |
 | Sep 26 07:08 UTC | chopsting | ladder `d519e4e` | `sep26-robin` | — | macos-m1pro | proof games/proofs/beat-2400.pgn + games/proofs/beat-2500.pgn + games/proofs/beat-2600.pgn + games/proofs/beat-2700.pgn + games/proofs/beat-2800.pgn |
+| Sep 26 07:11 UTC | chopsting | ladder `823c402` | `sep26-robin` | — | macos-m1pro | proof games/proofs/beat-2900.pgn |
 
 ## Every result
 
@@ -28,6 +29,7 @@ Newest first, both branches. **State**: `in main` = part of the champion engine;
 
 | When | Who | Branch | Host | Result | Elo | W/D/L @target | What was tried | State | Commit |
 |---|---|---|---|---|---|---|---|---|---|
+| Sep 26 07:11 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 3075 ±321 | 1/4/0 @3000 (0 wins) | aim 888bd24 at 2900/3000/3100 at 5s/move (5 of 60 games, stopped for a stronger build) | 5 s run | `e5d57de` |
 | Sep 26 07:07 UTC | Erik Adolfsson | `sep25-erik` | windows-i7-13700H | **discard** | 2326 ±130 | 9/6/15 @2400 (2 wins) | eval: king danger v3 (attacked zone squares, storm pawns, open king files) | reverted | `6f37ca4` |
 | Sep 26 07:01 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2718 ±180 | 5/6/4 @2700 (1 wins) | confirm SEE + log-LMR + staged picker at 5s/move (15 of 30 games, stopped to aim higher) | 5 s run | `bba68b9` |
 | Sep 26 07:01 UTC | chopsting | `sep26-robin` | macos-m1pro | **FULL** | 2692 ±169 | 22/6/2 @2400 (7 wins) | confirm frontier pruning + movetime + bucket TT at 5s/move | 5 s run | `3896e6c` |
