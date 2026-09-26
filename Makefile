@@ -7,7 +7,7 @@ else
 ENGINE_EXE := engine/target/release/engine
 endif
 
-.PHONY: engine bench bench-full profile analyze app test clean
+.PHONY: engine bench bench-full profile analyze app app-build test clean
 
 ## Build the UCI engine (offline: dependencies are vendored under engine/vendor).
 engine:
@@ -29,9 +29,13 @@ profile: engine
 analyze:
 	$(PY) arena/analyze.py $(RUN)
 
-## Replay any saved game on a graphical board in the browser.
+## Replay any saved game on a graphical board in the browser (serves frontend/dist once built, else app/).
 app:
 	$(PY) arena/app.py
+
+## Build the React frontend (needs node >= 20): frontend/ -> frontend/dist, then `make app`.
+app-build:
+	cd frontend && npm install --no-audit --no-fund && npm run build
 
 test:
 	cd engine && cargo test --release --offline
