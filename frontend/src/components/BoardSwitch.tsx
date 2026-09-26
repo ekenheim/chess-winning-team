@@ -85,7 +85,7 @@ export default function BoardSwitch() {
       </div>
       {mounted3D && (
         <motion.div
-          className="absolute inset-0 overflow-hidden rounded-md"
+          className="absolute inset-0 z-10 overflow-hidden rounded-md"
           role="img"
           aria-label={label}
           initial={{ opacity: 0 }}
