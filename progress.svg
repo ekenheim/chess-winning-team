@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="1200" height="620" fill="#ffffff"/>
-<text x="80" y="36" font-size="20" font-weight="600" fill="#1d1f23">Team vs Stockfish 19: 33 attempts, 27 kept or confirmed · proven win at 2900</text>
+<text x="80" y="36" font-size="20" font-weight="600" fill="#1d1f23">Team vs Stockfish 19: 34 attempts, 28 kept or confirmed · proven win at 2900</text>
 <line x1="80" x2="1160" y1="550.0" y2="550.0" stroke="#e6e8eb"/>
 <text x="70" y="554.0" font-size="12" text-anchor="end" fill="#6b7078">1500</text>
 <line x1="80" x2="1160" y1="430.0" y2="430.0" stroke="#e6e8eb"/>
@@ -11,61 +11,63 @@
 <text x="70" y="194.0" font-size="12" text-anchor="end" fill="#6b7078">3000</text>
 <line x1="80" x2="1160" y1="70.0" y2="70.0" stroke="#e6e8eb"/>
 <text x="70" y="74.0" font-size="12" text-anchor="end" fill="#6b7078">3500</text>
-<text x="96.4" y="570" font-size="12" text-anchor="middle" fill="#6b7078">1</text>
-<text x="194.5" y="570" font-size="12" text-anchor="middle" fill="#6b7078">4</text>
-<text x="292.7" y="570" font-size="12" text-anchor="middle" fill="#6b7078">7</text>
-<text x="390.9" y="570" font-size="12" text-anchor="middle" fill="#6b7078">10</text>
-<text x="489.1" y="570" font-size="12" text-anchor="middle" fill="#6b7078">13</text>
-<text x="587.3" y="570" font-size="12" text-anchor="middle" fill="#6b7078">16</text>
-<text x="685.5" y="570" font-size="12" text-anchor="middle" fill="#6b7078">19</text>
-<text x="783.6" y="570" font-size="12" text-anchor="middle" fill="#6b7078">22</text>
-<text x="881.8" y="570" font-size="12" text-anchor="middle" fill="#6b7078">25</text>
-<text x="980.0" y="570" font-size="12" text-anchor="middle" fill="#6b7078">28</text>
-<text x="1078.2" y="570" font-size="12" text-anchor="middle" fill="#6b7078">31</text>
+<text x="95.9" y="570" font-size="12" text-anchor="middle" fill="#6b7078">1</text>
+<text x="191.2" y="570" font-size="12" text-anchor="middle" fill="#6b7078">4</text>
+<text x="286.5" y="570" font-size="12" text-anchor="middle" fill="#6b7078">7</text>
+<text x="381.8" y="570" font-size="12" text-anchor="middle" fill="#6b7078">10</text>
+<text x="477.1" y="570" font-size="12" text-anchor="middle" fill="#6b7078">13</text>
+<text x="572.4" y="570" font-size="12" text-anchor="middle" fill="#6b7078">16</text>
+<text x="667.6" y="570" font-size="12" text-anchor="middle" fill="#6b7078">19</text>
+<text x="762.9" y="570" font-size="12" text-anchor="middle" fill="#6b7078">22</text>
+<text x="858.2" y="570" font-size="12" text-anchor="middle" fill="#6b7078">25</text>
+<text x="953.5" y="570" font-size="12" text-anchor="middle" fill="#6b7078">28</text>
+<text x="1048.8" y="570" font-size="12" text-anchor="middle" fill="#6b7078">31</text>
+<text x="1144.1" y="570" font-size="12" text-anchor="middle" fill="#6b7078">34</text>
 <line x1="80" x2="1160" y1="550" y2="550" stroke="#6b7078"/>
 <text x="620.0" y="598" font-size="13" text-anchor="middle" fill="#6b7078">Team attempt # (both branches, in time order)</text>
 <text x="22" y="310.0" font-size="13" text-anchor="middle" fill="#6b7078" transform="rotate(-90 22 310.0)">Elo (higher is better)</text>
-<circle cx="96.4" cy="450.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="129.1" cy="478.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="161.8" cy="450.4" r="3.5" fill="#c4c7cc"/>
-<circle cx="194.5" cy="455.9" r="3.5" fill="#c4c7cc"/>
-<circle cx="227.3" cy="412.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<path d="M260.0,474.6 L267.0,481.6 L260.0,488.6 L253.0,481.6 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="292.7" cy="381.3" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="325.5" cy="455.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="358.2" cy="412.0" r="3.5" fill="#c4c7cc"/>
-<circle cx="390.9" cy="351.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="423.6" cy="433.6" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<circle cx="456.4" cy="449.2" r="3.5" fill="#c4c7cc"/>
-<circle cx="489.1" cy="407.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<path d="M521.8,375.7 L528.8,382.7 L521.8,389.7 L514.8,382.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="554.5" cy="373.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<path d="M587.3,327.7 L594.3,334.7 L587.3,341.7 L580.3,334.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="620.0" cy="334.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<path d="M652.7,327.0 L659.7,334.0 L652.7,341.0 L645.7,334.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M685.5,256.9 L692.5,263.9 L685.5,270.9 L678.5,263.9 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M718.2,250.7 L725.2,257.7 L718.2,264.7 L711.2,257.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="750.9" cy="351.8" r="3.5" fill="#c4c7cc"/>
-<path d="M783.6,165.0 L790.6,172.0 L783.6,179.0 L776.6,172.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="816.4" cy="220.5" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
-<path d="M849.1,180.6 L856.1,187.6 L849.1,194.6 L842.1,187.6 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M881.8,191.4 L888.8,198.4 L881.8,205.4 L874.8,198.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<circle cx="914.5" cy="220.5" r="3.5" fill="#c4c7cc"/>
-<path d="M947.3,172.7 L954.3,179.7 L947.3,186.7 L940.3,179.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M980.0,233.4 L987.0,240.4 L980.0,247.4 L973.0,240.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M1012.7,137.4 L1019.7,144.4 L1012.7,151.4 L1005.7,144.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M1045.5,137.4 L1052.5,144.4 L1045.5,151.4 L1038.5,144.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M1078.2,137.4 L1085.2,144.4 L1078.2,151.4 L1071.2,144.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M1110.9,137.4 L1117.9,144.4 L1110.9,151.4 L1103.9,144.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M1143.6,188.3 L1150.6,195.3 L1143.6,202.3 L1136.6,195.3 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
-<path d="M96.4,450.4 L227.3,450.4 L227.3,412.0 L292.7,412.0 L292.7,381.3 L390.9,381.3 L390.9,351.8 L587.3,351.8 L587.3,334.7 L620.0,334.7 L620.0,334.0 L685.5,334.0 L685.5,263.9 L718.2,263.9 L718.2,257.7 L783.6,257.7 L783.6,172.0 L1012.7,172.0 L1012.7,144.4 L1143.6,144.4" fill="none" stroke="#2a78d6" stroke-width="2"/>
-<text x="1019.7" y="135.4" font-size="10.5" fill="#2a78d6" transform="rotate(-28 1019.7 135.4)">9492e36 (contempt 120) at 3190, side-by-s…</text>
-<text x="790.6" y="163.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 790.6 163.0)">aim 888bd24 at 2900/3000/3100 at 5s/move …</text>
-<text x="725.2" y="248.7" font-size="10.5" fill="#2a78d6" transform="rotate(-28 725.2 248.7)">confirm SEE + log-LMR + staged picker at …</text>
-<text x="627.0" y="325.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 627.0 325.0)">time: soft limit 60%, keep best root move…</text>
-<text x="397.9" y="342.8" font-size="10.5" fill="#2a78d6" transform="rotate(-28 397.9 342.8)">search: check extension + all evasions in…</text>
-<text x="299.7" y="372.3" font-size="10.5" fill="#2a78d6" transform="rotate(-28 299.7 372.3)">search: null-move pruning + late-move red…</text>
-<text x="234.3" y="403.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 234.3 403.0)">search: move ordering package — TT kept a…</text>
-<text x="103.4" y="441.4" font-size="10.5" fill="#2a78d6" transform="rotate(-28 103.4 441.4)">baseline</text>
+<circle cx="95.9" cy="450.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="127.6" cy="478.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="159.4" cy="450.4" r="3.5" fill="#c4c7cc"/>
+<circle cx="191.2" cy="455.9" r="3.5" fill="#c4c7cc"/>
+<circle cx="222.9" cy="412.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<path d="M254.7,474.6 L261.7,481.6 L254.7,488.6 L247.7,481.6 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="286.5" cy="381.3" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="318.2" cy="455.4" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="350.0" cy="412.0" r="3.5" fill="#c4c7cc"/>
+<circle cx="381.8" cy="351.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="413.5" cy="433.6" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<circle cx="445.3" cy="449.2" r="3.5" fill="#c4c7cc"/>
+<circle cx="477.1" cy="407.9" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<path d="M508.8,375.7 L515.8,382.7 L508.8,389.7 L501.8,382.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="540.6" cy="373.8" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<path d="M572.4,327.7 L579.4,334.7 L572.4,341.7 L565.4,334.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="604.1" cy="334.0" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<path d="M635.9,327.0 L642.9,334.0 L635.9,341.0 L628.9,334.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M667.6,256.9 L674.6,263.9 L667.6,270.9 L660.6,263.9 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M699.4,250.7 L706.4,257.7 L699.4,264.7 L692.4,257.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="731.2" cy="351.8" r="3.5" fill="#c4c7cc"/>
+<path d="M762.9,165.0 L769.9,172.0 L762.9,179.0 L755.9,172.0 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="794.7" cy="220.5" r="5" fill="#2a78d6" stroke="#ffffff" stroke-width="1.5"/>
+<path d="M826.5,180.6 L833.5,187.6 L826.5,194.6 L819.5,187.6 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M858.2,191.4 L865.2,198.4 L858.2,205.4 L851.2,198.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="890.0" cy="220.5" r="3.5" fill="#c4c7cc"/>
+<path d="M921.8,172.7 L928.8,179.7 L921.8,186.7 L914.8,179.7 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M953.5,233.4 L960.5,240.4 L953.5,247.4 L946.5,240.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M985.3,137.4 L992.3,144.4 L985.3,151.4 L978.3,144.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M1017.1,137.4 L1024.1,144.4 L1017.1,151.4 L1010.1,144.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M1048.8,137.4 L1055.8,144.4 L1048.8,151.4 L1041.8,144.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M1080.6,137.4 L1087.6,144.4 L1080.6,151.4 L1073.6,144.4 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M1112.4,188.3 L1119.4,195.3 L1112.4,202.3 L1105.4,195.3 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M1144.1,166.2 L1151.1,173.2 L1144.1,180.2 L1137.1,173.2 Z" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+<path d="M95.9,450.4 L222.9,450.4 L222.9,412.0 L286.5,412.0 L286.5,381.3 L381.8,381.3 L381.8,351.8 L572.4,351.8 L572.4,334.7 L604.1,334.7 L604.1,334.0 L667.6,334.0 L667.6,263.9 L699.4,263.9 L699.4,257.7 L762.9,257.7 L762.9,172.0 L985.3,172.0 L985.3,144.4 L1144.1,144.4" fill="none" stroke="#2a78d6" stroke-width="2"/>
+<text x="992.3" y="135.4" font-size="10.5" fill="#2a78d6" transform="rotate(-28 992.3 135.4)">9492e36 (contempt 120) at 3190, side-by-s…</text>
+<text x="769.9" y="163.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 769.9 163.0)">aim 888bd24 at 2900/3000/3100 at 5s/move …</text>
+<text x="706.4" y="248.7" font-size="10.5" fill="#2a78d6" transform="rotate(-28 706.4 248.7)">confirm SEE + log-LMR + staged picker at …</text>
+<text x="611.1" y="325.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 611.1 325.0)">time: soft limit 60%, keep best root move…</text>
+<text x="388.8" y="342.8" font-size="10.5" fill="#2a78d6" transform="rotate(-28 388.8 342.8)">search: check extension + all evasions in…</text>
+<text x="293.5" y="372.3" font-size="10.5" fill="#2a78d6" transform="rotate(-28 293.5 372.3)">search: null-move pruning + late-move red…</text>
+<text x="229.9" y="403.0" font-size="10.5" fill="#2a78d6" transform="rotate(-28 229.9 403.0)">search: move ordering package — TT kept a…</text>
+<text x="102.9" y="441.4" font-size="10.5" fill="#2a78d6" transform="rotate(-28 102.9 441.4)">baseline</text>
 <text x="80" y="58" font-size="12" fill="#6b7078">line = team best Elo · ◇ = 5 s run · grey = discarded · title = highest Stockfish level beaten at 5 s</text>
 </svg>
