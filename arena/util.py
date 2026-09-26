@@ -34,7 +34,7 @@ from stockfish import STOCKFISH_VERSION, find_stockfish  # noqa: E402
 MOVE_TIME_S = 5.0          # the competition rule; the only time control victories count under
 FAST_MOVE_TIME_S = 0.25    # what `make bench` uses so one experiment fits in ~5 minutes
 NUM_GAMES = 30             # per run: 10 per ladder level = 5 openings x both colours
-TARGET_ELO = 2900
+TARGET_ELO = 3000
 LADDER_STEP = 100
 ELO_KEEP_MARGIN = 30       # a change counts only if elo > best_elo + this
 TIME_TOLERANCE_S = 0.10    # grace for pipe/scheduler jitter on top of the move budget
